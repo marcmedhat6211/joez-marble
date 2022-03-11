@@ -1,0 +1,39 @@
+user_admin:
+  resource: "@UserBundle/Controller/Administration/"
+  type: annotation
+  prefix: /admin
+
+app_user_login:
+  path: /login
+  defaults: { _controller: App\UserBundle\Controller\LoginController::login }
+  methods: GET|POST
+
+app_user_logout:
+  path: /logout
+  defaults: { _controller: App\UserBundle\Controller\LoginController::logout }
+  methods: GET|POST
+
+app_user_registration:
+  path: /register
+  defaults: { _controller: App\UserBundle\Controller\RegistrationController::register }
+  methods: GET|POST
+
+app_user_forgot_password_request:
+  path: /reset-password
+  defaults: { _controller: App\UserBundle\Controller\ResetPasswordController::request }
+
+app_user_check_email:
+  path: /reset-password/check-email
+  defaults: { _controller: App\UserBundle\Controller\ResetPasswordController::checkEmail }
+
+app_user_reset_password:
+  path: /reset/{token}
+  defaults: { _controller: App\UserBundle\Controller\ResetPasswordController::reset, token: null }
+
+app_user_change_password:
+  path: /change-password
+  defaults: { _controller: App\UserBundle\Controller\ChangePasswordController::changePassword }
+
+app_user_profile_edit:
+  path: /profile
+  defaults: { _controller: App\UserBundle\Controller\ProfileController::edit }
