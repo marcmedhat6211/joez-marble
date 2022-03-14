@@ -1,0 +1,152 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}{{ user.fullname }} Details{% endset %}
+
+{% block breadcrumb %}
+    <div class="breadcrumb-line">
+        <ul class="breadcrumb">
+            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
+            <li><a href="{{ path('user_index') }}">Users List</a></li>
+            <li class="active">{{ page_title }}</li>
+        </ul>
+    </div>
+{% endblock %}
+{% block body %}
+    <!-- Detailed task -->
+    <div class="row">
+        <div class="col-md-4">
+            <!-- Task details -->
+            <div class="panel panel-white">
+                <div class="panel-heading">
+                    <h6 class="panel-title">User details</h6>
+                    <div class="heading-elements">
+                        <ul class="icons-list">
+                            <li><a data-action="collapse"></a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <table class="table table-xs">
+                    <tbody>
+                    <tr>
+                        <td><i class="icon-user position-left"></i> Name:</td>
+                        <td class="text-right">
+                            <span class="pull-right">
+                                <a href="{{ path('user_edit',{'id':user.id}) }}">{{ user.fullname }}</a>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><i class="icon-mail5 position-left"></i> Email:</td>
+                        <td class="text-right"><span class="pull-right">{{ user.email }}</span></td>
+                    </tr>
+                    <tr>
+                        <td><i class="icon-phone position-left"></i> Phone:</td>
+                        <td class="text-right"><span class="pull-right">{{ user.phone }}</span></td>
+                    </tr>
+                    <tr>
+                        <td><i class="icon-alarm-add position-left"></i> Last Login:</td>
+                        <td class="text-right">{{ user.lastLogin|date('d F, Y') }}</td>
+                    </tr>
+                    <tr>
+                        <td><i class="icon-alarm-check position-left"></i> Created:</td>
+                        <td class="text-right">{{ user.created|date('d F, Y') }}</td>
+                    </tr>
+
+                    <tr>
+                        <td><i class="icon-file-check position-left"></i> Status:</td>
+                        <td class="text-right">
+                            {% if user.enabled %}
+                                <span class="status-mark position-left bg-success"></span> Active
+                            {% else %}
+                                <span class="status-mark position-left bg-danger"></span> Blocked
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <a href="{{ path('user_edit',{'id':user.id}) }}" class="btn btn-info btn-block">
+                                <i class="fa fa-sign-in"></i>
+                                Log in as <strong>{{ user.fullname }}</strong>
+                            </a>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <!-- /task details -->
+        </div>
+{#        <div class="col-md-8">#}
+{#            <div class="panel panel-white">#}
+{#                <div class="panel-heading">#}
+{#                    <h6 class="panel-title">Favorite Products</h6>#}
+{#                    <div class="heading-elements">#}
+{#                        <ul class="icons-list">#}
+{#                            <li><a data-action="collapse"></a></li>#}
+{#                        </ul>#}
+{#                    </div>#}
+{#                </div>#}
+
+{#                <div class="table-responsive">#}
+{#                    <table class="table">#}
+{#                        <thead>#}
+{#                        <tr>#}
+{#                            <th>#</th>#}
+{#                            <th>SKU</th>#}
+{#                            <th>Vendor</th>#}
+{#                            <th>Title</th>#}
+{#                            <th>Category</th>#}
+{#                            <th>Image</th>#}
+{#                            <th>Publish</th>#}
+{#                        </tr>#}
+{#                        </thead>#}
+{#                        <tbody>#}
+{#                        {% for product in products %}#}
+{#                            <tr>#}
+{#                                <td>#}
+{#                                    <a href="{{ path('product_edit', { 'id': product.id }) }}" class="text-semibold">{{ product.id }}</a>#}
+{#                                </td>#}
+{#                                <td>{% if product.sku %}{{ product.sku|rawText }}{% else %}N/A{% endif %}</td>#}
+{#                                <td>{% if product.vendor %}{{ product.vendor.name }}{% else %}N/A{% endif %}</td>#}
+{#                                <td>{{ product.title|pn_json_encode }}</td>#}
+{#                                <td>{{ product.category.title|pn_json_encode }}</td>#}
+{#                                <td>#}
+{#                                    {% if product.post.mainImage %}#}
+{#                                        <img style='width:50px!important;max-height:50px!important;object-fit:cover;' src='{{ asset(product.post.mainImage.assetPathThumb) }}'>#}
+{#                                    {% else %}#}
+{#                                        --#}
+{#                                    {% endif %}#}
+{#                                </td>#}
+{#                                <td>#}
+{#                                    {% if product.publish %}#}
+{#                                        <span class='label label-success'>Yes</span>#}
+{#                                    {% else %}#}
+{#                                        <span class='label label-danger'>No</span>#}
+{#                                    {% endif %}#}
+{#                                </td>#}
+{#                            </tr>#}
+{#                        {% else %}#}
+{#                            <tr>#}
+{#                                <td colspan="7" class="text-center">#}
+{#                                    <p>No record found!!</p>#}
+{#                                </td>#}
+
+{#                            </tr>#}
+{#                        {% endfor %}#}
+{#                        </tbody>#}
+{#                    </table>#}
+{#                </div>#}
+{#            </div>#}
+
+{#        </div>#}
+    </div>
+    <!-- /detailed task -->
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+{% endblock javascripts %}

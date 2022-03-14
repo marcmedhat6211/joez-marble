@@ -16,4 +16,6 @@ return [
     SymfonyCasts\Bundle\ResetPassword\SymfonyCastsResetPasswordBundle::class => ['all' => true],
     App\UserBundle\UserBundle::class => ['all' => true],
     App\ServiceBundle\ServiceBundle::class => ['all' => true],
+    App\CMSBundle\CMSBundle::class => ['all' => true],
+    App\PageBundle\PageBundle::class => ['all' => true],
 ];

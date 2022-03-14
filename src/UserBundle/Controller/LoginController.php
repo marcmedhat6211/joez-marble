@@ -37,7 +37,6 @@ class LoginController extends AbstractController
 
         $targetPath = $this->onAuthenticationSuccess($request, $firewallMap);
 
-
         return $this->render('user/login/index.html.twig',
             ['last_username' => $lastUsername, 'error' => $error, 'targetPath' => $targetPath]);
     }

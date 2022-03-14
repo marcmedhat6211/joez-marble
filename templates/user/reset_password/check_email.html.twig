@@ -1,0 +1,20 @@
+{% extends 'adminTemplate/base2.html.twig' %}
+{% set page_title %}Password Reset Email Sent{% endset %}
+
+{% block body -%}
+    <div class="panel panel-body login-form">
+
+        <div class="text-center">
+            <div class="icon-object border-warning text-warning"><i class="icon-spinner11"></i></div>
+            <h5 class="content-group">
+                An email has been sent to you. It contains a link you must click to reset your password.
+                This link will expire in {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+            </h5>
+            <p>
+                If you don't receive an email please check your spam folder or
+                <a href="{{ path('app_user_forgot_password_request') }}">try again</a>.
+            </p>
+        </div>
+
+    </div>
+{% endblock %}

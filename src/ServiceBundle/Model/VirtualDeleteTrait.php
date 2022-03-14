@@ -17,36 +17,36 @@ trait VirtualDeleteTrait {
     protected $deletedBy = NULL;
 
     /**
-     * @param bool $deleted
+     * @param bool|null $deleted
      * @return $this
      */
-    public function setDeleted(bool $deleted): self {
+    public function setDeleted(?bool $deleted): self {
         $this->deleted = $deleted;
 
         return $this;
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function getDeleted(): bool {
+    public function getDeleted(): ?bool {
         return $this->deleted;
     }
 
     /**
-     * @param string $deletedBy
+     * @param string|null $deletedBy
      * @return $this
      */
-    public function setDeletedBy(string $deletedBy): self {
+    public function setDeletedBy(?string $deletedBy): self {
         $this->deletedBy = $deletedBy;
 
         return $this;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getDeletedBy(): string {
+    public function getDeletedBy(): ?string {
         return $this->deletedBy;
     }
 

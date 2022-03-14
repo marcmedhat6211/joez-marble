@@ -1,0 +1,71 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}Login to admin panel{% endset %}
+
+{% block content %}
+
+    <!-- Simple login form -->
+    <form method="POST" class="form-validate">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
+        <input type="hidden" name="_target_path" value="{{ targetPath }}"/>
+
+        <div class="panel panel-body login-form">
+            {% if error is defined and error %}
+                <div class="alert bg-danger alert-styled-left">
+                    <span class="text-semibold">Oh snap!</span> {{ error.message }}.
+                </div>
+            {% endif %}
+
+            {% if app.user %}
+                <div class="alert bg-info alert-styled-left">
+                    You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_user_logout') }}">Logout</a>
+                </div>
+            {% endif %}
+
+            <div class="text-center">
+                <div class="icon-object border-slate-300 text-slate-300"><i class="icon-lock2"></i></div>
+                <h5 class="content-group">Login to your account
+                    <small class="display-block">Enter your credentials below</small>
+                </h5>
+            </div>
+
+            <div class="form-group has-feedback has-feedback-left">
+                <input type="email" class="form-control" placeholder="Email" name="_username" required="required" value="{{ last_username }}">
+                <div class="form-control-feedback">
+                    <i class="fa fa-at text-muted"></i>
+                </div>
+            </div>
+
+            <div class="form-group has-feedback has-feedback-left">
+                <input type="password" class="form-control" placeholder="Password" name="_password" required="required">
+                <div class="form-control-feedback">
+                    <i class="icon-lock2 text-muted"></i>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block">Sign in <i class="icon-circle-right2 position-right"></i></button>
+            </div>
+            <div class="form-group login-options">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="_remember_me" class="styled" checked="checked">
+                            Remember
+                        </label>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <a href="{{ path('app_user_forgot_password_request') }}">Forgot password?</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- /simple login form -->
+{% endblock content %}
+{% block scripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/styling/uniform.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/pages/login_validation.js') }}"></script>
+
+{% endblock scripts %}
+

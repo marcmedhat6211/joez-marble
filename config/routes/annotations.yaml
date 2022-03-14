@@ -8,3 +8,10 @@ kernel:
 
 user_bundle:
     resource: "@UserBundle/Resources/config/routing.yaml"
+
+cms_bundle:
+    resource: "@CMSBundle/Resources/config/routing.yaml"
+
+page_bundle:
+    resource: "@PageBundle/Controller/"
+    type: annotation
