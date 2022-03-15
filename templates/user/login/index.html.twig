@@ -1,7 +1,3 @@
-{% extends 'adminTemplate/base.html.twig' %}
-{% set page_title %}Login to admin panel{% endset %}
-
-{% block content %}
 
     <!-- Simple login form -->
     <form method="POST" class="form-validate">
@@ -60,12 +56,3 @@
             </div>
         </div>
     </form>
-    <!-- /simple login form -->
-{% endblock content %}
-{% block scripts %}
-    {{ parent() }}
-    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/styling/uniform.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('admin/js/pages/login_validation.js') }}"></script>
-
-{% endblock scripts %}
-

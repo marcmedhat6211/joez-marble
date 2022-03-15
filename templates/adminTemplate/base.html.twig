@@ -1,5 +1,10 @@
 {% set cr = app.request.attributes.get('_route') %}
 {% set currentUser = app.user %}
+
+{% set currentUserName = 'Marc' %}
+{% if currentUser.fullName is defined %}
+    {% set currentUserName = currentUser.fullName %}
+{% endif %}
 {% apply spaceless %}
     <!DOCTYPE html>
     <html lang="en">
@@ -9,13 +14,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% if page_title is defined %}{{ page_title }}{% else %}Admin panel{% endif %}
             | {{ constant('\\App\\Kernel::WEBSITE_TITLE') }}</title>
-        {# @TODO: add the favicon  #}
-{#         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />#}
+        {# @TODO: add the favicon #}
+        {# <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" /> #}
         {% block stylesheets %}
             <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet"
                   type="text/css">
             <link href="{{ asset('admin/css/icons/fontawesome/styles.min.css') }}" rel="stylesheet" type="text/css">
             <link href="{{ asset('admin/css/icons/icomoon/styles.min.css') }}" rel="stylesheet" type="text/css">
+            <link href="{{ asset('admin/css/icons/material/styles.min.css') }}" rel="stylesheet" type="text/css">
             <link href="{{ asset('admin/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
             <link href="{{ asset('admin/css/components.min.css') }}" rel="stylesheet" type="text/css">
             <link href="{{ asset('admin/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -23,15 +29,33 @@
         {% endblock stylesheets %}
     </head>
     <body>
-    {#  HEADER  #}
+    {# HEADER #}
     {% include 'adminTemplate/_header.html.twig' %}
-    {% include 'adminTemplate/_side-menu.html.twig' %}
-    {#  END HEADER  #}
+    {# END HEADER #}
 
-    {#  BODY  #}
-    {% block content %}{% endblock content %}
-    {#  END BODY  #}
+    <div class="page-content">
+        {# SIDE MENU #}
+        {% include 'adminTemplate/_side-menu.html.twig' %}
+        {# END SIDE MENU #}
 
+        <div class="content-wrapper">
+            <div class="content-inner">
+                <div class="page-header page-header-light">
+                    <div class="breadcrumb-line breadcrumb-line-light header-elements-lg-inline">
+                        <div class="d-flex">
+                            <div class="breadcrumb">
+                                {% block breadcrumb %}{% endblock breadcrumb %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {# BODY #}
+                {% block content %}{% endblock content %}
+                {# END BODY #}
+            </div>
+        </div>
+    </div>
     {# SCRIPTS #}
     {% block scripts %}
         <!-- Core JS files -->

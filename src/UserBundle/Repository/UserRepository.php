@@ -2,11 +2,10 @@
 
 namespace App\UserBundle\Repository;
 
+use App\ServiceBundle\Utils\Validate;
 use App\UserBundle\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use PN\ServiceBundle\Utils\Date;
-use PN\ServiceBundle\Utils\Validate;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -115,16 +114,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         if (isset($search->subscriptionNewsletter) AND (is_bool($search->subscriptionNewsletter) or in_array($search->subscriptionNewsletter, [0, 1]))) {
             $statement->andWhere('u.subscriptionNewsletter = :subscriptionNewsletter');
             $statement->setParameter('subscriptionNewsletter', $search->subscriptionNewsletter);
-        }
-        if (isset($search->regDateFrom) AND Validate::not_null($search->regDateFrom)) {
-            $convertedDate = Date::convertDateFormat($search->regDateFrom, Date::DATE_FORMAT3, Date::DATE_FORMAT2);
-            $statement->andWhere("DATEDIFF(u.created, :regDateFrom) >= 0");
-            $statement->setParameter('regDateFrom', $convertedDate);
-        }
-        if (isset($search->regDateTo) AND Validate::not_null($search->regDateTo)) {
-            $convertedDate = Date::convertDateFormat($search->regDateTo, Date::DATE_FORMAT3, Date::DATE_FORMAT2);
-            $statement->andWhere("DATEDIFF(u.created, :regDateTo) <= 0");
-            $statement->setParameter('regDateTo', $convertedDate);
         }
 
         if (isset($search->deleted) AND in_array($search->deleted, array(0, 1))) {

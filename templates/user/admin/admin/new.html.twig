@@ -1,24 +1,22 @@
 {% extends 'adminTemplate/base.html.twig' %}
-{% import 'adminTemplate/macros.html.twig' as macros %}
-{% set page_title %}New Administrator{% endset %}
+{% set page_title %}New Administrators{% endset %}
 {% block breadcrumb %}
-    <div class="breadcrumb-line">
-        <ul class="breadcrumb">
-            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
-            <li><a href="{{ path('admin_index') }}">Administrators</a></li>
-            <li class="active">{{ page_title }}</li>
-        </ul>
-    </div>
+    <a href="{{ path('dashboard') }}" class="breadcrumb-item">
+        <i class="icon-home2 mr-2"></i>
+        Dashboard
+    </a>
+    <a href="{{ path('dashboard') }}" class="breadcrumb-item">
+        <i class="icon-user-tie mr-2"></i>
+        Administrators
+    </a>
+    <span class="breadcrumb-item active">New Administrator</span>
 {% endblock %}
-{% block body %}
+{% block content %}
     {% include 'user/admin/admin/_form.html.twig' %}
 {% endblock %}
-{% block javascripts %}
+{% block scripts %}
     {{ parent() }}
     <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/validation/validate.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('admin/js/pages/form_validation.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('admin/js/pages/form_select2.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/validation/validate.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/selects/select2.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/styling/switchery.min.js') }}"></script>
-
-{% endblock javascripts %}
+{% endblock scripts %}

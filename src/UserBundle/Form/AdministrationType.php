@@ -35,7 +35,11 @@ class AdministrationType extends AbstractType
         }
         $builder
             ->add('fullName')
-            ->add('email', EmailType::class)
+            ->add('email', EmailType::class, [
+                "attr" => [
+                    "class" => "form-control"
+                ]
+            ])
             ->add('gender', ChoiceType::class, [
                 'choices' => [
                     'Male' => User::GENDER_MALE,

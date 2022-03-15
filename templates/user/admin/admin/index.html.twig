@@ -1,86 +1,65 @@
 {% extends 'adminTemplate/base.html.twig' %}
-{% set page_title %}Administrators{% endset %}
-
+{% set page_title %}Administrators List{% endset %}
 {% block breadcrumb %}
-    <div class="breadcrumb-line">
-        <ul class="breadcrumb">
-            <li><a href="{{ path('dashboard') }}"><i class="icon-home2 position-left"></i>Dashboard</a></li>
-            <li class="active">{{ page_title }}</li>
-        </ul>
-    </div>
+    <a href="{{ path('dashboard') }}" class="breadcrumb-item">
+        <i class="icon-home2 mr-2"></i>
+        Dashboard
+    </a>
+    <span class="breadcrumb-item active">Administrators List</span>
 {% endblock %}
-{% block body %}
-    {% if is_granted('ROLE_ADMIN') %}
-        <ul class="fab-menu fab-menu-fixed fab-menu-bottom-right">
-            <li>
-                <a href="{{ path('admin_new') }}"
-                   class="fab-menu-btn btn bg-blue btn-float btn-rounded btn-icon">
-                    <i class="fab-icon-open icon-plus3"></i>
-                    <i class="fab-icon-close icon-cross2"></i>
-                </a>
-            </li>
-        </ul>
-    {% endif %}
-    <div class="panel panel-flat">
-        <div class="panel-body">
-            <table class="table datatable-ajax table-striped">
+{% block content %}
+    <div class="card">
+        <div class="card-header d-flex justify-content-end">
+            <a href="{{ path('admin_new') }}" class="btn btn-primary"><i class="icon-plus-circle2 mr-2"></i>Add Administrator</a>
+        </div>
+        <div class="table-responsive">
+            <table class="table">
                 <thead>
                 <tr>
-                    <th>Name</th>
+                    <th>Full Name</th>
                     <th>Email</th>
+                    <th>Gender</th>
+                    <th>Phone</th>
+                    <th>Status</th>
                     <th>Last Login</th>
-                    <th>State</th>
-                    <th>Role</th>
-                    <th>Created</th>
-                    <th>Action</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
+                {% if administrators is not empty %}
+                    {% for administrator in administrators %}
+                        <tr>
+                            <td>{{ administrator.fullName }}</td>
+                            <td>{{ administrator.email }}</td>
+                            <td>{{ administrator.gender ? administrator.gender : 'n/a' }}</td>
+                            <td>{{ administrator.phone ? administrator.phone : 'n/a' }}</td>
+                            <td>
+                                {% if administrator.enabled %}
+                                    <span class="badge badge-success">Active</span>
+                                {% else %}
+                                    <span class="badge badge-danger">Inactive</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ administrator.lastLogin|date('d/m/Y') }}</td>
+                            <td class="text-center">
+                                <div class="list-icons">
+                                    <div class="dropdown">
+                                        <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                            <i class="icon-menu9"></i>
+                                        </a>
 
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a href="{{ path('admin_edit', {"id": administrator.id}) }}" class="dropdown-item"><i class="mi-mode-edit"></i>Edit</a>
+                                            <a href="{{ path('admin_delete', {"id": administrator.id}) }}" onclick="return confirm('Are you sure you want to remove this administrator ?')" class="dropdown-item"><i class="mi-delete-forever"></i>Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
                 </tbody>
             </table>
-
         </div>
-
     </div>
-
 {% endblock %}
- {% block modalCode %}
-     <div id="modal_change_state" class="modal fade">
-         <div class="modal-dialog modal-xs">
-             <div class="modal-content bg-danger-600">
-                 <div class="modal-header bg-danger-600">
-                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                     <h6 class="modal-title">Be careful</h6>
-                 </div>
-
-                 <form method="post" id="change-state-form" action="#">
-                     <div class="modal-body text-center">
-                         <h2>Are you sure?</h2>
-                         <p>Are you sure you want to change this user state?</p>
-                     </div>
-
-                     <div class="modal-footer">
-                         <button type="submit" class="btn bg-danger-700">Change</button>
-                         <button type="reset" class="btn btn-link text-white" data-dismiss="modal">Close</button>
-                     </div>
-                 </form>
-             </div>
-         </div>
-     </div>
- {% endblock modalCode %}
-{% block javascripts %}
-    {{ parent() }}
-    <script type="text/javascript" src="{{ asset('admin/js/plugins/tables/datatables/datatables.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/selects/select2.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/styling/switchery.min.js') }}"></script>
-    {{ include('adminTemplate/datatable.html.twig', {'path':path('admin_datatable')}) }}
-    <script>
-        $(document).ready(function () {
-            $('body').on("click", ".change-state-btn", function () {
-                var id = $(this).data('state');
-                $('#change-state-form').attr('action', id);
-            });
-        })
-    </script>
-{% endblock javascripts %}

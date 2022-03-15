@@ -22,11 +22,14 @@ class AdminController extends AbstractController
     /**
      * @Route("/", name="admin_index", methods={"GET"})
      */
-    public function index(Request $request): Response
+    public function index(UserRepository $userRepository): Response
     {
         $this->denyAccessUnlessGranted(UserInterface::ROLE_ADMIN);
+        $administrators = $this->getAdministrators($userRepository);
 
-        return $this->render('user/admin/admin/index.html.twig');
+        return $this->render('user/admin/admin/index.html.twig', [
+            "administrators" => $administrators
+        ]);
     }
 
     /**
@@ -118,5 +121,14 @@ class AdminController extends AbstractController
                 "admins" => $admins,
             )
         );
+    }
+
+    private function getAdministrators(UserRepository $userRepository): array
+    {
+        $search = new \stdClass();
+        $search->enabled = 1;
+        $search->role = User::ROLE_ADMIN;
+
+        return $userRepository->filter($search);
     }
 }
