@@ -1,28 +1,56 @@
 {{ form_start(form, {'attr':{"data-toggle":"validator", 'novalidate':'novalidate'}}) }}
-<div class="panel panel-flat">
-    <div class="panel-body">
-        <div class="row">
+<div class="row">
+    <div class="col-12 col-md-6">
+        <div class="form-group">
             {{ form_label(form.email) }}
             {{ form_widget(form.email) }}
             {{ form_errors(form.email) }}
         </div>
-
-{#        <div class="row">#}
-{#            {{ macros.input(form.plainPassword.first) }}#}
-{#            {{ macros.input(form.plainPassword.second) }}#}
-{#        </div>#}
-
-{#        <div class="row">#}
-{#            {{ macros.input(form.phone) }}#}
-{#            {{ macros.input(form.roles) }}#}
-{#        </div>#}
-{#        <div class="row">#}
-{#            {{ macros.checkbox(form.enabled) }}#}
-{#            {{ macros.input(form.gender) }}#}
-{#        </div>#}
     </div>
-    <div class="panel-footer">
-{#        {% include 'adminTemplate/saveAndResetFormFooter.html.twig' %}#}
+    <div class="col-12 col-md-6">
+        <div class="form-group">
+            {{ form_label(form.fullName) }}
+            {{ form_widget(form.fullName) }}
+            {{ form_errors(form.fullName) }}
+        </div>
     </div>
+    <div class="col-12 col-md-6">
+        <div class="form-group">
+            {{ form_label(form.plainPassword.first) }}
+            {{ form_widget(form.plainPassword.first) }}
+            {{ form_errors(form.plainPassword.first) }}
+        </div>
+    </div>
+    <div class="col-12 col-md-6">
+        <div class="form-group">
+            {{ form_label(form.plainPassword.second) }}
+            {{ form_widget(form.plainPassword.second) }}
+            {{ form_errors(form.plainPassword.second) }}
+        </div>
+    </div>
+    <div class="col-12 col-md-6">
+        <div class="form-group">
+            {{ form_label(form.phone) }}
+            {{ form_widget(form.phone) }}
+            {{ form_errors(form.phone) }}
+        </div>
+    </div>
+    <div class="col-12 col-md-6">
+        <div class="form-group">
+            {{ form_label(form.gender) }}
+            {{ form_widget(form.gender) }}
+            {{ form_errors(form.gender) }}
+        </div>
+    </div>
+    <div class="col-12 col-md-6">
+        <div class="custom-control custom-switch custom-switch-square custom-control-success mb-2">
+            {{ form_widget(form.enabled) }}
+            {{ form_label(form.enabled) }}
+            {{ form_errors(form.enabled) }}
+        </div>
+    </div>
+</div>
+<div class="text-right">
+    <button type="submit" class="btn btn-primary">Submit form <i class="icon-paperplane ml-2"></i></button>
 </div>
 {{ form_end(form) }}

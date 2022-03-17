@@ -22,13 +22,13 @@ class AdminController extends AbstractController
     /**
      * @Route("/", name="admin_index", methods={"GET"})
      */
-    public function index(UserRepository $userRepository): Response
+    public function index(Request $request, UserRepository $userRepository): Response
     {
         $this->denyAccessUnlessGranted(UserInterface::ROLE_ADMIN);
-        $administrators = $this->getAdministrators($userRepository);
+        $paginator = $this->getAdministrators($request, $userRepository);
 
         return $this->render('user/admin/admin/index.html.twig', [
-            "administrators" => $administrators
+            "paginator" => $paginator
         ]);
     }
 
@@ -94,41 +94,12 @@ class AdminController extends AbstractController
         return $this->redirectToRoute("admin_index");
     }
 
-    /**
-     * Lists all Category entities.
-     *
-     * @Route("/data/table", defaults={"_format": "json"}, name="admin_datatable", methods={"GET"})
-     */
-    public function dataTable(Request $request, UserRepository $userRepository)
-    {
-        $srch = $request->query->all("search");
-        $start = $request->query->getInt("start");
-        $length = $request->query->getInt("length");
-        $ordr = $request->query->all("order");
-
-        $search = new \stdClass;
-        $search->deleted = 0;
-        $search->string = $srch['value'];
-        $search->ordr = $ordr[0];
-        $search->role = 'ROLE_ADMIN';
-
-        $count = $userRepository->filter($search, true);
-        $admins = $userRepository->filter($search, false, $start, $length);
-
-        return $this->render("user/admin/admin/datatable.json.twig", array(
-                "recordsTotal" => $count,
-                "recordsFiltered" => $count,
-                "admins" => $admins,
-            )
-        );
-    }
-
-    private function getAdministrators(UserRepository $userRepository): array
+    private function getAdministrators(Request $request, UserRepository $userRepository)
     {
         $search = new \stdClass();
-        $search->enabled = 1;
+        $search->deleted = 0;
         $search->role = User::ROLE_ADMIN;
 
-        return $userRepository->filter($search);
+        return $userRepository->filter($search, false, true, 10, $request);
     }
 }

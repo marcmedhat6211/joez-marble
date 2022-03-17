@@ -18,4 +18,5 @@ return [
     App\ServiceBundle\ServiceBundle::class => ['all' => true],
     App\CMSBundle\CMSBundle::class => ['all' => true],
     App\PageBundle\PageBundle::class => ['all' => true],
+    Knp\Bundle\PaginatorBundle\KnpPaginatorBundle::class => ['all' => true],
 ];

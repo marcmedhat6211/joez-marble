@@ -4,11 +4,13 @@ namespace App\UserBundle\Form;
 
 use App\UserBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
@@ -23,9 +25,9 @@ class AdministrationType extends AbstractType
             new Length([
                 'min' => 6,
                 'minMessage' => 'Your password should be at least {{ limit }} characters',
-                // max length allowed by Symfony for security reasons
                 'max' => 4096,
             ]),
+            new NotBlank()
         ];
         if ($builder->getData()->getId() == null) {
             $passwordRequired = true;
@@ -34,7 +36,18 @@ class AdministrationType extends AbstractType
             ]);
         }
         $builder
-            ->add('fullName')
+            ->add('fullName', TextType::class, [
+                "attr" => [
+                    "class" => "form-control"
+                ],
+                "constraints" => [
+                    new NotBlank(),
+                    new Length([
+                        'min' => 2,
+                        "minMessage" => "Your name should be at least {{ limit }} characters"
+                    ])
+                ]
+            ])
             ->add('email', EmailType::class, [
                 "attr" => [
                     "class" => "form-control"
@@ -45,30 +58,47 @@ class AdministrationType extends AbstractType
                     'Male' => User::GENDER_MALE,
                     'Female' => User::GENDER_FEMALE,
                 ],
+                "attr" => [
+                    "class" => "form-control form-control-select2"
+                ]
             ])
             ->add('phone', TelType::class, [
                 "required" => false,
                 'attr' => [
                     'placeholder' => '01xxxxxxxxx',
+                    "class" => "form-control"
                 ],
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'required' => $passwordRequired,
-                'attr' => ['autocomplete' => 'new-password'],
-                'first_options' => ['label' => 'Password', 'required' => $passwordRequired,],
-                'second_options' => ['label' => 'Confirm Password', 'required' => $passwordRequired,],
+                'attr' => [
+                    'autocomplete' => 'new-password'
+                ],
+                'first_options' => [
+                    'label' => 'Password',
+                    'required' => $passwordRequired,
+                    "attr" => [
+                        "class" => "form-control"
+                    ]
+                ],
+                'second_options' => [
+                    'label' => 'Confirm Password',
+                    'required' => $passwordRequired,
+                    "attr" => [
+                        "class" => "form-control"
+                    ]
+                ],
                 'constraints' => $passwordConstraints,
             ])
-            ->add('roles', ChoiceType::class, [
-                "multiple" => true,
-                'choices' => [
-                    'Admin' => User::ROLE_ADMIN,
-                ],
-                "attr" => ["class" => "select-search"],
-            ])
-            ->add('enabled', null, array(
+            ->add('enabled', CheckboxType::class, array(
                 'label' => 'Active',
+                'label_attr' => [
+                    "class" => "custom-control-label"
+                ],
+                "attr" => [
+                    "class" => "custom-control-input"
+                ]
             ));
     }
 

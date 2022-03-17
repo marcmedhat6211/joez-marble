@@ -9,8 +9,12 @@
 {% endblock %}
 {% block content %}
     <div class="card">
+        <div class="px-2 pt-2">
+            {% include 'adminTemplate/_flash-messages.html.twig' %}
+        </div>
         <div class="card-header d-flex justify-content-end">
-            <a href="{{ path('admin_new') }}" class="btn btn-primary"><i class="icon-plus-circle2 mr-2"></i>Add Administrator</a>
+            <a href="{{ path('admin_new') }}" class="btn btn-primary"><i class="icon-plus-circle2 mr-2"></i>Add
+                Administrator</a>
         </div>
         <div class="table-responsive">
             <table class="table">
@@ -26,8 +30,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% if administrators is not empty %}
-                    {% for administrator in administrators %}
+                {% if paginator is not empty %}
+                    {% for administrator in paginator %}
                         <tr>
                             <td>{{ administrator.fullName }}</td>
                             <td>{{ administrator.email }}</td>
@@ -49,8 +53,11 @@
                                         </a>
 
                                         <div class="dropdown-menu dropdown-menu-right">
-                                            <a href="{{ path('admin_edit', {"id": administrator.id}) }}" class="dropdown-item"><i class="mi-mode-edit"></i>Edit</a>
-                                            <a href="{{ path('admin_delete', {"id": administrator.id}) }}" onclick="return confirm('Are you sure you want to remove this administrator ?')" class="dropdown-item"><i class="mi-delete-forever"></i>Delete</a>
+                                            <a href="{{ path('admin_edit', {"id": administrator.id}) }}"
+                                               class="dropdown-item"><i class="mi-mode-edit"></i>Edit</a>
+                                            <a href="{{ path('admin_delete', {"id": administrator.id}) }}"
+                                               onclick="return confirm('Are you sure you want to remove this administrator ?')"
+                                               class="dropdown-item"><i class="mi-delete-forever"></i>Delete</a>
                                         </div>
                                     </div>
                                 </div>
@@ -60,6 +67,9 @@
                 {% endif %}
                 </tbody>
             </table>
+        </div>
+        <div class="d-flex justify-content-center py-3">
+            {{ knp_pagination_render(paginator) }}
         </div>
     </div>
 {% endblock %}

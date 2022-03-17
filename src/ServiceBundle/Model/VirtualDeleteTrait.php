@@ -17,19 +17,19 @@ trait VirtualDeleteTrait {
     protected $deletedBy = NULL;
 
     /**
-     * @param bool|null $deleted
+     * @param \DateTime|null $deleted
      * @return $this
      */
-    public function setDeleted(?bool $deleted): self {
+    public function setDeleted(?\DateTime $deleted): self {
         $this->deleted = $deleted;
 
         return $this;
     }
 
     /**
-     * @return bool|null
+     * @return \DateTime|null
      */
-    public function getDeleted(): ?bool {
+    public function getDeleted(): ?\DateTime {
         return $this->deleted;
     }
 

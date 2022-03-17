@@ -7,6 +7,8 @@ use App\UserBundle\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -19,9 +21,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
-    public function __construct(ManagerRegistry $registry)
+    private PaginatorInterface $paginator;
+
+    public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
         parent::__construct($registry, User::class);
+        $this->paginator = $paginator;
     }
 
     /**
@@ -148,14 +153,14 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         }
     }
 
-    private function filterPagination(QueryBuilder $statement, $startLimit = null, $endLimit = null)
-    {
-        if ($startLimit === null OR $endLimit == null) {
-            return false;
-        }
-        $statement->setFirstResult($startLimit)
-            ->setMaxResults($endLimit);
-    }
+//    private function filterPagination(QueryBuilder $statement, $maxLimit = null)
+//    {
+//        if (!$maxLimit) {
+//            return false;
+//        }
+//        $statement->setFirstResult($startLimit)
+//            ->setMaxResults($endLimit);
+//    }
 
     private function filterCount(QueryBuilder $statement)
     {
@@ -170,7 +175,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return 0;
     }
 
-    public function filter($search, $count = false, $startLimit = null, $endLimit = null)
+    public function filter($search, $count = false, $isPagination = false, $pageLimit = null, Request $request = null)
     {
         $statement = $this->getStatement();
         $this->filterWhereClause($statement, $search);
@@ -179,9 +184,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             return $this->filterCount($statement);
         }
         $statement->groupBy('u.id');
-        $this->filterPagination($statement, $startLimit, $endLimit);
+        if($isPagination) {
+            $this->filterOrder($statement, $search);
+            return $this->paginator->paginate($statement->getQuery(), $request->query->getInt('page', 1), $pageLimit);
+        }
         $this->filterOrder($statement, $search);
-
         return $statement->getQuery()->execute();
     }
 }
