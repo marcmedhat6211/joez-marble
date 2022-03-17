@@ -1,11 +1,11 @@
 {% extends 'adminTemplate/base.html.twig' %}
-{% set page_title %}Users List{% endset %}
+{% set page_title %}Banners List{% endset %}
 {% block breadcrumb %}
     <a href="{{ path('dashboard') }}" class="breadcrumb-item">
         <i class="icon-home2 mr-2"></i>
         Dashboard
     </a>
-    <span class="breadcrumb-item active">Users List</span>
+    <span class="breadcrumb-item active">Banners List</span>
 {% endblock %}
 {% block content %}
     <div class="card">
@@ -13,38 +13,36 @@
             {% include 'adminTemplate/_flash-messages.html.twig' %}
         </div>
         <div class="card-header d-flex justify-content-end">
-            <a href="{{ path('user_new') }}" class="btn btn-primary"><i class="icon-plus-circle2 mr-2"></i>Add
-                User</a>
+            <a href="{{ path('banner_new') }}" class="btn btn-primary"><i class="icon-plus-circle2 mr-2"></i>Add
+                Banner</a>
         </div>
         <div class="table-responsive">
             <table class="table">
                 <thead>
                 <tr>
-                    <th>Full Name</th>
-                    <th>Email</th>
-                    <th>Gender</th>
-                    <th>Phone</th>
-                    <th>Status</th>
-                    <th>Last Login</th>
+                    <th>#</th>
+                    <th>Sort No.</th>
+                    <th>Title</th>
+                    <th>Placement</th>
+                    <th>Publish</th>
+                    <th>Created</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% if paginator is not empty %}
-                    {% for user in paginator %}
+                    {% for banner in paginator %}
                         <tr>
-                            <td>{{ user.fullName }}</td>
-                            <td>{{ user.email }}</td>
-                            <td>{{ user.gender ? user.gender : 'n/a' }}</td>
-                            <td>{{ user.phone ? user.phone : 'n/a' }}</td>
-                            <td>
-                                {% if user.enabled %}
-                                    <span class="badge badge-success">Active</span>
-                                {% else %}
-                                    <span class="badge badge-danger">Inactive</span>
-                                {% endif %}
-                            </td>
-                            <td>{{ user.lastLogin|date('d/m/Y') }}</td>
+                            <td>{{ banner.id }}</td>
+                            <td>{{ banner.sortNo ? banner.sortNo : "n/a" }}</td>
+                            <td>{{ banner.title ? banner.title : 'n/a' }}</td>
+                            <td>{{ banner.placement }}</td>
+                            {% if banner.publish %}
+                                <span class="badge badge-flat border-success text-success">Published</span>
+                            {% else %}
+                                <span class="badge badge-flat border-danger text-danger">Not Published</span>
+                            {% endif %}
+                            <td>{{ banner.created|date('d/m/Y') }}</td>
                             <td class="text-center">
                                 <div class="list-icons">
                                     <div class="dropdown">
@@ -53,10 +51,10 @@
                                         </a>
 
                                         <div class="dropdown-menu dropdown-menu-right">
-                                            <a href="{{ path('user_edit', {"id": user.id}) }}"
+                                            <a href="{{ path('banner_edit', {"id": banner.id}) }}"
                                                class="dropdown-item"><i class="mi-mode-edit"></i>Edit</a>
-                                            <a href="{{ path('user_delete', {"id": user.id}) }}"
-                                               onclick="return confirm('Are you sure you want to remove this user ?')"
+                                            <a href="{{ path('banner_delete', {"id": banner.id}) }}"
+                                               onclick="return confirm('Are you sure you want to remove this banner ?')"
                                                class="dropdown-item"><i class="mi-delete-forever"></i>Delete</a>
                                         </div>
                                     </div>

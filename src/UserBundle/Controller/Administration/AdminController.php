@@ -4,7 +4,7 @@ namespace App\UserBundle\Controller\Administration;
 
 use App\ServiceBundle\Service\UserService;
 use App\UserBundle\Entity\User;
-use App\UserBundle\Form\AdministrationType;
+use App\UserBundle\Form\UserType;
 use App\UserBundle\Model\UserInterface;
 use App\UserBundle\Repository\UserRepository;
 use App\UserBundle\Service\UserOperationService;
@@ -40,7 +40,7 @@ class AdminController extends AbstractController
         $this->denyAccessUnlessGranted(UserInterface::ROLE_ADMIN);
         $user = new User();
         $user->addRole(User::ROLE_ADMIN);
-        $form = $this->createForm(AdministrationType::class, $user);
+        $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -63,7 +63,7 @@ class AdminController extends AbstractController
     public function edit(Request $request, User $user, EntityManagerInterface $em): Response
     {
         $this->denyAccessUnlessGranted(UserInterface::ROLE_ADMIN);
-        $form = $this->createForm(AdministrationType::class, $user);
+        $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
