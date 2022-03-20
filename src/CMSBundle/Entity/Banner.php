@@ -6,6 +6,7 @@ use App\ServiceBundle\Model\DateTimeInterface;
 use App\ServiceBundle\Model\DateTimeTrait;
 use App\ServiceBundle\Model\VirtualDeleteTrait;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 
 /**
  * @ORM\Table(name="banner")
@@ -15,12 +16,12 @@ class Banner implements DateTimeInterface
 {
     use DateTimeTrait, VirtualDeleteTrait;
 
-    public static array $placements = array(
+    public static array $placements = [
         'Home Page slider (1920px * 975px)' => 1,
-    );
-    public static array $placementDimensions = array(
+    ];
+    public static array $placementDimensions = [
         1 => ["width" => 1920, "height" => 975],
-    );
+    ];
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -30,9 +31,9 @@ class Banner implements DateTimeInterface
     private int $id;
 
     /**
-     * @ORM\Column(name="title", type="string", length=50, nullable=true)
+     * @ORM\Column(name="title", type="string", length=50)
      */
-    private ?string $title;
+    private string $title;
 
     /**
      * @ORM\Column(name="placement", type="integer")
@@ -74,12 +75,12 @@ class Banner implements DateTimeInterface
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setTitle(?string $title): self
+    public function setTitle(string $title): self
     {
         $this->title = $title;
 
@@ -89,6 +90,12 @@ class Banner implements DateTimeInterface
     public function getPlacement(): ?int
     {
         return $this->placement;
+    }
+
+    #[Pure] public function getPlacementName(): ?string
+    {
+        $placement = $this->getPlacement();
+        return array_search($placement, self::$placements);
     }
 
     public function setPlacement(int $placement): self

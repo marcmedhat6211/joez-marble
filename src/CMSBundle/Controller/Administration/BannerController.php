@@ -3,13 +3,9 @@
 namespace App\CMSBundle\Controller\Administration;
 
 use App\CMSBundle\Entity\Banner;
+use App\CMSBundle\Form\BannerType;
 use App\CMSBundle\Repository\BannerRepository;
-use App\ServiceBundle\Service\UserService;
-use App\UserBundle\Entity\User;
-use App\UserBundle\Form\UserType;
 use App\UserBundle\Model\UserInterface;
-use App\UserBundle\Repository\UserRepository;
-use App\UserBundle\Service\UserOperationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

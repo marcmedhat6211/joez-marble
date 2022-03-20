@@ -2,51 +2,58 @@
 <div class="row">
     <div class="col-12 col-md-6">
         <div class="form-group">
-            {{ form_label(form.email) }}
-            {{ form_widget(form.email) }}
-            {{ form_errors(form.email) }}
+            {{ form_label(form.title) }}
+            {{ form_widget(form.title) }}
+            {{ form_errors(form.title) }}
         </div>
     </div>
     <div class="col-12 col-md-6">
         <div class="form-group">
-            {{ form_label(form.fullName) }}
-            {{ form_widget(form.fullName) }}
-            {{ form_errors(form.fullName) }}
+            {{ form_label(form.placement) }}
+            {{ form_widget(form.placement) }}
+            {{ form_errors(form.placement) }}
         </div>
     </div>
     <div class="col-12 col-md-6">
         <div class="form-group">
-            {{ form_label(form.plainPassword.first) }}
-            {{ form_widget(form.plainPassword.first) }}
-            {{ form_errors(form.plainPassword.first) }}
+            {{ form_label(form.sortNo) }}
+            {{ form_widget(form.sortNo) }}
+            {{ form_errors(form.sortNo) }}
         </div>
     </div>
     <div class="col-12 col-md-6">
         <div class="form-group">
-            {{ form_label(form.plainPassword.second) }}
-            {{ form_widget(form.plainPassword.second) }}
-            {{ form_errors(form.plainPassword.second) }}
+            {{ form_label(form.actionButtonText) }}
+            {{ form_widget(form.actionButtonText) }}
+            {{ form_errors(form.actionButtonText) }}
         </div>
     </div>
     <div class="col-12 col-md-6">
         <div class="form-group">
-            {{ form_label(form.phone) }}
-            {{ form_widget(form.phone) }}
-            {{ form_errors(form.phone) }}
+            {{ form_label(form.url) }}
+            {{ form_widget(form.url) }}
+            {{ form_errors(form.url) }}
         </div>
     </div>
     <div class="col-12 col-md-6">
         <div class="form-group">
-            {{ form_label(form.gender) }}
-            {{ form_widget(form.gender) }}
-            {{ form_errors(form.gender) }}
+            {{ form_label(form.text) }}
+            {{ form_widget(form.text) }}
+            {{ form_errors(form.text) }}
         </div>
     </div>
     <div class="col-12 col-md-6">
         <div class="custom-control custom-switch custom-switch-square custom-control-success mb-2">
-            {{ form_widget(form.enabled) }}
-            {{ form_label(form.enabled) }}
-            {{ form_errors(form.enabled) }}
+            {{ form_widget(form.publish) }}
+            {{ form_label(form.publish) }}
+            {{ form_errors(form.publish) }}
+        </div>
+    </div>
+    <div class="col-12 col-md-6">
+        <div class="custom-control custom-switch custom-switch-square custom-control-success mb-2">
+            {{ form_widget(form.openNewTab) }}
+            {{ form_label(form.openNewTab) }}
+            {{ form_errors(form.openNewTab) }}
         </div>
     </div>
 </div>

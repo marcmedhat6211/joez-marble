@@ -55,7 +55,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->where('u.roles LIKE :roles')
             ->andWhere('u.deleted IS NULL')
             ->orderBy('u.id', 'DESC')
-            ->setParameter('roles', '%"'.$role.'"%');
+            ->setParameter('roles', '%"' . $role . '"%');
         return $statement->getQuery()->getResult();
     }
 
@@ -78,16 +78,16 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     private function filterWhereClause(QueryBuilder $statement, \stdClass $search)
     {
-        if (isset($search->string) AND Validate::not_null($search->string)) {
+        if (isset($search->string) and Validate::not_null($search->string)) {
             $statement->andWhere('u.id LIKE :searchTerm '
-                .'OR u.fullName LIKE :searchTerm '
-                .'OR u.email LIKE :searchTerm '
-                .'OR u.phone LIKE :searchTerm '
+                . 'OR u.fullName LIKE :searchTerm '
+                . 'OR u.email LIKE :searchTerm '
+                . 'OR u.phone LIKE :searchTerm '
             );
-            $statement->setParameter('searchTerm', '%'.trim($search->string).'%');
+            $statement->setParameter('searchTerm', '%' . trim($search->string) . '%');
         }
 
-        if (isset($search->role) AND Validate::not_null($search->role)) {
+        if (isset($search->role) and Validate::not_null($search->role)) {
             if ($search->role == User::ROLE_DEFAULT) {
                 $statement->andWhere("u.roles = :role");
                 $statement->setParameter("role", "[]");
@@ -99,29 +99,29 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
                     if ($i > 0) {
                         $roleClause .= " OR ";
                     }
-                    $roleClause .= " u.roles LIKE :role".$i;
-                    $statement->setParameter('role'.$i, '%'.trim($value).'%');
+                    $roleClause .= " u.roles LIKE :role" . $i;
+                    $statement->setParameter('role' . $i, '%' . trim($value) . '%');
                     $i++;
                 }
                 $statement->andWhere($roleClause);
             }
 
         }
-        if (isset($search->ids) AND is_array($search->ids) and count($search->ids) > 0) {
+        if (isset($search->ids) and is_array($search->ids) and count($search->ids) > 0) {
             $statement->andWhere('u.id in (:ids)');
             $statement->setParameter('ids', $search->ids);
         }
 
-        if (isset($search->enabled) AND (is_bool($search->enabled) or in_array($search->enabled, [0, 1]))) {
+        if (isset($search->enabled) and (is_bool($search->enabled) or in_array($search->enabled, [0, 1]))) {
             $statement->andWhere('u.enabled = :enabled');
             $statement->setParameter('enabled', $search->enabled);
         }
-        if (isset($search->subscriptionNewsletter) AND (is_bool($search->subscriptionNewsletter) or in_array($search->subscriptionNewsletter, [0, 1]))) {
+        if (isset($search->subscriptionNewsletter) and (is_bool($search->subscriptionNewsletter) or in_array($search->subscriptionNewsletter, [0, 1]))) {
             $statement->andWhere('u.subscriptionNewsletter = :subscriptionNewsletter');
             $statement->setParameter('subscriptionNewsletter', $search->subscriptionNewsletter);
         }
 
-        if (isset($search->deleted) AND in_array($search->deleted, array(0, 1))) {
+        if (isset($search->deleted) and in_array($search->deleted, array(0, 1))) {
             if ($search->deleted == 1) {
                 $statement->andWhere('u.deleted IS NOT NULL');
             } else {
@@ -142,25 +142,16 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             'u.enabled',
         ];
 
-        if (isset($search->ordr) AND Validate::not_null($search->ordr)) {
+        if (isset($search->ordr) and Validate::not_null($search->ordr)) {
             $dir = $search->ordr['dir'];
             $columnNumber = $search->ordr['column'];
-            if (isset($columnNumber) AND array_key_exists($columnNumber, $sortSQL)) {
+            if (isset($columnNumber) and array_key_exists($columnNumber, $sortSQL)) {
                 $statement->orderBy($sortSQL[$columnNumber], $dir);
             }
         } else {
             $statement->orderBy($sortSQL[0], "DESC");
         }
     }
-
-//    private function filterPagination(QueryBuilder $statement, $maxLimit = null)
-//    {
-//        if (!$maxLimit) {
-//            return false;
-//        }
-//        $statement->setFirstResult($startLimit)
-//            ->setMaxResults($endLimit);
-//    }
 
     private function filterCount(QueryBuilder $statement)
     {
@@ -184,11 +175,12 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             return $this->filterCount($statement);
         }
         $statement->groupBy('u.id');
-        if($isPagination) {
-            $this->filterOrder($statement, $search);
+        $this->filterOrder($statement, $search);
+
+        if ($isPagination) {
             return $this->paginator->paginate($statement->getQuery(), $request->query->getInt('page', 1), $pageLimit);
         }
-        $this->filterOrder($statement, $search);
+
         return $statement->getQuery()->execute();
     }
 }

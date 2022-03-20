@@ -2,11 +2,7 @@
 {% extends 'adminTemplate/base.html.twig' %}
 {% set pageName = 'New Banner' %}
 {% if cr in ['banner_edit'] %}
-    {% if banner.title is defined %}
-        {% set pageName = 'Edit '~banner.title %}
-    {% else %}
-        {% set pageName = 'Edit Banner' %}
-    {% endif %}
+    {% set pageName = 'Edit '~banner.title %}
 {% endif %}
 {% set page_title %}{{ pageName }}{% endset %}
 
@@ -17,7 +13,7 @@
     </a>
     <a href="{{ path('banner_index') }}" class="breadcrumb-item">
         <i class="icon-user-tie mr-2"></i>
-        Users
+        Banners List
     </a>
     <span class="breadcrumb-item active">{{ pageName }}</span>
 {% endblock %}

@@ -36,12 +36,14 @@
                             <td>{{ banner.id }}</td>
                             <td>{{ banner.sortNo ? banner.sortNo : "n/a" }}</td>
                             <td>{{ banner.title ? banner.title : 'n/a' }}</td>
-                            <td>{{ banner.placement }}</td>
-                            {% if banner.publish %}
-                                <span class="badge badge-flat border-success text-success">Published</span>
-                            {% else %}
-                                <span class="badge badge-flat border-danger text-danger">Not Published</span>
-                            {% endif %}
+                            <td>{{ banner.placementName }}
+                            <td>
+                                {% if banner.publish %}
+                                    <span class="badge badge-flat border-success text-success">Published</span>
+                                {% else %}
+                                    <span class="badge badge-flat border-danger text-danger">Not Published</span>
+                                {% endif %}
+                            </td>
                             <td>{{ banner.created|date('d/m/Y') }}</td>
                             <td class="text-center">
                                 <div class="list-icons">

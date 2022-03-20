@@ -12,9 +12,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use PN\LocaleBundle\Form\Type\TranslationsType;
-use App\CMSBundle\Form\Translation\BannerTranslationType;
-use PN\MediaBundle\Form\SingleImageType;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class BannerType extends AbstractType
 {
@@ -30,6 +29,13 @@ class BannerType extends AbstractType
                 "attr" => [
                     "class" => "form-control"
                 ],
+                "constraints" => [
+                    new NotBlank(),
+                    new Length([
+                        'min' => 2,
+                        "minMessage" => "Your name should be at least {{ limit }} characters"
+                    ])
+                ]
             ])
             ->add('placement', ChoiceType::class, [
                 'choices' => Banner::$placements,
@@ -45,11 +51,14 @@ class BannerType extends AbstractType
                 ]
             ])
             ->add('publish', CheckboxType::class, [
+                'label_attr' => [
+                    "class" => "custom-control-label"
+                ],
                 "attr" => [
                     "class" => "custom-control-input"
                 ]
             ])
-            ->add('actionButton', TextType::class, [
+            ->add('actionButtonText', TextType::class, [
                 "required" => false,
                 "label" => "Action Button Name",
                 "attr" => [
@@ -57,7 +66,10 @@ class BannerType extends AbstractType
                 ],
             ])
             ->add('url', UrlType::class, [
-                'required' => false
+                'required' => false,
+                "attr" => [
+                    "class" => "form-control"
+                ],
             ])
             ->add('text', TextareaType::class, [
                 'required' => false,
@@ -68,6 +80,9 @@ class BannerType extends AbstractType
             ])
             ->add('openNewTab', CheckboxType::class, [
                 'label' => 'Open new tab',
+                'label_attr' => [
+                    "class" => "custom-control-label"
+                ],
                 "attr" => [
                     "class" => "custom-control-input"
                 ]
