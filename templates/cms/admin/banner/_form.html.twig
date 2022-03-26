@@ -42,11 +42,11 @@
             {{ form_errors(form.text) }}
         </div>
     </div>
-    <div class="col-12 col-md-6">
-        <div class="custom-control custom-switch custom-switch-square custom-control-success mb-2">
-            {{ form_widget(form.publish) }}
-            {{ form_label(form.publish) }}
-            {{ form_errors(form.publish) }}
+    <div class="col-12 col-md-6 mb-3">
+        <div class="custom-file">
+            {{ form_widget(form.image) }}
+            {{ form_label(form.image) }}
+            {{ form_errors(form.image) }}
         </div>
     </div>
     <div class="col-12 col-md-6">
@@ -57,10 +57,10 @@
         </div>
     </div>
     <div class="col-12 col-md-6">
-        <div class="form-group">
-            {{ form_label(form.image) }}
-            {{ form_widget(form.image) }}
-            {{ form_errors(form.image) }}
+        <div class="custom-control custom-switch custom-switch-square custom-control-success mb-2">
+            {{ form_widget(form.publish) }}
+            {{ form_label(form.publish) }}
+            {{ form_errors(form.publish) }}
         </div>
     </div>
 </div>

@@ -42,9 +42,20 @@ class BannerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $uploadFileService->uploadImage($form, Banner::class, $banner);
             $em->persist($banner);
             $em->flush();
+
+            dump("heree");
+            die();
+            if ($form->get("image")->getData()) {
+                $isImageUploaded = $uploadFileService->uploadImage($form, Banner::class, $banner);
+                if (!$isImageUploaded["valid"]) {
+                    foreach ($isImageUploaded["errors"] as $error) {
+                        $this->addFlash("error", $error);
+                        return $this->redirectToRoute("banner_edit", ["id" => $banner->getId()]);
+                    }
+                }
+            }
 
             $this->addFlash('success', 'Successfully saved');
 

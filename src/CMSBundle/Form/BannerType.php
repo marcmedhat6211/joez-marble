@@ -90,6 +90,12 @@ class BannerType extends AbstractType
             ])
             ->add('image', FileType::class, [
                 'mapped' => false,
+                'label_attr' => [
+                    "class" => "custom-file-label"
+                ],
+                "attr" => [
+                    "class" => "custom-file-input"
+                ]
             ]);
     }
 
