@@ -2,6 +2,7 @@
 
 namespace App\CMSBundle\Entity;
 
+use App\MediaBundle\Entity\Image;
 use App\ServiceBundle\Model\DateTimeInterface;
 use App\ServiceBundle\Model\DateTimeTrait;
 use App\ServiceBundle\Model\VirtualDeleteTrait;
@@ -69,6 +70,11 @@ class Banner implements DateTimeInterface
      * @ORM\Column(name="open_new_tab", type="boolean")
      */
     private bool $openNewTab = false;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\MediaBundle\Entity\Image", inversedBy="banner", cascade={"persist", "remove" })
+     */
+    private ?Image $image;
 
     public function getId(): ?int
     {
@@ -173,6 +179,18 @@ class Banner implements DateTimeInterface
     public function setOpenNewTab(bool $openNewTab): self
     {
         $this->openNewTab = $openNewTab;
+
+        return $this;
+    }
+
+    public function getImage(): ?Image
+    {
+        return $this->image;
+    }
+
+    public function setImage(?Image $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }

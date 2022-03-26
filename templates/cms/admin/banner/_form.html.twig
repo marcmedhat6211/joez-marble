@@ -56,6 +56,13 @@
             {{ form_errors(form.openNewTab) }}
         </div>
     </div>
+    <div class="col-12 col-md-6">
+        <div class="form-group">
+            {{ form_label(form.image) }}
+            {{ form_widget(form.image) }}
+            {{ form_errors(form.image) }}
+        </div>
+    </div>
 </div>
 <div class="text-right">
     <button type="submit" class="btn btn-primary">Submit form <i class="icon-paperplane ml-2"></i></button>

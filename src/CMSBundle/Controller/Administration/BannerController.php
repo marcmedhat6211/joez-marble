@@ -5,6 +5,7 @@ namespace App\CMSBundle\Controller\Administration;
 use App\CMSBundle\Entity\Banner;
 use App\CMSBundle\Form\BannerType;
 use App\CMSBundle\Repository\BannerRepository;
+use App\MediaBundle\Services\UploadFileService;
 use App\UserBundle\Model\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,7 +34,7 @@ class BannerController extends AbstractController
     /**
      * @Route("/new", name="banner_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $em): Response
+    public function new(Request $request, EntityManagerInterface $em, UploadFileService $uploadFileService): Response
     {
         $this->denyAccessUnlessGranted(UserInterface::ROLE_ADMIN);
         $banner = new Banner();
@@ -41,6 +42,7 @@ class BannerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $uploadFileService->uploadImage($form, Banner::class, $banner);
             $em->persist($banner);
             $em->flush();
 
