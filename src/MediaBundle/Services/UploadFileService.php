@@ -9,6 +9,7 @@ use JetBrains\PhpStorm\Pure;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use function MongoDB\Driver\Monitoring\removeSubscriber;
 
 class UploadFileService
 {
@@ -16,10 +17,12 @@ class UploadFileService
     private EntityManagerInterface $em;
 
     const MAX_FILE_SIZE = 2097152; // in bytes
+    const ACTION_ADD = "add";
+    const ACTION_EDIT = "edit";
     public static array $availableImageMimeTypes = ["image/gif", "image/jpeg", "image/jpg", "image/png"];
 
     public function __construct(
-        ContainerInterface $container,
+        ContainerInterface     $container,
         EntityManagerInterface $em
     )
     {
@@ -31,12 +34,20 @@ class UploadFileService
         FormInterface $form,
         string        $fullEntityPath,
         object        $entityObject = null,
+        string        $actionType = self::ACTION_ADD,
         string        $filename = "image",
         string        $imageType = BaseImage::IMAGE_TYPE_MAIN,
         float         $maxWidth = 0,
         float         $maxHeight = 0,
     ): array
     {
+        if (!$form->get($filename)->getData()) { // no image uploaded
+            return [
+                "valid" => true,
+                "errors" => []
+            ];
+        }
+
         $file = $form->get($filename)->getData();
         $errors = $this->validateFile($file, $maxWidth, $maxHeight);
         if (count($errors) > 0) {
@@ -44,6 +55,14 @@ class UploadFileService
                 "valid" => false,
                 "errors" => $errors
             ];
+        }
+
+        if ($actionType == self::ACTION_EDIT) {
+            $methodName = "get" . ucfirst($filename);
+            $oldImage = $entityObject->{$methodName}();
+            if ($oldImage) {
+                $this->removeImage($oldImage);
+            }
         }
 
         $fileDBName = md5(uniqid()) . '.' . $file->guessClientExtension();
@@ -172,5 +191,39 @@ class UploadFileService
         $this->em->persist($image);
         $this->em->persist($entityObject);
         $this->em->flush();
+    }
+
+    /**
+     * This method removes the image from the database and deletes it from the uploads folder
+     * @param Image $image
+     */
+    private function removeImage(Image $image): void
+    {
+        $this->removeImageFromItsDirectory($image);
+
+        $this->em->remove($image);
+        $this->em->flush();
+    }
+
+    private function removeImageFromItsDirectory(Image $image): void
+    {
+        $imageFullPath = $this->getImageFullPath($image);
+
+        if (file_exists($imageFullPath)) {
+            unlink($imageFullPath);
+        }
+    }
+
+    /**
+     * This method returns the full path of an image
+     * @param Image $image
+     * @return string
+     */
+    private function getImageFullPath(Image $image): string {
+        $uploadsDir = $this->container->getParameter("uploads_dir");
+        $imagePath = $image->getPath();
+        $imageName = $image->getName();
+
+        return $uploadsDir . "/" . $imagePath . "/" . $imageName;
     }
 }

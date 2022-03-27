@@ -7,6 +7,7 @@ use App\ServiceBundle\Model\DateTimeInterface;
 use App\ServiceBundle\Model\DateTimeTrait;
 use App\ServiceBundle\Model\VirtualDeleteTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
 use JetBrains\PhpStorm\Pure;
 
 /**
@@ -73,6 +74,7 @@ class Banner implements DateTimeInterface
 
     /**
      * @ORM\OneToOne(targetEntity="App\MediaBundle\Entity\Image", inversedBy="banner", cascade={"persist", "remove" })
+     * @JoinColumn(name="image_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private ?Image $image;
 

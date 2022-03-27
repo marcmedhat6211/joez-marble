@@ -68,7 +68,7 @@ class BannerController extends AbstractController
     /**
      * @Route("/{id}/edit", name="banner_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Banner $banner, EntityManagerInterface $em): Response
+    public function edit(Request $request, Banner $banner, EntityManagerInterface $em, UploadFileService $uploadFileService): Response
     {
         $this->denyAccessUnlessGranted(UserInterface::ROLE_ADMIN);
         $form = $this->createForm(BannerType::class, $banner);
@@ -78,7 +78,17 @@ class BannerController extends AbstractController
             $em->persist($banner);
             $em->flush();
 
-            $this->addFlash("success", "User updated successfully");
+            if ($form->get("image")->getData()) {
+                $isImageUploaded = $uploadFileService->uploadImage($form, Banner::class, $banner, UploadFileService::ACTION_EDIT);
+                if (!$isImageUploaded["valid"]) {
+                    foreach ($isImageUploaded["errors"] as $error) {
+                        $this->addFlash("error", $error);
+                        return $this->redirectToRoute("banner_edit", ["id" => $banner->getId()]);
+                    }
+                }
+            }
+
+            $this->addFlash("success", "Banner updated successfully");
 
             return $this->redirectToRoute("banner_index");
         }
