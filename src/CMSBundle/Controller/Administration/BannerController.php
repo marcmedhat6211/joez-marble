@@ -45,8 +45,6 @@ class BannerController extends AbstractController
             $em->persist($banner);
             $em->flush();
 
-            dump("heree");
-            die();
             if ($form->get("image")->getData()) {
                 $isImageUploaded = $uploadFileService->uploadImage($form, Banner::class, $banner);
                 if (!$isImageUploaded["valid"]) {
