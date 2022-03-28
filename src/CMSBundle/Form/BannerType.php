@@ -114,7 +114,7 @@ class BannerType extends AbstractType
      */
     public function getBlockPrefix(): string
     {
-        return 'pn_bundle_cmsbundle_banner';
+        return 'bundle_cmsbundle_banner';
     }
 
 }

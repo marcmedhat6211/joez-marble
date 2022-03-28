@@ -84,6 +84,18 @@ class UploadFileService
         ];
     }
 
+    /**
+     * This method removes the image from the database and deletes it from the uploads folder
+     * @param Image $image
+     */
+    public function removeImage(Image $image): void
+    {
+        $this->removeImageFromItsDirectory($image);
+
+        $this->em->remove($image);
+        $this->em->flush();
+    }
+
     //======================================================================PRIVATE METHODS======================================================================================
 
     /**
@@ -190,18 +202,6 @@ class UploadFileService
 
         $this->em->persist($image);
         $this->em->persist($entityObject);
-        $this->em->flush();
-    }
-
-    /**
-     * This method removes the image from the database and deletes it from the uploads folder
-     * @param Image $image
-     */
-    private function removeImage(Image $image): void
-    {
-        $this->removeImageFromItsDirectory($image);
-
-        $this->em->remove($image);
         $this->em->flush();
     }
 

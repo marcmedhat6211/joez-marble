@@ -102,9 +102,12 @@ class BannerController extends AbstractController
     /**
      * @Route("/{id}/delete", name="banner_delete", methods={"GET", "POST"})
      */
-    public function delete(Banner $banner, EntityManagerInterface $em): Response
+    public function delete(Banner $banner, EntityManagerInterface $em, UploadFileService $uploadFileService): Response
     {
         $this->denyAccessUnlessGranted(UserInterface::ROLE_ADMIN);
+        if ($banner->getImage()) {
+            $uploadFileService->removeImage($banner->getImage());
+        }
         $banner->setDeleted(new \DateTime());
         $banner->setDeletedBy($this->getUser()->getFullName());
         $em->persist($banner);

@@ -20,4 +20,5 @@ return [
     App\PageBundle\PageBundle::class => ['all' => true],
     Knp\Bundle\PaginatorBundle\KnpPaginatorBundle::class => ['all' => true],
     App\MediaBundle\MediaBundle::class => ['all' => true],
+    App\ECommerceBundle\ECommerceBundle::class => ['all' => true],
 ];
