@@ -1,8 +1,8 @@
 <?php
 
-namespace App\CMSBundle\Repository;
+namespace App\ECommerceBundle\Repository;
 
-use App\CMSBundle\Entity\Testimonial;
+use App\ECommerceBundle\Entity\Currency;
 use App\ServiceBundle\Utils\Validate;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
@@ -11,20 +11,21 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints\Valid;
 
 /**
- * @method Testimonial|null find($id, $lockMode = null, $lockVersion = null)
- * @method Testimonial|null findOneBy(array $criteria, array $orderBy = null)
- * @method Testimonial[]    findAll()
- * @method Testimonial[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Currency|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Currency|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Currency[]    findAll()
+ * @method Currency[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TestimonialRepository extends ServiceEntityRepository
+class CurrencyRepository extends ServiceEntityRepository
 {
     private PaginatorInterface $paginator;
 
     public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
-        parent::__construct($registry, Testimonial::class);
+        parent::__construct($registry, Currency::class);
         $this->paginator = $paginator;
     }
 
@@ -32,7 +33,7 @@ class TestimonialRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(Testimonial $entity, bool $flush = true): void
+    public function add(Currency $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -44,7 +45,7 @@ class TestimonialRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function remove(Testimonial $entity, bool $flush = true): void
+    public function remove(Currency $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
         if ($flush) {
@@ -54,31 +55,35 @@ class TestimonialRepository extends ServiceEntityRepository
 
     private function getStatement()
     {
-        return $this->createQueryBuilder('t');
+        return $this->createQueryBuilder('c');
     }
 
     private function filterWhereClause(QueryBuilder $statement, \stdClass $search)
     {
         if (isset($search->string) and Validate::not_null($search->string)) {
-            $statement->andWhere('t.id LIKE :searchTerm '
-                . 'OR t.client LIKE :searchTerm '
+            $statement->andWhere('c.id LIKE :searchTerm '
+                . 'OR c.code LIKE :searchTerm '
             );
             $statement->setParameter('searchTerm', '%' . trim($search->string) . '%');
         }
 
-        if (isset($search->publish) and $search->publish != "") {
-            $statement->andWhere('t.publish = :publish');
-            $statement->setParameter('publish', $search->publish);
+        if (isset($search->code) and Validate::not_null($search->code)) {
+            $statement->andWhere('c.code = :code');
+            $statement->setParameter('code', $search->code);
+        }
+
+        if (isset($search->egpEquivalence) and Validate::not_null($search->egpEquivalence)) {
+            $statement->andWhere('c.egpEquivalence = :egpEquivalence');
+            $statement->setParameter('egpEquivalence', $search->egpEquivalence);
         }
     }
 
     private function filterOrder(QueryBuilder $statement, \stdClass $search)
     {
         $sortSQL = [
-            't.id',
-            't.sortNo',
-            't.client',
-            't.publish',
+            'c.id',
+            'c.code',
+            'c.egpEquivalence',
         ];
 
         if (isset($search->ordr) and Validate::not_null($search->ordr)) {
@@ -94,7 +99,7 @@ class TestimonialRepository extends ServiceEntityRepository
 
     private function filterCount(QueryBuilder $statement)
     {
-        $statement->select("COUNT(DISTINCT t.id)");
+        $statement->select("COUNT(DISTINCT c.id)");
         $statement->setMaxResults(1);
 
         $count = $statement->getQuery()->getOneOrNullResult();
@@ -113,7 +118,7 @@ class TestimonialRepository extends ServiceEntityRepository
         if ($count == true) {
             return $this->filterCount($statement);
         }
-        $statement->groupBy('t.id');
+        $statement->groupBy('c.id');
         $this->filterOrder($statement, $search);
 
         if ($isPagination) {

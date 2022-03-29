@@ -69,7 +69,7 @@ class UploadFileService
         $filePath = $this->generateFilePath($file, $entityName);
 
         list($width, $height) = getimagesize($file);
-        $this->createNewImage($fileDBName, $imageType, $filePath, $file->getSize(), $width, $height, $entityObject);
+        $this->createNewImage($fileDBName, $imageType, $filePath, $file->getSize(), $width, $height, $entityObject, $filename);
         $imageFullPath = $this->container->getParameter("uploads_dir") . "/" . $filePath;
 
         $file->move(
@@ -184,7 +184,8 @@ class UploadFileService
         float  $size,
         float  $width,
         float  $height,
-        object $entityObject
+        object $entityObject,
+        string $fileName
     ): void
     {
         $image = new Image();
@@ -197,7 +198,8 @@ class UploadFileService
         if ($entityObject->__toString() !== null) {
             $image->setAlt($entityObject->__toString());
         }
-        $entityObject->setImage($image);
+        $methodName = "set" . ucfirst($fileName);
+        $entityObject->{$methodName}($image);
 
         $this->em->persist($image);
         $this->em->persist($entityObject);
