@@ -34,7 +34,7 @@ class CategoryController extends AbstractController
     /**
      * @Route("/new", name="category_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $em, UploadFileService $uploadFileService): Response
+    public function new(Request $request, EntityManagerInterface $em): Response
     {
         $this->denyAccessUnlessGranted(UserInterface::ROLE_ADMIN);
         $category = new Category();
@@ -57,7 +57,7 @@ class CategoryController extends AbstractController
     /**
      * @Route("/{id}/edit", name="category_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Category $category, EntityManagerInterface $em, UploadFileService $uploadFileService): Response
+    public function edit(Request $request, Category $category, EntityManagerInterface $em): Response
     {
         $this->denyAccessUnlessGranted(UserInterface::ROLE_ADMIN);
         $form = $this->createForm(CategoryType::class, $category);
@@ -93,7 +93,6 @@ class CategoryController extends AbstractController
     private function getCategories(Request $request, CategoryRepository $categoryRepository)
     {
         $search = new \stdClass();
-        $search->deleted = 0;
 
         return $categoryRepository->filter($search, false, true, 10, $request);
     }
