@@ -3,6 +3,7 @@
 namespace App\MediaBundle\Entity;
 
 use App\CMSBundle\Entity\Banner;
+use App\CMSBundle\Entity\Testimonial;
 use Doctrine\ORM\Mapping as ORM;
 use App\MediaBundle\Model\Image as BaseImage;
 
@@ -16,6 +17,11 @@ class Image extends BaseImage
      * @ORM\OneToOne(targetEntity="App\CMSBundle\Entity\Banner", mappedBy="image")
      */
     private ?Banner $banner;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\CMSBundle\Entity\Testimonial", mappedBy="image")
+     */
+    private ?Testimonial $testimonial;
 
     public function getBanner(): ?Banner
     {
@@ -35,6 +41,28 @@ class Image extends BaseImage
         }
 
         $this->banner = $banner;
+
+        return $this;
+    }
+
+    public function getTestimonial(): ?Testimonial
+    {
+        return $this->testimonial;
+    }
+
+    public function setTestimonial(?Testimonial $testimonial): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($testimonial === null && $this->testimonial !== null) {
+            $this->testimonial->setImage(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($testimonial !== null && $testimonial->getImage() !== $this) {
+            $testimonial->setImage($this);
+        }
+
+        $this->testimonial = $testimonial;
 
         return $this;
     }

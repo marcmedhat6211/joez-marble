@@ -9,7 +9,6 @@ use JetBrains\PhpStorm\Pure;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use function MongoDB\Driver\Monitoring\removeSubscriber;
 
 class UploadFileService
 {
@@ -130,7 +129,7 @@ class UploadFileService
 
         if ($maxWidth > 0 && $maxHeight > 0) {
             if ($width > $maxWidth || $height > $maxHeight) {
-                $errors[] = "Please upload a file with the right dimensions";
+                $errors[] = "Please upload a file with the right dimensions ($maxWidth px * $maxHeight px)";
             }
         }
 
@@ -195,8 +194,8 @@ class UploadFileService
         $image->setSize($size);
         $image->setWidth($width);
         $image->setHeight($height);
-        if ($entityObject->getTitle()) {
-            $image->setAlt($entityObject->getTitle());
+        if ($entityObject->__toString() !== null) {
+            $image->setAlt($entityObject->__toString());
         }
         $entityObject->setImage($image);
 

@@ -78,6 +78,11 @@ class Banner implements DateTimeInterface
      */
     private ?Image $image;
 
+    public function __toString(): string
+    {
+        return $this->title;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
