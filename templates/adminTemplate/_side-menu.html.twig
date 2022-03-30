@@ -35,7 +35,7 @@
         <!-- Main navigation -->
         <div class="sidebar-section">
             <ul class="nav nav-sidebar" data-nav-type="accordion">
-                {# side bar link #}
+                {# DASHBOARD #}
                 <li class="nav-item">
                     <a href="{{ path('dashboard') }}" class="nav-link">
                         <i class="icon-home4"></i>
@@ -44,9 +44,9 @@
                         </span>
                     </a>
                 </li>
-                {# end side bar link #}
+                {# END DASHBOARD #}
 
-                {# side bar link #}
+                {# ADMINISTRATORS #}
                 <li class="nav-item">
                     <a href="{{ path('admin_index') }}" class="nav-link">
                         <i class="icon-user-tie"></i>
@@ -55,9 +55,9 @@
                         </span>
                     </a>
                 </li>
-                {# end side bar link #}
+                {# END ADMINISTRATORS #}
 
-                {# side bar link #}
+                {# USERS #}
                 <li class="nav-item">
                     <a href="{{ path('user_index') }}" class="nav-link">
                         <i class="icon-users4"></i>
@@ -66,9 +66,9 @@
                         </span>
                     </a>
                 </li>
-                {# end side bar link #}
+                {# END USERS #}
 
-                {# side bar link #}
+                {# BANNERS #}
                 <li class="nav-item">
                     <a href="{{ path('banner_index') }}" class="nav-link">
                         <i class="icon-images3"></i>
@@ -77,51 +77,30 @@
                         </span>
                     </a>
                 </li>
-                {# end side bar link #}
+                {# END BANNERS #}
 
-                {# side bar link #}
-                <li class="nav-item">
-                    <a href="{{ path('category_index') }}" class="nav-link">
-                        <i class="icon-images3"></i>
-                        <span>
-                            Categories
-                        </span>
-                    </a>
-                </li>
-                {# end side bar link #}
-
-                {# side bar link #}
-                <li class="nav-item">
-                    <a href="{{ path('subcategory_index') }}" class="nav-link">
-                        <i class="icon-images3"></i>
-                        <span>
-                            Subcategories
-                        </span>
-                    </a>
-                </li>
-                {# end side bar link #}
-
-                {# side bar link #}
+                {# TESTIMONIALS #}
                 <li class="nav-item">
                     <a href="{{ path('testimonial_index') }}" class="nav-link">
-                        <i class="icon-images3"></i>
+                        <i class="icon-star-half"></i>
                         <span>
                             Testimonials
                         </span>
                     </a>
                 </li>
-                {# end side bar link #}
+                {# END TESTIMONIALS #}
 
-                {# side bar link #}
-                <li class="nav-item">
-                    <a href="{{ path('currency_index') }}" class="nav-link">
-                        <i class="icon-images3"></i>
-                        <span>
-                            Currencies
-                        </span>
-                    </a>
+                {# ECOMMERCE #}
+                <li class="nav-item nav-item-submenu">
+                    <a href="#" class="nav-link"><i class="icon-cart5"></i> <span>E-Commerce</span></a>
+                    <ul class="nav nav-group-sub" data-submenu-title="e-commerce">
+                        <li class="nav-item"><a href="{{ path('product_index') }}" class="nav-link">Products</a></li>
+                        <li class="nav-item"><a href="{{ path('category_index') }}" class="nav-link">Categories</a></li>
+                        <li class="nav-item"><a href="{{ path('subcategory_index') }}" class="nav-link">Subcategories</a></li>
+                        <li class="nav-item"><a href="{{ path('currency_index') }}" class="nav-link">Currencies</a></li>
+                    </ul>
                 </li>
-                {# end side bar link #}
+                {# END ECOMMERCE #}
             </ul>
         </div>
         <!-- /main navigation -->

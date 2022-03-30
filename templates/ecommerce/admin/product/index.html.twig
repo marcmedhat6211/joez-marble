@@ -1,0 +1,93 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}Products List{% endset %}
+{% block breadcrumb %}
+    <a href="{{ path('dashboard') }}" class="breadcrumb-item">
+        <i class="icon-home2 mr-2"></i>
+        Dashboard
+    </a>
+    <span class="breadcrumb-item active">Products List</span>
+{% endblock %}
+{% block content %}
+    <div class="card">
+        <div class="px-2 pt-2">
+            {% include 'adminTemplate/_flash-messages.html.twig' %}
+        </div>
+        <div class="card-header d-flex justify-content-end">
+            <a href="{{ path('product_new') }}" class="btn btn-primary"><i class="icon-plus-circle2 mr-2"></i>Add
+                Product</a>
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>SKU</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Subcategory</th>
+                    <th>Published</th>
+                    <th>Featured</th>
+                    <th>New Arrival</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if paginator is not empty %}
+                    {% for product in paginator %}
+                        <tr>
+                            <td>{{ product.id }}</td>
+                            <td>{{ product.sku }}</td>
+                            <td>{{ product.title }}</td>
+                            <td>{{ product.subcategory.category.title }}</td>
+                            <td>{{ product.subcategory.title }}</td>
+                            <td>
+                                {% if product.publish %}
+                                    <span class="badge badge-flat border-success text-success">Published</span>
+                                {% else %}
+                                    <span class="badge badge-flat border-danger text-danger">Not Published</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if product.featured %}
+                                    <span class="badge badge-flat border-success text-success">Featured</span>
+                                {% else %}
+                                    <span class="badge badge-flat border-danger text-danger">Not Featured</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if product.newArrival %}
+                                    <span class="badge badge-flat border-success text-success">New Arrival</span>
+                                {% else %}
+                                    <span class="badge badge-flat border-danger text-danger">Old</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ product.created|date('d/m/Y') }}</td>
+                            <td class="text-center">
+                                <div class="list-icons">
+                                    <div class="dropdown">
+                                        <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                            <i class="icon-menu9"></i>
+                                        </a>
+
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a href="{{ path('product_edit', {"id": product.id}) }}"
+                                               class="dropdown-item"><i class="mi-mode-edit"></i>Edit</a>
+                                            <a href="{{ path('product_delete', {"id": product.id}) }}"
+                                               onclick="return confirm('Are you sure you want to remove this product ?')"
+                                               class="dropdown-item"><i class="mi-delete-forever"></i>Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex justify-content-center py-3">
+            {{ knp_pagination_render(paginator) }}
+        </div>
+    </div>
+{% endblock %}

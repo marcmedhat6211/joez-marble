@@ -22,6 +22,7 @@
                 <tr>
                     <th>#</th>
                     <th>Title</th>
+                    <th>Living</th>
                     <th>Created</th>
                     <th>Actions</th>
                 </tr>
@@ -32,6 +33,13 @@
                         <tr>
                             <td>{{ category.id }}</td>
                             <td>{{ category.title }}</td>
+                            <td>
+                                {% if category.living %}
+                                    <span class="badge badge-light">Joez Living</span>
+                                {% else %}
+                                    <span class="badge badge-dark">Joez Designs</span>
+                                {% endif %}
+                            </td>
                             <td>{{ category.created|date('d/m/Y') }}</td>
                             <td class="text-center">
                                 <div class="list-icons">
@@ -44,7 +52,7 @@
                                             <a href="{{ path('category_edit', {"id": category.id}) }}"
                                                class="dropdown-item"><i class="mi-mode-edit"></i>Edit</a>
                                             <a href="{{ path('category_delete', {"id": category.id}) }}"
-                                               onclick="return confirm('Are you sure you want to remove this category ?')"
+                                               onclick="return confirm('If you deleted this category, all its child subcategories and products will be deleted. Are you sure you want to delete this category ?')"
                                                class="dropdown-item"><i class="mi-delete-forever"></i>Delete</a>
                                         </div>
                                     </div>

@@ -2,9 +2,8 @@
 
 namespace App\ECommerceBundle\Repository;
 
-use App\ECommerceBundle\Entity\Category;
+use App\ECommerceBundle\Entity\Product;
 use App\ServiceBundle\Utils\Validate;
-use App\UserBundle\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -14,18 +13,18 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @method Category|null find($id, $lockMode = null, $lockVersion = null)
- * @method Category|null findOneBy(array $criteria, array $orderBy = null)
- * @method Category[]    findAll()
- * @method Category[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Product|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Product|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Product[]    findAll()
+ * @method Product[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CategoryRepository extends ServiceEntityRepository
+class ProductRepository extends ServiceEntityRepository
 {
     private PaginatorInterface $paginator;
 
     public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
-        parent::__construct($registry, Category::class);
+        parent::__construct($registry, Product::class);
         $this->paginator = $paginator;
     }
 
@@ -33,7 +32,7 @@ class CategoryRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(Category $entity, bool $flush = true): void
+    public function add(Product $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -45,7 +44,7 @@ class CategoryRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function remove(Category $entity, bool $flush = true): void
+    public function remove(Product $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
         if ($flush) {
@@ -55,25 +54,40 @@ class CategoryRepository extends ServiceEntityRepository
 
     private function getStatement()
     {
-        return $this->createQueryBuilder('c');
+        return $this->
+            createQueryBuilder('p')
+            ->leftJoin("p.subcategory", "sc")
+            ->leftJoin("sc.category", "c")
+            ;
     }
 
     private function filterWhereClause(QueryBuilder $statement, \stdClass $search)
     {
         if (isset($search->string) and Validate::not_null($search->string)) {
-            $statement->andWhere('c.id LIKE :searchTerm '
-                . 'OR c.title LIKE :searchTerm '
+            $statement->andWhere('p.id LIKE :searchTerm '
+                . 'OR p.title LIKE :searchTerm '
             );
             $statement->setParameter('searchTerm', '%' . trim($search->string) . '%');
+        }
+
+        if (isset($search->subcategory) and $search->subcategory > 0) {
+            $statement->andWhere('p.subcategory = :subcategory');
+            $statement->setParameter('subcategory', $search->subcategory);
         }
     }
 
     private function filterOrder(QueryBuilder $statement, \stdClass $search)
     {
         $sortSQL = [
-            'c.id',
-            'c.title',
-            'c.title',
+            'p.id',
+            'p.sku',
+            'p.title',
+            'sc.category',
+            'p.subcategory',
+            'p.publish',
+            'p.featured',
+            'p.newArrival',
+            'p.created',
         ];
 
         if (isset($search->ordr) and Validate::not_null($search->ordr)) {
@@ -89,7 +103,7 @@ class CategoryRepository extends ServiceEntityRepository
 
     private function filterCount(QueryBuilder $statement)
     {
-        $statement->select("COUNT(DISTINCT c.id)");
+        $statement->select("COUNT(DISTINCT p.id)");
         $statement->setMaxResults(1);
 
         $count = $statement->getQuery()->getOneOrNullResult();
@@ -108,7 +122,7 @@ class CategoryRepository extends ServiceEntityRepository
         if ($count == true) {
             return $this->filterCount($statement);
         }
-        $statement->groupBy('c.id');
+        $statement->groupBy('p.id');
         $this->filterOrder($statement, $search);
 
         if ($isPagination) {

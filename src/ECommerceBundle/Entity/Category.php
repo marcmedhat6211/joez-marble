@@ -30,7 +30,12 @@ class Category implements DateTimeInterface
     private ?string $title;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\ECommerceBundle\Entity\Subcategory", mappedBy="category")
+     * @ORM\Column(name="living", type="boolean")
+     */
+    private bool $living = false;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\ECommerceBundle\Entity\Subcategory", mappedBy="category", orphanRemoval=true)
      */
     private mixed $subcategories;
 
@@ -57,6 +62,18 @@ class Category implements DateTimeInterface
     public function setTitle(?string $title): self
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    public function getLiving(): ?bool
+    {
+        return $this->living;
+    }
+
+    public function setLiving(bool $living): self
+    {
+        $this->living = $living;
 
         return $this;
     }
