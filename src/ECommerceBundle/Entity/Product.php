@@ -36,6 +36,11 @@ class Product implements DateTimeInterface
     private ?string $sku;
 
     /**
+     * @ORM\Column(name="price", type="float")
+     */
+    private ?float $price;
+
+    /**
      * @ORM\Column(name="brief", type="text")
      */
     private ?string $brief;
@@ -61,12 +66,17 @@ class Product implements DateTimeInterface
     private bool $newArrival = false;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Subcategory", inversedBy="products", cascade={"persist", "remove"})
+     * @ORM\Column(name="best_seller", type="boolean")
+     */
+    private bool $bestSeller = false;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Subcategory", inversedBy="products", cascade={"persist"})
      */
     private ?Subcategory $subcategory;
 
     /**
-     * @ORM\OneToMany(targetEntity="ProductSpec", mappedBy="product", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="ProductSpec", mappedBy="product")
      */
     private mixed $productSpecs;
 
@@ -165,6 +175,30 @@ class Product implements DateTimeInterface
     public function setNewArrival(bool $newArrival): self
     {
         $this->newArrival = $newArrival;
+
+        return $this;
+    }
+
+    public function getBestSeller(): ?bool
+    {
+        return $this->bestSeller;
+    }
+
+    public function setBestSeller(bool $bestSeller): self
+    {
+        $this->bestSeller = $bestSeller;
+
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }

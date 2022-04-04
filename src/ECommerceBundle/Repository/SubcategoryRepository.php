@@ -66,6 +66,14 @@ class SubcategoryRepository extends ServiceEntityRepository
             $statement->setParameter('searchTerm', '%' . trim($search->string) . '%');
         }
 
+        if (isset($search->deleted) and in_array($search->deleted, array(0, 1))) {
+            if ($search->deleted == 1) {
+                $statement->andWhere('c.deleted IS NOT NULL');
+            } else {
+                $statement->andWhere('c.deleted IS NULL');
+            }
+        }
+
         if (isset($search->category) and $search->category > 0) {
             $statement->andWhere('sc.category = :category');
             $statement->setParameter('category', $search->category);

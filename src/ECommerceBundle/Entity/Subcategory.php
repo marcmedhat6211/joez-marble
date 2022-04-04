@@ -4,6 +4,7 @@ namespace App\ECommerceBundle\Entity;
 
 use App\ServiceBundle\Model\DateTimeInterface;
 use App\ServiceBundle\Model\DateTimeTrait;
+use App\ServiceBundle\Model\VirtualDeleteTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,7 +16,7 @@ use JetBrains\PhpStorm\Pure;
  */
 class Subcategory implements DateTimeInterface
 {
-    use DateTimeTrait;
+    use DateTimeTrait, VirtualDeleteTrait;
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -30,12 +31,12 @@ class Subcategory implements DateTimeInterface
     private ?string $title;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Category", inversedBy="subcategories", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="subcategories", cascade={"persist"})
      */
     private ?Category $category;
 
     /**
-     * @ORM\OneToMany(targetEntity="Product", mappedBy="subcategory", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Product", mappedBy="subcategory")
      */
     private mixed $products;
 

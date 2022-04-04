@@ -4,6 +4,7 @@ namespace App\ECommerceBundle\Entity;
 
 use App\ServiceBundle\Model\DateTimeInterface;
 use App\ServiceBundle\Model\DateTimeTrait;
+use App\ServiceBundle\Model\VirtualDeleteTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,7 +16,7 @@ use JetBrains\PhpStorm\Pure;
  */
 class Category implements DateTimeInterface
 {
-    use DateTimeTrait;
+    use DateTimeTrait, VirtualDeleteTrait;
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -35,7 +36,7 @@ class Category implements DateTimeInterface
     private bool $living = false;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\ECommerceBundle\Entity\Subcategory", mappedBy="category", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Subcategory", mappedBy="category")
      */
     private mixed $subcategories;
 

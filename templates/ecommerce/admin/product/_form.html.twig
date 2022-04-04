@@ -1,24 +1,31 @@
 {{ form_start(form, {'attr':{"data-toggle":"validator", 'novalidate':'novalidate'}}) }}
 <div class="row">
-    <div class="col-12 col-md-4">
+    <div class="col-12 col-md-6">
         <div class="form-group">
             {{ form_label(form.sku) }}
             {{ form_widget(form.sku) }}
             {{ form_errors(form.sku) }}
         </div>
     </div>
-    <div class="col-12 col-md-4">
+    <div class="col-12 col-md-6">
         <div class="form-group">
             {{ form_label(form.title) }}
             {{ form_widget(form.title) }}
             {{ form_errors(form.title) }}
         </div>
     </div>
-    <div class="col-12 col-md-4">
+    <div class="col-12 col-md-6">
         <div class="form-group">
             {{ form_label(form.subcategory) }}
             {{ form_widget(form.subcategory) }}
             {{ form_errors(form.subcategory) }}
+        </div>
+    </div>
+    <div class="col-12 col-md-6">
+        <div class="form-group">
+            {{ form_label(form.price) }}
+            {{ form_widget(form.price) }}
+            {{ form_errors(form.price) }}
         </div>
     </div>
     <div class="col-12">
@@ -35,25 +42,32 @@
             {{ form_errors(form.description) }}
         </div>
     </div>
-    <div class="col-12 col-md-4">
+    <div class="col-12 col-md-3">
         <div class="custom-control custom-switch custom-switch-square custom-control-success mb-2">
             {{ form_widget(form.publish) }}
             {{ form_label(form.publish) }}
             {{ form_errors(form.publish) }}
         </div>
     </div>
-    <div class="col-12 col-md-4">
+    <div class="col-12 col-md-3">
         <div class="custom-control custom-switch custom-switch-square custom-control-success mb-2">
             {{ form_widget(form.featured) }}
             {{ form_label(form.featured) }}
             {{ form_errors(form.featured) }}
         </div>
     </div>
-    <div class="col-12 col-md-4">
+    <div class="col-12 col-md-3">
         <div class="custom-control custom-switch custom-switch-square custom-control-success mb-2">
             {{ form_widget(form.newArrival) }}
             {{ form_label(form.newArrival) }}
             {{ form_errors(form.newArrival) }}
+        </div>
+    </div>
+    <div class="col-12 col-md-3">
+        <div class="custom-control custom-switch custom-switch-square custom-control-success mb-2">
+            {{ form_widget(form.bestSeller) }}
+            {{ form_label(form.bestSeller) }}
+            {{ form_errors(form.bestSeller) }}
         </div>
     </div>
 </div>

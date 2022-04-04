@@ -55,10 +55,9 @@ class ProductRepository extends ServiceEntityRepository
     private function getStatement()
     {
         return $this->
-            createQueryBuilder('p')
+        createQueryBuilder('p')
             ->leftJoin("p.subcategory", "sc")
-            ->leftJoin("sc.category", "c")
-            ;
+            ->leftJoin("sc.category", "c");
     }
 
     private function filterWhereClause(QueryBuilder $statement, \stdClass $search)
@@ -66,13 +65,47 @@ class ProductRepository extends ServiceEntityRepository
         if (isset($search->string) and Validate::not_null($search->string)) {
             $statement->andWhere('p.id LIKE :searchTerm '
                 . 'OR p.title LIKE :searchTerm '
+                . 'OR p.sku LIKE :searchTerm '
             );
             $statement->setParameter('searchTerm', '%' . trim($search->string) . '%');
+        }
+
+        if (isset($search->price) and Validate::not_null($search->price)) {
+            $statement->andWhere('p.price = :price');
+            $statement->setParameter('price', $search->price);
         }
 
         if (isset($search->subcategory) and $search->subcategory > 0) {
             $statement->andWhere('p.subcategory = :subcategory');
             $statement->setParameter('subcategory', $search->subcategory);
+        }
+
+        if (isset($search->publish) and $search->publish != "") {
+            $statement->andWhere('p.publish = :publish');
+            $statement->setParameter('publish', $search->publish);
+        }
+
+        if (isset($search->featured) and $search->featured != "") {
+            $statement->andWhere('p.featured = :featured');
+            $statement->setParameter('featured', $search->featured);
+        }
+
+        if (isset($search->newArrival) and $search->newArrival != "") {
+            $statement->andWhere('p.newArrival = :newArrival');
+            $statement->setParameter('newArrival', $search->newArrival);
+        }
+
+        if (isset($search->bestSeller) and $search->bestSeller != "") {
+            $statement->andWhere('p.bestSeller = :bestSeller');
+            $statement->setParameter('bestSeller', $search->bestSeller);
+        }
+
+        if (isset($search->deleted) and in_array($search->deleted, array(0, 1))) {
+            if ($search->deleted == 1) {
+                $statement->andWhere('p.deleted IS NOT NULL');
+            } else {
+                $statement->andWhere('p.deleted IS NULL');
+            }
         }
     }
 
@@ -82,6 +115,7 @@ class ProductRepository extends ServiceEntityRepository
             'p.id',
             'p.sku',
             'p.title',
+            'p.price',
             'sc.category',
             'p.subcategory',
             'p.publish',
@@ -101,7 +135,7 @@ class ProductRepository extends ServiceEntityRepository
         }
     }
 
-    private function filterCount(QueryBuilder $statement)
+    private function filterCount(QueryBuilder $statement): ?int
     {
         $statement->select("COUNT(DISTINCT p.id)");
         $statement->setMaxResults(1);

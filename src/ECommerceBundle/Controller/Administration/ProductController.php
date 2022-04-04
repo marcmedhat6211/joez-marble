@@ -5,6 +5,7 @@ namespace App\ECommerceBundle\Controller\Administration;
 use App\ECommerceBundle\Entity\Product;
 use App\ECommerceBundle\Form\ProductType;
 use App\ECommerceBundle\Repository\ProductRepository;
+use App\ECommerceBundle\Services\ProductService;
 use App\MediaBundle\Services\UploadFileService;
 use App\UserBundle\Model\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -34,7 +35,7 @@ class ProductController extends AbstractController
     /**
      * @Route("/new", name="product_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $em): Response
+    public function new(Request $request, EntityManagerInterface $em, ProductService $productService): Response
     {
         $this->denyAccessUnlessGranted(UserInterface::ROLE_ADMIN);
         $product = new Product();
@@ -42,6 +43,10 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if (!$productService->isSkuValid($product->getSku())) {
+                $this->addFlash('error', 'The sku you entered is ');
+                return $this->redirectToRoute("product_new");
+            }
             $em->persist($product);
             $em->flush();
             $this->addFlash('success', 'Successfully saved');
@@ -83,7 +88,10 @@ class ProductController extends AbstractController
     public function delete(Product $product, EntityManagerInterface $em): Response
     {
         $this->denyAccessUnlessGranted(UserInterface::ROLE_ADMIN);
-        $em->remove($product);
+
+        $product->setDeleted(new \DateTime());
+        $product->setDeletedBy($this->getUser()->getFullName());
+        $em->persist($product);
         $em->flush();
         $this->addFlash("success", "Deleted Successfully");
 
@@ -93,6 +101,7 @@ class ProductController extends AbstractController
     private function getCategories(Request $request, ProductRepository $productRepository)
     {
         $search = new \stdClass();
+        $search->deleted = 0;
 
         return $productRepository->filter($search, false, true, 10, $request);
     }

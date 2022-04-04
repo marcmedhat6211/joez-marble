@@ -5,6 +5,7 @@ namespace App\ECommerceBundle\Controller\Administration;
 use App\ECommerceBundle\Entity\Category;
 use App\ECommerceBundle\Form\CategoryType;
 use App\ECommerceBundle\Repository\CategoryRepository;
+use App\ECommerceBundle\Repository\SubcategoryRepository;
 use App\MediaBundle\Services\UploadFileService;
 use App\UserBundle\Model\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -80,20 +81,40 @@ class CategoryController extends AbstractController
     /**
      * @Route("/{id}/delete", name="category_delete", methods={"GET", "POST"})
      */
-    public function delete(Category $category, EntityManagerInterface $em): Response
+    public function delete(Category $category, EntityManagerInterface $em, SubcategoryRepository $subcategoryRepository): Response
     {
         $this->denyAccessUnlessGranted(UserInterface::ROLE_ADMIN);
-        $em->remove($category);
+
+        $relatedSubcategoriesCount = $this->getRelatedSubcategoriesCount($subcategoryRepository, $category);
+        if ($relatedSubcategoriesCount > 0) {
+            $this->addFlash("error", "You can't delete this category because it has $relatedSubcategoriesCount subcategories that are related to it");
+            return $this->redirectToRoute("category_index");
+        }
+        $category->setDeleted(new \DateTime());
+        $category->setDeletedBy($this->getUser()->getFullName());
+        $em->persist($category);
         $em->flush();
         $this->addFlash("success", "Deleted Successfully");
 
         return $this->redirectToRoute("category_index");
     }
 
+    //============================================================PRIVATE METHODS=================================================================
+
     private function getCategories(Request $request, CategoryRepository $categoryRepository)
     {
         $search = new \stdClass();
+        $search->deleted = 0;
 
         return $categoryRepository->filter($search, false, true, 10, $request);
+    }
+
+    private function getRelatedSubcategoriesCount(SubcategoryRepository $subcategoryRepository, Category $category): int
+    {
+        $search = new \stdClass();
+        $search->deleted = 0;
+        $search->category = $category->getId();
+
+        return $subcategoryRepository->filter($search, true);
     }
 }

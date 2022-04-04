@@ -47,6 +47,7 @@ class SubcategoryType extends AbstractType
                 ],
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('c')
+                        ->andWhere('c.deleted IS NULL')
                         ->orderBy('c.id', 'DESC');
                 },
             ])

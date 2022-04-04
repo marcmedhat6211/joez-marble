@@ -4,6 +4,7 @@ namespace App\ECommerceBundle\Controller\Administration;
 
 use App\ECommerceBundle\Entity\Subcategory;
 use App\ECommerceBundle\Form\SubcategoryType;
+use App\ECommerceBundle\Repository\ProductRepository;
 use App\ECommerceBundle\Repository\SubcategoryRepository;
 use App\MediaBundle\Services\UploadFileService;
 use App\UserBundle\Model\UserInterface;
@@ -80,20 +81,39 @@ class SubcategoryController extends AbstractController
     /**
      * @Route("/{id}/delete", name="subcategory_delete", methods={"GET", "POST"})
      */
-    public function delete(Subcategory $subcategory, EntityManagerInterface $em): Response
+    public function delete(Subcategory $subcategory, EntityManagerInterface $em, ProductRepository $productRepository): Response
     {
+        $relatedProductsCount = $this->getRelatedProductsCount($productRepository, $subcategory);
+        if ($relatedProductsCount > 0) {
+            $this->addFlash("error", "You can't delete this subcategory because it has $relatedProductsCount products related to it");
+            return $this->redirectToRoute("subcategory_index");
+        }
+
         $this->denyAccessUnlessGranted(UserInterface::ROLE_ADMIN);
-        $em->remove($subcategory);
+        $subcategory->setDeleted(new \DateTime());
+        $subcategory->setDeletedBy($this->getUser()->getFullName());
+        $em->persist($subcategory);
         $em->flush();
         $this->addFlash("success", "Deleted Successfully");
 
         return $this->redirectToRoute("subcategory_index");
     }
 
+    //=================================================================PRIVATE METHODS==================================================================
+
     private function getSubcategories(Request $request, SubcategoryRepository $subcategoryRepository)
     {
         $search = new \stdClass();
 
         return $subcategoryRepository->filter($search, false, true, 10, $request);
+    }
+
+    private function getRelatedProductsCount(ProductRepository $productRepository, Subcategory $subcategory): int
+    {
+        $search = new \stdClass();
+        $search->deleted= 0;
+        $search->subcategory = $subcategory->getId();
+
+        return $productRepository->filter($search, true);
     }
 }
