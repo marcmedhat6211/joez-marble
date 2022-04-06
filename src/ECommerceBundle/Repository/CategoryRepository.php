@@ -81,7 +81,6 @@ class CategoryRepository extends ServiceEntityRepository
         $sortSQL = [
             'c.id',
             'c.title',
-            'c.title',
         ];
 
         if (isset($search->ordr) and Validate::not_null($search->ordr)) {

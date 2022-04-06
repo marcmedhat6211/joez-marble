@@ -1,7 +1,5 @@
-/* ------------------------------------------------------------------------------
- *
- *  # Custom JS code
- *
- *  Place here all your custom js. Make sure it's loaded after app.js
- *
- * ---------------------------------------------------------------------------- */
+$(document).ready(function () {
+    if ($("select").length > 0) {
+        $("select").select2();
+    }
+});

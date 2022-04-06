@@ -2,6 +2,7 @@
 
 namespace App\ECommerceBundle\Entity;
 
+use App\MediaBundle\Entity\Image;
 use App\ServiceBundle\Model\DateTimeInterface;
 use App\ServiceBundle\Model\DateTimeTrait;
 use App\ServiceBundle\Model\VirtualDeleteTrait;
@@ -80,9 +81,15 @@ class Product implements DateTimeInterface
      */
     private mixed $productSpecs;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\MediaBundle\Entity\Image", inversedBy="products", cascade={"persist", "remove" })
+     */
+    private mixed $galleryImages;
+
     #[Pure] public function __construct()
     {
         $this->productSpecs = new ArrayCollection();
+        $this->galleryImages = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -241,6 +248,30 @@ class Product implements DateTimeInterface
                 $productSpec->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Image>
+     */
+    public function getGalleryImages(): Collection
+    {
+        return $this->galleryImages;
+    }
+
+    public function addGalleryImage(Image $galleryImage): self
+    {
+        if (!$this->galleryImages->contains($galleryImage)) {
+            $this->galleryImages[] = $galleryImage;
+        }
+
+        return $this;
+    }
+
+    public function removeGalleryImage(Image $galleryImage): self
+    {
+        $this->galleryImages->removeElement($galleryImage);
 
         return $this;
     }

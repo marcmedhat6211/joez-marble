@@ -5,6 +5,9 @@ namespace App\MediaBundle\Entity;
 use App\CMSBundle\Entity\Banner;
 use App\CMSBundle\Entity\Testimonial;
 use App\ECommerceBundle\Entity\Currency;
+use App\ECommerceBundle\Entity\Product;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\MediaBundle\Model\Image as BaseImage;
 
@@ -28,6 +31,16 @@ class Image extends BaseImage
      * @ORM\OneToOne(targetEntity="App\ECommerceBundle\Entity\Currency", mappedBy="flag")
      */
     private ?Currency $currency;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\ECommerceBundle\Entity\Product", mappedBy="galleryImages")
+     */
+    private mixed $products;
+
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+    }
 
     public function getBanner(): ?Banner
     {
@@ -91,6 +104,33 @@ class Image extends BaseImage
         }
 
         $this->currency = $currency;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Product>
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->addGalleryImage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->removeElement($product)) {
+            $product->removeGalleryImage($this);
+        }
 
         return $this;
     }

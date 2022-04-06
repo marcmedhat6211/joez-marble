@@ -1,0 +1,28 @@
+{{ form_start(form, {'attr':{"data-toggle":"validator", 'novalidate':'novalidate'}}) }}
+<div class="row">
+    <div class="col-6">
+        <div class="form-group">
+            {{ form_label(form.title) }}
+            {{ form_widget(form.title) }}
+            {{ form_errors(form.title) }}
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="form-group">
+            {{ form_label(form.value) }}
+            {{ form_widget(form.value) }}
+            {{ form_errors(form.value) }}
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-group">
+            {{ form_label(form.product) }}
+            {{ form_widget(form.product) }}
+            {{ form_errors(form.product) }}
+        </div>
+    </div>
+</div>
+<div class="text-right">
+    <button type="submit" class="btn btn-primary">Submit form <i class="icon-paperplane ml-2"></i></button>
+</div>
+{{ form_end(form) }}

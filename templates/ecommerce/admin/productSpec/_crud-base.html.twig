@@ -1,0 +1,35 @@
+{% set cr = app.request.attributes.get('_route') %}
+{% extends 'adminTemplate/base.html.twig' %}
+{% set pageName = 'New Product Spec' %}
+{% if cr in ['product_spec_edit'] %}
+    {% set pageName = 'Edit '~productSpec.title %}
+{% endif %}
+{% set page_title %}{{ pageName }}{% endset %}
+
+{% block breadcrumb %}
+    <a href="{{ path('dashboard') }}" class="breadcrumb-item">
+        <i class="icon-home2 mr-2"></i>
+        Dashboard
+    </a>
+    <a href="{{ path('product_spec_index') }}" class="breadcrumb-item">
+        <i class="icon-user-tie mr-2"></i>
+        Product Specs List
+    </a>
+    <span class="breadcrumb-item active">{{ pageName }}</span>
+{% endblock %}
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            {% include 'adminTemplate/_flash-messages.html.twig' %}
+        </div>
+        <div class="card-body">
+            {% include 'ecommerce/admin/productSpec/_form.html.twig' %}
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/validation/validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/validation/validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/selects/select2.min.js') }}"></script>
+{% endblock scripts %}

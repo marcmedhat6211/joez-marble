@@ -5,10 +5,12 @@ namespace App\ECommerceBundle\Controller\Administration;
 use App\ECommerceBundle\Entity\Product;
 use App\ECommerceBundle\Form\ProductType;
 use App\ECommerceBundle\Repository\ProductRepository;
+use App\ECommerceBundle\Repository\ProductSpecRepository;
 use App\ECommerceBundle\Services\ProductService;
 use App\MediaBundle\Services\UploadFileService;
 use App\UserBundle\Model\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\Collection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,10 +45,6 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if (!$productService->isSkuValid($product->getSku())) {
-                $this->addFlash('error', 'The sku you entered is ');
-                return $this->redirectToRoute("product_new");
-            }
             $em->persist($product);
             $em->flush();
             $this->addFlash('success', 'Successfully saved');
@@ -85,9 +83,15 @@ class ProductController extends AbstractController
     /**
      * @Route("/{id}/delete", name="product_delete", methods={"GET", "POST"})
      */
-    public function delete(Product $product, EntityManagerInterface $em): Response
+    public function delete(Product $product, EntityManagerInterface $em, ProductSpecRepository $productSpecRepository): Response
     {
         $this->denyAccessUnlessGranted(UserInterface::ROLE_ADMIN);
+
+        $productSpecsCount = $this->getRelatedProductSpecsCount($product, $productSpecRepository);
+        if ($productSpecsCount > 0) {
+            $this->addFlash("error", "You can't delete this product because it has $productSpecsCount specs related to it");
+            return $this->redirectToRoute("product_index");
+        }
 
         $product->setDeleted(new \DateTime());
         $product->setDeletedBy($this->getUser()->getFullName());
@@ -98,11 +102,22 @@ class ProductController extends AbstractController
         return $this->redirectToRoute("product_index");
     }
 
+    //=========================================================================PRIVATE METHODS=======================================================================
+
     private function getCategories(Request $request, ProductRepository $productRepository)
     {
         $search = new \stdClass();
         $search->deleted = 0;
 
         return $productRepository->filter($search, false, true, 10, $request);
+    }
+
+    private function getRelatedProductSpecsCount(Product $product, ProductSpecRepository $productSpecRepository): int
+    {
+        $search = new \stdClass();
+        $search->deleted = 0;
+        $search->product = $product->getId();
+
+        return $productSpecRepository->filter($search, true);
     }
 }

@@ -14,6 +14,7 @@ class ProductService
         $this->em = $em;
     }
 
+    //@TODO: make sure this works well
     public function isSkuValid(string $sku, Product $product = null): bool
     {
         $search = new \stdClass();

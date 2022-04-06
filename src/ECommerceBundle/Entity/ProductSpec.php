@@ -2,14 +2,19 @@
 
 namespace App\ECommerceBundle\Entity;
 
+use App\ServiceBundle\Model\DateTimeInterface;
+use App\ServiceBundle\Model\DateTimeTrait;
+use App\ServiceBundle\Model\VirtualDeleteTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="product_spec")
  * @ORM\Entity(repositoryClass="App\ECommerceBundle\Repository\ProductSpecRepository")
  */
-class ProductSpec
+class ProductSpec implements DateTimeInterface
 {
+    use DateTimeTrait, VirtualDeleteTrait;
+
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -42,7 +47,7 @@ class ProductSpec
         return $this->title;
     }
 
-    public function setTitle(string $title): self
+    public function setTitle(?string $title): self
     {
         $this->title = $title;
 
@@ -54,7 +59,7 @@ class ProductSpec
         return $this->value;
     }
 
-    public function setValue(string $value): self
+    public function setValue(?string $value): self
     {
         $this->value = $value;
 
