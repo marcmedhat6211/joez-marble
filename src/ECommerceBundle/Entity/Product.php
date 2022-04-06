@@ -9,6 +9,7 @@ use App\ServiceBundle\Model\VirtualDeleteTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
 use JetBrains\PhpStorm\Pure;
 
 /**
@@ -80,6 +81,12 @@ class Product implements DateTimeInterface
      * @ORM\OneToMany(targetEntity="ProductSpec", mappedBy="product")
      */
     private mixed $productSpecs;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\MediaBundle\Entity\Image", inversedBy="product", cascade={"persist", "remove" })
+     * @JoinColumn(name="image_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    private ?Image $mainImage;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\MediaBundle\Entity\Image", inversedBy="products", cascade={"persist", "remove" })
@@ -248,6 +255,18 @@ class Product implements DateTimeInterface
                 $productSpec->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMainImage(): ?Image
+    {
+        return $this->mainImage;
+    }
+
+    public function setMainImage(?Image $mainImage): self
+    {
+        $this->mainImage = $mainImage;
 
         return $this;
     }
