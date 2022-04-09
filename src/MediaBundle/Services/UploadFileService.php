@@ -9,6 +9,7 @@ use JetBrains\PhpStorm\Pure;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class UploadFileService
 {
@@ -22,7 +23,7 @@ class UploadFileService
 
     public function __construct(
         ContainerInterface     $container,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
     )
     {
         $this->container = $container;
@@ -176,6 +177,7 @@ class UploadFileService
      * @param float $width
      * @param float $height
      * @param object $entityObject
+     * @param string $fileName
      */
     private function createNewImage(
         string $fileDBName,
@@ -186,7 +188,7 @@ class UploadFileService
         float  $height,
         object $entityObject,
         string $fileName
-    ): void
+    )
     {
         $image = new Image();
         $image->setName($fileDBName);

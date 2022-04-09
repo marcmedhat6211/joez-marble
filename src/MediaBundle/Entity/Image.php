@@ -5,6 +5,7 @@ namespace App\MediaBundle\Entity;
 use App\CMSBundle\Entity\Banner;
 use App\CMSBundle\Entity\Testimonial;
 use App\ECommerceBundle\Entity\Currency;
+use App\ECommerceBundle\Entity\Material;
 use App\ECommerceBundle\Entity\Product;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -33,18 +34,18 @@ class Image extends BaseImage
     private ?Currency $currency;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\ECommerceBundle\Entity\Product", mappedBy="mainImage")
+     * @ORM\OneToOne(targetEntity="App\ECommerceBundle\Entity\Material", mappedBy="mainImage")
      */
-    private ?Product $product;
+    private ?Material $material;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\ECommerceBundle\Entity\Product", mappedBy="galleryImages")
+     * @ORM\ManyToMany(targetEntity="App\ECommerceBundle\Entity\Material", mappedBy="galleryImages")
      */
-    private mixed $products;
+    private mixed $materials;
 
     public function __construct()
     {
-        $this->products = new ArrayCollection();
+        $this->materials = new ArrayCollection();
     }
 
     public function getBanner(): ?Banner
@@ -113,51 +114,51 @@ class Image extends BaseImage
         return $this;
     }
 
-    /**
-     * @return Collection<int, Product>
-     */
-    public function getProducts(): Collection
+    public function getMaterial(): ?Material
     {
-        return $this->products;
+        return $this->material;
     }
 
-    public function addProduct(Product $product): self
-    {
-        if (!$this->products->contains($product)) {
-            $this->products[] = $product;
-            $product->addGalleryImage($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduct(Product $product): self
-    {
-        if ($this->products->removeElement($product)) {
-            $product->removeGalleryImage($this);
-        }
-
-        return $this;
-    }
-
-    public function getProduct(): ?Product
-    {
-        return $this->product;
-    }
-
-    public function setProduct(?Product $product): self
+    public function setMaterial(?Material $material): self
     {
         // unset the owning side of the relation if necessary
-        if ($product === null && $this->product !== null) {
-            $this->product->setMainImage(null);
+        if ($material === null && $this->material !== null) {
+            $this->material->setMainImage(null);
         }
 
         // set the owning side of the relation if necessary
-        if ($product !== null && $product->getMainImage() !== $this) {
-            $product->setMainImage($this);
+        if ($material !== null && $material->getMainImage() !== $this) {
+            $material->setMainImage($this);
         }
 
-        $this->product = $product;
+        $this->material = $material;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Material>
+     */
+    public function getMaterials(): Collection
+    {
+        return $this->materials;
+    }
+
+    public function addMaterial(Material $material): self
+    {
+        if (!$this->materials->contains($material)) {
+            $this->materials[] = $material;
+            $material->addGalleryImage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMaterial(Material $material): self
+    {
+        if ($this->materials->removeElement($material)) {
+            $material->removeGalleryImage($this);
+        }
 
         return $this;
     }

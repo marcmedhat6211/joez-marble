@@ -3,6 +3,7 @@
 namespace App\ECommerceBundle\Controller\Administration;
 
 use App\ECommerceBundle\Entity\Product;
+use App\ECommerceBundle\Form\ProductGalleryType;
 use App\ECommerceBundle\Form\ProductType;
 use App\ECommerceBundle\Repository\ProductRepository;
 use App\ECommerceBundle\Repository\ProductSpecRepository;
@@ -27,7 +28,7 @@ class ProductController extends AbstractController
     public function index(Request $request, ProductRepository $productRepository): Response
     {
         $this->denyAccessUnlessGranted(UserInterface::ROLE_ADMIN);
-        $paginator = $this->getCategories($request, $productRepository);
+        $paginator = $this->getProducts($request, $productRepository);
 
         return $this->render('ecommerce/admin/product/index.html.twig', [
             "paginator" => $paginator
@@ -104,7 +105,7 @@ class ProductController extends AbstractController
 
     //=========================================================================PRIVATE METHODS=======================================================================
 
-    private function getCategories(Request $request, ProductRepository $productRepository)
+    private function getProducts(Request $request, ProductRepository $productRepository)
     {
         $search = new \stdClass();
         $search->deleted = 0;

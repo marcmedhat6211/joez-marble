@@ -132,14 +132,6 @@ class ProductType extends AbstractType
                     "class" => "custom-control-input"
                 ]
             ])
-            ->add('galleryImages', FileType::class, [
-                'mapped' => false,
-                'multiple' => true,
-                'label' => 'Gallery Images',
-                "attr" => [
-                    "class" => "file-input"
-                ]
-            ])
         ;
     }
 

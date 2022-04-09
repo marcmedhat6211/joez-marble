@@ -82,21 +82,9 @@ class Product implements DateTimeInterface
      */
     private mixed $productSpecs;
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\MediaBundle\Entity\Image", inversedBy="product", cascade={"persist", "remove" })
-     * @JoinColumn(name="image_id", referencedColumnName="id", onDelete="SET NULL")
-     */
-    private ?Image $mainImage;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="App\MediaBundle\Entity\Image", inversedBy="products", cascade={"persist", "remove" })
-     */
-    private mixed $galleryImages;
-
     #[Pure] public function __construct()
     {
         $this->productSpecs = new ArrayCollection();
-        $this->galleryImages = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -255,42 +243,6 @@ class Product implements DateTimeInterface
                 $productSpec->setProduct(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getMainImage(): ?Image
-    {
-        return $this->mainImage;
-    }
-
-    public function setMainImage(?Image $mainImage): self
-    {
-        $this->mainImage = $mainImage;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Image>
-     */
-    public function getGalleryImages(): Collection
-    {
-        return $this->galleryImages;
-    }
-
-    public function addGalleryImage(Image $galleryImage): self
-    {
-        if (!$this->galleryImages->contains($galleryImage)) {
-            $this->galleryImages[] = $galleryImage;
-        }
-
-        return $this;
-    }
-
-    public function removeGalleryImage(Image $galleryImage): self
-    {
-        $this->galleryImages->removeElement($galleryImage);
 
         return $this;
     }

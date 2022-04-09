@@ -4,6 +4,7 @@ namespace App\MediaBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 abstract class Image
 {
@@ -31,6 +32,8 @@ abstract class Image
      * @ORM\Column(name="path", type="string")
      */
     protected string $path;
+
+    protected string $absolutePath;
 
     /**
      * @ORM\Column(name="alt", type="string", nullable=true)
@@ -82,6 +85,18 @@ abstract class Image
     public function setPath(string $path): self
     {
         $this->path = $path;
+
+        return $this;
+    }
+
+    public function getAbsolutePath(): ?string
+    {
+        return 'uploads/'.$this->path."/".$this->name;
+    }
+
+    public function setAbsolutePath(string $absolutePath): self
+    {
+        $this->absolutePath = $absolutePath;
 
         return $this;
     }
