@@ -15,6 +15,9 @@ cms_bundle:
 ecommerce_bundle:
     resource: "@ECommerceBundle/Resources/config/routing.yaml"
 
+media_bundle:
+    resource: "@MediaBundle/Resources/config/routing.yaml"
+
 page_bundle:
     resource: "@PageBundle/Controller/"
     type: annotation

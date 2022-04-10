@@ -1,0 +1,4 @@
+cms_admin:
+  resource: "@MediaBundle/Controller/Administration"
+  type:     annotation
+  prefix:   /admin

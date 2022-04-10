@@ -5,11 +5,12 @@ namespace App\MediaBundle\Services;
 use App\MediaBundle\Entity\Image;
 use App\MediaBundle\Model\Image as BaseImage;
 use Doctrine\ORM\EntityManagerInterface;
+use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;
+use phpDocumentor\Reflection\Types\Collection;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class UploadFileService
 {
@@ -84,6 +85,73 @@ class UploadFileService
         ];
     }
 
+    #[ArrayShape(["valid" => "bool", "errors" => "array"])] public function uploadGalleryImages(
+        array $images,
+        string $fullEntityPath,
+        object $entityObject,
+        float $maxWidth = 0,
+        float $maxHeight = 0
+    ): array
+    {
+        $returnValue = [
+            "valid" => true,
+            "errors" => []
+        ];
+
+        $totalErrors = [];
+        $validImages = [];
+        foreach ($images as $image) {
+            $fileErrors = $this->validateFile($image, $maxWidth, $maxHeight);
+            if (count($fileErrors) > 0) {
+                $totalErrors[] = $fileErrors;
+                continue;
+            }
+
+            $fileDBName = md5(uniqid()) . '.' . $image->guessClientExtension();
+            $entityName = $this->getEntityName($fullEntityPath);
+            $filePath = $this->generateFilePath($image, $entityName);
+
+            list($width, $height) = getimagesize($image);
+            $uploadedImage = $this->createNewImage($fileDBName, BaseImage::IMAGE_TYPE_GALLERY, $filePath, $image->getSize(), $width, $height, $entityObject);
+            $imageFullPath = $this->container->getParameter("uploads_dir") . "/" . $filePath;
+
+            $image->move(
+                $imageFullPath,
+                $fileDBName
+            );
+            $validImages[] = $uploadedImage;
+        }
+
+        if (count($validImages) > 0) {
+            foreach ($validImages as $validImage) {
+                $entityObject->addGalleryImage($validImage);
+                $this->em->persist($entityObject);
+                $this->em->flush();
+            }
+        }
+
+        if (count($totalErrors) > 0) {
+            $returnedErrors = [];
+            foreach ($totalErrors as $errorsArray) {
+                $returnedErrors = array_merge($returnedErrors, $errorsArray);
+            }
+            $returnValue["valid"] = false;
+            $returnValue["errors"] = $returnedErrors;
+        }
+
+        return $returnValue;
+    }
+
+    public function removeGalleryImages($galleryImages, object $entityObject): void
+    {
+        foreach ($galleryImages as $galleryImage) {
+            $entityObject->removeGalleryImage($galleryImage);
+            $this->em->persist($entityObject);
+            $this->em->flush();
+            $this->removeImage($galleryImage);
+        }
+    }
+
     /**
      * This method removes the image from the database and deletes it from the uploads folder
      * @param Image $image
@@ -123,19 +191,20 @@ class UploadFileService
         list($width, $height) = getimagesize($file);
         $fileSize = $file->getSize();
         $fileMimeType = $file->getMimeType();
+        $fileOriginalName = $file->getClientOriginalName();
 
         if ($fileSize > self::MAX_FILE_SIZE) {
-            $errors[] = "File size exceeds limit (Max Size is 2 MB)";
+            $errors[] = "The file with the name of '$fileOriginalName' didn't get uploaded because its size exceeds limit (Max Size is 2 MB)";
         }
 
         if ($maxWidth > 0 && $maxHeight > 0) {
             if ($width > $maxWidth || $height > $maxHeight) {
-                $errors[] = "Please upload a file with the right dimensions ($maxWidth px * $maxHeight px)";
+                $errors[] = "The file with the name of '$fileOriginalName' didn't get uploaded because it has wrong dimensions, please fix its dimensions and try uploading it again ($maxWidth px * $maxHeight px)";
             }
         }
 
         if (!in_array($fileMimeType, self::$availableImageMimeTypes)) {
-            $errors[] = "File type is not valid";
+            $errors[] = "The file with the name of $fileOriginalName didn't get uploaded because it has an invalid type";
         }
 
         return $errors;
@@ -177,7 +246,8 @@ class UploadFileService
      * @param float $width
      * @param float $height
      * @param object $entityObject
-     * @param string $fileName
+     * @param string|null $fileName
+     * @return Image|null
      */
     private function createNewImage(
         string $fileDBName,
@@ -187,8 +257,8 @@ class UploadFileService
         float  $width,
         float  $height,
         object $entityObject,
-        string $fileName
-    )
+        string $fileName = null
+    ): ?Image
     {
         $image = new Image();
         $image->setName($fileDBName);
@@ -200,12 +270,17 @@ class UploadFileService
         if ($entityObject->__toString() !== null) {
             $image->setAlt($entityObject->__toString());
         }
-        $methodName = "set" . ucfirst($fileName);
-        $entityObject->{$methodName}($image);
+
+        if ($fileName) {
+            $methodName = "set" . ucfirst($fileName);
+            $entityObject->{$methodName}($image);
+            $this->em->persist($entityObject);
+        }
 
         $this->em->persist($image);
-        $this->em->persist($entityObject);
         $this->em->flush();
+
+        return $image;
     }
 
     private function removeImageFromItsDirectory(Image $image): void
@@ -222,7 +297,8 @@ class UploadFileService
      * @param Image $image
      * @return string
      */
-    private function getImageFullPath(Image $image): string {
+    private function getImageFullPath(Image $image): string
+    {
         $uploadsDir = $this->container->getParameter("uploads_dir");
         $imagePath = $image->getPath();
         $imageName = $image->getName();

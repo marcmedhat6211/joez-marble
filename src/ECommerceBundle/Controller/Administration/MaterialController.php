@@ -68,8 +68,7 @@ class MaterialController extends AbstractController
             }
 
             $this->addFlash('success', 'Successfully saved');
-
-            return $this->redirectToRoute("material_index");
+            return $this->redirectToRoute("material_gallery_images", ["id" => $material->getId()]);
         }
 
         return $this->render('ecommerce/admin/material/new.html.twig', [
@@ -128,6 +127,9 @@ class MaterialController extends AbstractController
         if ($material->getMainImage()) {
             $uploadFileService->removeImage($material->getMainImage());
         }
+        if (count($material->getGalleryImages()) > 0) {
+            $uploadFileService->removeGalleryImages($material->getGalleryImages(), $material);
+        }
 
         $material->setDeleted(new \DateTime());
         $material->setDeletedBy($this->getUser()->getFullName());
@@ -148,9 +150,17 @@ class MaterialController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->get("galleryImages")->getData();
-            dump($data);
-            die();
+            $galleryImages = $form->get("galleryImages")->getData();
+            $validateUploadedImages = $uploadFileService->uploadGalleryImages($galleryImages, Material::class, $material);
+            if (!$validateUploadedImages["valid"]) {
+                foreach ($validateUploadedImages["errors"] as $error) {
+                    $this->addFlash("error", $error);
+                }
+                return $this->redirectToRoute("material_gallery_images", ["id" => $material->getId()]);
+            }
+
+            $this->addFlash("success", "All Gallery Images Uploaded Successfully");
+            return $this->redirectToRoute("material_gallery_images", ["id" => $material->getId()]);
         }
 
         return $this->render('ecommerce/admin/material/gallery.html.twig', [

@@ -15,18 +15,29 @@
     <span class="breadcrumb-item active">{{ material.title }}'s Gallery Images</span>
 {% endblock %}
 {% block content %}
-
-    {{ form_start(form, {'attr':{"data-toggle":"validator", 'novalidate':'novalidate'}}) }}
-    <div class="col-12 my-4">
-        {{ form_label(form.galleryImages) }}
-        {{ form_widget(form.galleryImages) }}
-        <span class="form-text text-muted"></span>
+    <div class="card">
+        <div class="card-header">
+            {% include 'adminTemplate/_flash-messages.html.twig' %}
+        </div>
+        <div class="card-body">
+            {{ form_start(form, {'attr':{"data-toggle":"validator", 'novalidate':'novalidate'}}) }}
+            <div class="col-12 my-4">
+                {{ form_label(form.galleryImages) }}
+                {{ form_widget(form.galleryImages) }}
+                <span class="form-text text-muted">Valid Types are png, jpg, jpeg, gif</span>
+                <span class="form-text text-muted">Gallery Images Sizes: 600 px x 600 px</span>
+            </div>
+            {{ form_end(form) }}
+        </div>
     </div>
-    {{ form_end(form) }}
-
+    {% if material.galleryImages is not empty %}
+        {% include 'ecommerce/admin/material/_gallery-images.html.twig' %}
+    {% endif %}
 {% endblock %}
 {% block scripts %}
     {{ parent() }}
-    <script type="text/javascript" src="{{ asset('admin/js/plugins/uploaders/fileinput/plugins/sortable.min.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ asset('admin/js/plugins/uploaders/fileinput/plugins/sortable.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('admin/js/plugins/uploaders/fileinput/fileinput.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/media/glightbox.min.js') }}"></script>
 {% endblock scripts %}
