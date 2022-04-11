@@ -17,14 +17,6 @@
     </a>
     <span class="breadcrumb-item active">{{ pageName }}</span>
 {% endblock %}
-{% block breadcrumbRight %}
-    {% if cr in ['product_edit'] %}
-        <a href="{{ path('product_gallery_images', {"id": product.id}) }}" class="breadcrumb-elements-item">
-            <i class="icon-images2 mr-2"></i>
-            {{ product.title }}'s Gallery Images
-        </a>
-    {% endif %}
-{% endblock %}
 {% block content %}
     <div class="card">
         <div class="card-header">
@@ -43,4 +35,27 @@
     <script type="text/javascript"
             src="{{ asset('admin/js/plugins/uploaders/fileinput/plugins/sortable.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('admin/js/plugins/uploaders/fileinput/fileinput.min.js') }}"></script>
+    <script>
+        let materialsAjaxUrl = '{{ path('materials_ajax') }}';
+        $(document).ready(function() {
+            $('#bundle_ecommercebundle_product_materials').select2({
+                minimumInputLength: 2,
+                language: {
+                    inputTooShort: function () {
+                        return "Please enter material name";
+                    }
+                },
+                ajax: {
+                    url: materialsAjaxUrl,
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            q: params.term, // search term
+                            page: params.page
+                        };
+                    }
+                }
+            });
+        });
+    </script>
 {% endblock scripts %}

@@ -2,8 +2,10 @@
 
 namespace App\ECommerceBundle\Form;
 
+use App\ECommerceBundle\Entity\Material;
 use App\ECommerceBundle\Entity\Product;
 use App\ECommerceBundle\Entity\Subcategory;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -13,6 +15,10 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Validator\Constraints\Length;
@@ -20,6 +26,13 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ProductType extends AbstractType
 {
+    private EntityManagerInterface $em;
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -131,8 +144,68 @@ class ProductType extends AbstractType
                 "attr" => [
                     "class" => "custom-control-input"
                 ]
-            ])
-        ;
+            ]);
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'onPreSetData']);
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, [$this, 'onPreSubmit']);
+        $builder->addEventListener(FormEvents::SUBMIT, [$this, 'onSubmit']);
+    }
+
+    public function onPreSetData(FormEvent $event)
+    {
+        $entity = $event->getData();
+        $form = $event->getForm();
+
+        $materials = $entity->getMaterials();
+        $this->addMaterialElements($form, $materials);
+    }
+
+    public function onPreSubmit(FormEvent $event)
+    {
+        $form = $event->getForm();
+        $data = $event->getData();
+
+        $materials = [];
+        if (array_key_exists('materials', $data)) {
+            foreach ($data['materials'] as $material) {
+                $materials[] = $this->em->getRepository(Material::class)->find($material);
+            }
+        }
+
+        $this->addMaterialElements($form, $materials);
+    }
+
+    public function onSubmit(FormEvent $event): void
+    {
+        $form = $event->getForm();
+        $materials = $form->get("materials")->getData();
+        $errorMessage = "Please add at least one (1) material";
+
+        if (count($materials) == 0) {
+            $form->get("materials")
+                ->addError(new FormError($errorMessage));
+        }
+    }
+
+    private function addMaterialElements(FormInterface $form, $materials = [])
+    {
+        $form->add('materials', EntityType::class, [
+            'required' => true,
+            'label' => "Materials",
+            'multiple' => true,
+            'placeholder' => 'Choose an option',
+            'class' => Material::class,
+            'choices' => $materials,
+            'choice_label' => function ($material) {
+                return $material->getTitle();
+            },
+            "attr" => [
+                "class" => "select-search",
+            ],
+            "constraints" => [
+                new NotBlank(),
+            ]
+        ]);
     }
 
     /**

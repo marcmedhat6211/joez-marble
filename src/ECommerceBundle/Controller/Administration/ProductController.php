@@ -2,17 +2,21 @@
 
 namespace App\ECommerceBundle\Controller\Administration;
 
+use App\ECommerceBundle\Entity\Material;
 use App\ECommerceBundle\Entity\Product;
 use App\ECommerceBundle\Form\ProductGalleryType;
 use App\ECommerceBundle\Form\ProductType;
+use App\ECommerceBundle\Repository\MaterialRepository;
 use App\ECommerceBundle\Repository\ProductRepository;
 use App\ECommerceBundle\Repository\ProductSpecRepository;
 use App\ECommerceBundle\Services\ProductService;
 use App\MediaBundle\Services\UploadFileService;
 use App\UserBundle\Model\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use phpDocumentor\Reflection\Types\Collection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,6 +26,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ProductController extends AbstractController
 {
+    private PaginatorInterface $paginator;
+
     /**
      * @Route("/", name="product_index", methods={"GET"})
      */
@@ -94,6 +100,11 @@ class ProductController extends AbstractController
             return $this->redirectToRoute("product_index");
         }
 
+        $productMaterials = $product->getMaterials();
+        foreach ($productMaterials as $material) {
+            $product->removeMaterial($material);
+        }
+
         $product->setDeleted(new \DateTime());
         $product->setDeletedBy($this->getUser()->getFullName());
         $em->persist($product);
@@ -101,6 +112,30 @@ class ProductController extends AbstractController
         $this->addFlash("success", "Deleted Successfully");
 
         return $this->redirectToRoute("product_index");
+    }
+
+    /**
+     * @Route("/materials-ajax", name="materials_ajax", methods={"GET"})
+     */
+    public function materials(Request $request, MaterialRepository $materialRepository): JsonResponse
+    {
+        $search = new \stdClass;
+        $search->deleted = 0;
+        $search->string = $request->get('q');
+        $entities = $materialRepository->filter($search, false, true, 10, $request);
+
+        $returnArray = [
+            'results' => [],
+        ];
+
+        foreach ($entities as $entity) {
+            $returnArray['results'][] = [
+                'id' => $entity->getId(),
+                'text' => $entity->getTitle(),
+            ];
+        }
+
+        return $this->json($returnArray);
     }
 
     //=========================================================================PRIVATE METHODS=======================================================================

@@ -151,7 +151,7 @@ class MaterialController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $galleryImages = $form->get("galleryImages")->getData();
-            $validateUploadedImages = $uploadFileService->uploadGalleryImages($galleryImages, Material::class, $material);
+            $validateUploadedImages = $uploadFileService->uploadGalleryImages($galleryImages, Material::class, $material, 540, 360);
             if (!$validateUploadedImages["valid"]) {
                 foreach ($validateUploadedImages["errors"] as $error) {
                     $this->addFlash("error", $error);

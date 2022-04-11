@@ -3,6 +3,7 @@
 namespace App\MediaBundle\Entity;
 
 use App\CMSBundle\Entity\Banner;
+use App\CMSBundle\Entity\Service;
 use App\CMSBundle\Entity\Testimonial;
 use App\ECommerceBundle\Entity\Currency;
 use App\ECommerceBundle\Entity\Material;
@@ -27,6 +28,11 @@ class Image extends BaseImage
      * @ORM\OneToOne(targetEntity="App\CMSBundle\Entity\Testimonial", mappedBy="image")
      */
     private ?Testimonial $testimonial;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\CMSBundle\Entity\Service", mappedBy="image")
+     */
+    private ?Service $service;
 
     /**
      * @ORM\OneToOne(targetEntity="App\ECommerceBundle\Entity\Currency", mappedBy="flag")

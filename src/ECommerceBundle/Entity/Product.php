@@ -82,9 +82,19 @@ class Product implements DateTimeInterface
      */
     private mixed $productSpecs;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\ECommerceBundle\Entity\Material")
+     * @ORM\JoinTable(name="product_material",
+     *      joinColumns={@ORM\JoinColumn(name="product_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="material_id", referencedColumnName="id")}
+     *      )
+     */
+    private mixed $materials;
+
     #[Pure] public function __construct()
     {
         $this->productSpecs = new ArrayCollection();
+        $this->materials = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -243,6 +253,30 @@ class Product implements DateTimeInterface
                 $productSpec->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Material>
+     */
+    public function getMaterials(): Collection
+    {
+        return $this->materials;
+    }
+
+    public function addMaterial(Material $material): self
+    {
+        if (!$this->materials->contains($material)) {
+            $this->materials[] = $material;
+        }
+
+        return $this;
+    }
+
+    public function removeMaterial(Material $material): self
+    {
+        $this->materials->removeElement($material);
 
         return $this;
     }

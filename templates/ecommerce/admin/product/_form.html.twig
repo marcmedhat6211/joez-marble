@@ -30,6 +30,13 @@
     </div>
     <div class="col-12">
         <div class="form-group">
+            {{ form_label(form.materials) }}
+            {{ form_widget(form.materials) }}
+            {{ form_errors(form.materials) }}
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-group">
             {{ form_label(form.brief) }}
             {{ form_widget(form.brief) }}
             {{ form_errors(form.brief) }}
