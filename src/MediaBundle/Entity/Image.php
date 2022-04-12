@@ -3,15 +3,14 @@
 namespace App\MediaBundle\Entity;
 
 use App\CMSBundle\Entity\Banner;
-use App\CMSBundle\Entity\Service;
 use App\CMSBundle\Entity\Testimonial;
 use App\ECommerceBundle\Entity\Currency;
 use App\ECommerceBundle\Entity\Material;
-use App\ECommerceBundle\Entity\Product;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\MediaBundle\Model\Image as BaseImage;
+use JetBrains\PhpStorm\Pure;
 
 /**
  * @ORM\Table(name="image")
@@ -30,11 +29,6 @@ class Image extends BaseImage
     private ?Testimonial $testimonial;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\CMSBundle\Entity\Service", mappedBy="image")
-     */
-    private ?Service $service;
-
-    /**
      * @ORM\OneToOne(targetEntity="App\ECommerceBundle\Entity\Currency", mappedBy="flag")
      */
     private ?Currency $currency;
@@ -49,7 +43,7 @@ class Image extends BaseImage
      */
     private mixed $materials;
 
-    public function __construct()
+    #[Pure] public function __construct()
     {
         $this->materials = new ArrayCollection();
     }

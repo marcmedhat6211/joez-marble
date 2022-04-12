@@ -1,0 +1,75 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}FAQs List{% endset %}
+{% block breadcrumb %}
+    <a href="{{ path('dashboard') }}" class="breadcrumb-item">
+        <i class="icon-home2 mr-2"></i>
+        Dashboard
+    </a>
+    <span class="breadcrumb-item active">FAQs List</span>
+{% endblock %}
+{% block content %}
+    <div class="card">
+        <div class="px-2 pt-2">
+            {% include 'adminTemplate/_flash-messages.html.twig' %}
+        </div>
+        <div class="card-header d-flex justify-content-end">
+            <a href="{{ path('faq_new') }}" class="btn btn-primary"><i class="icon-plus-circle2 mr-2"></i>Add
+                FAQ</a>
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Sort No.</th>
+                    <th>Question</th>
+                    <th>Category</th>
+                    <th>Publish</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if paginator is not empty %}
+                    {% for faq in paginator %}
+                        <tr>
+                            <td>{{ faq.id }}</td>
+                            <td>{{ faq.sortNo ? faq.sortNo : "n/a" }}</td>
+                            <td>{{ faq.question }}</td>
+                            <td>{{ faq.faqCategory.title }}</td>
+                            <td>
+                                {% if faq.publish %}
+                                    <span class="badge badge-flat border-success text-success">Published</span>
+                                {% else %}
+                                    <span class="badge badge-flat border-danger text-danger">Not Published</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ faq.created|date('d/m/Y') }}</td>
+                            <td class="text-center">
+                                <div class="list-icons">
+                                    <div class="dropdown">
+                                        <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                            <i class="icon-menu9"></i>
+                                        </a>
+
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a href="{{ path('faq_edit', {"id": faq.id}) }}"
+                                               class="dropdown-item"><i class="mi-mode-edit"></i>Edit</a>
+                                            <a href="{{ path('faq_delete', {"id": faq.id}) }}"
+                                               onclick="return confirm('Are you sure you want to remove this faq ?')"
+                                               class="dropdown-item"><i class="mi-delete-forever"></i>Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex justify-content-center py-3">
+            {{ knp_pagination_render(paginator) }}
+        </div>
+    </div>
+{% endblock %}

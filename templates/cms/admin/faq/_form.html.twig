@@ -1,0 +1,42 @@
+{{ form_start(form, {'attr':{"data-toggle":"validator", 'novalidate':'novalidate'}}) }}
+<div class="row">
+    <div class="col-12">
+        <div class="form-group">
+            {{ form_label(form.question) }}
+            {{ form_widget(form.question) }}
+            {{ form_errors(form.question) }}
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-group">
+            {{ form_label(form.answer) }}
+            {{ form_widget(form.answer) }}
+            {{ form_errors(form.answer) }}
+        </div>
+    </div>
+    <div class="col-12 col-md-6">
+        <div class="form-group">
+            {{ form_label(form.faqCategory) }}
+            {{ form_widget(form.faqCategory) }}
+            {{ form_errors(form.faqCategory) }}
+        </div>
+    </div>
+    <div class="col-12 col-md-6">
+        <div class="form-group">
+            {{ form_label(form.sortNo) }}
+            {{ form_widget(form.sortNo) }}
+            {{ form_errors(form.sortNo) }}
+        </div>
+    </div>
+    <div class="col-12 mt-3">
+        <div class="custom-control custom-switch custom-switch-square custom-control-success mb-2">
+            {{ form_widget(form.publish) }}
+            {{ form_label(form.publish) }}
+            {{ form_errors(form.publish) }}
+        </div>
+    </div>
+</div>
+<div class="text-right">
+    <button type="submit" class="btn btn-primary">Submit form <i class="icon-paperplane ml-2"></i></button>
+</div>
+{{ form_end(form) }}
