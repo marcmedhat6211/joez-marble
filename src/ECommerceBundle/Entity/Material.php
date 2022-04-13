@@ -39,13 +39,13 @@ class Material implements DateTimeInterface
     private ?Image $mainImage;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\MediaBundle\Entity\Image", inversedBy="materials", cascade={"persist", "remove" })
+     * @ORM\OneToMany(targetEntity="App\ECommerceBundle\Entity\ProductMaterialImage", mappedBy="material")
      */
-    private mixed $galleryImages;
+    private mixed $productMaterialImages;
 
     #[Pure] public function __construct()
     {
-        $this->galleryImages = new ArrayCollection();
+        $this->productMaterialImages = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -83,25 +83,31 @@ class Material implements DateTimeInterface
     }
 
     /**
-     * @return Collection<int, Image>
+     * @return Collection<int, ProductMaterialImage>
      */
-    public function getGalleryImages(): Collection
+    public function getProductMaterialImages(): Collection
     {
-        return $this->galleryImages;
+        return $this->productMaterialImages;
     }
 
-    public function addGalleryImage(Image $galleryImage): self
+    public function addProductMaterialImage(ProductMaterialImage $productMaterialImage): self
     {
-        if (!$this->galleryImages->contains($galleryImage)) {
-            $this->galleryImages[] = $galleryImage;
+        if (!$this->productMaterialImages->contains($productMaterialImage)) {
+            $this->productMaterialImages[] = $productMaterialImage;
+            $productMaterialImage->setMaterial($this);
         }
 
         return $this;
     }
 
-    public function removeGalleryImage(Image $galleryImage): self
+    public function removeProductMaterialImage(ProductMaterialImage $productMaterialImage): self
     {
-        $this->galleryImages->removeElement($galleryImage);
+        if ($this->productMaterialImages->removeElement($productMaterialImage)) {
+            // set the owning side to null (unless already changed)
+            if ($productMaterialImage->getMaterial() === $this) {
+                $productMaterialImage->setMaterial(null);
+            }
+        }
 
         return $this;
     }

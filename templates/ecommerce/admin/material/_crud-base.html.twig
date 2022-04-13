@@ -16,14 +16,6 @@
     </a>
     <span class="breadcrumb-item active">{{ pageName }}</span>
 {% endblock %}
-{% block breadcrumbRight %}
-    {% if cr in ['material_edit'] %}
-        <a href="{{ path('material_gallery_images', {"id": material.id}) }}" class="breadcrumb-elements-item">
-            <i class="icon-images2 mr-2"></i>
-            {{ material.title }}'s Gallery Images
-        </a>
-    {% endif %}
-{% endblock %}
 {% block content %}
     <div class="card">
         <div class="card-header">

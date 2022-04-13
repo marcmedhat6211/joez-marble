@@ -4,12 +4,15 @@ namespace App\ECommerceBundle\Controller\Administration;
 
 use App\ECommerceBundle\Entity\Material;
 use App\ECommerceBundle\Entity\Product;
+use App\ECommerceBundle\Entity\ProductMaterialImage;
 use App\ECommerceBundle\Form\ProductGalleryType;
 use App\ECommerceBundle\Form\ProductType;
 use App\ECommerceBundle\Repository\MaterialRepository;
+use App\ECommerceBundle\Repository\ProductMaterialImageRepository;
 use App\ECommerceBundle\Repository\ProductRepository;
 use App\ECommerceBundle\Repository\ProductSpecRepository;
 use App\ECommerceBundle\Services\ProductService;
+use App\MediaBundle\Entity\Image;
 use App\MediaBundle\Services\UploadFileService;
 use App\UserBundle\Model\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -112,6 +115,64 @@ class ProductController extends AbstractController
         $this->addFlash("success", "Deleted Successfully");
 
         return $this->redirectToRoute("product_index");
+    }
+
+    /**
+     * @Route("/{id}/gallery-images", name="product_gallery_images", methods={"GET", "POST"})
+     */
+    public function galleryImages(Request $request, Product $product, UploadFileService $uploadFileService): Response
+    {
+        $this->denyAccessUnlessGranted(UserInterface::ROLE_ADMIN);
+        $form = $this->createForm(ProductGalleryType::class, $product);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $galleryImages = $form->get("galleryImages")->getData();
+            $validateUploadedImages = $uploadFileService->uploadGalleryImages($galleryImages, Product::class, $product);
+            if (!$validateUploadedImages["valid"]) {
+                foreach ($validateUploadedImages["errors"] as $error) {
+                    $this->addFlash("error", $error);
+                }
+                return $this->redirectToRoute("product_gallery_images", ["id" => $product->getId()]);
+            }
+
+            $this->addFlash("success", "All Gallery Images Uploaded Successfully");
+            return $this->redirectToRoute("product_gallery_images", ["id" => $product->getId()]);
+        }
+
+        return $this->render('ecommerce/admin/product/gallery.html.twig', [
+            'form' => $form->createView(),
+            'product' => $product,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/image/{id}/material/{id}/ajax", name="product_image_material_ajax", methods={"GET", "POST"})
+     */
+    public function productMaterialImage(
+        Product $product,
+        Image $image,
+        Material $material,
+        EntityManagerInterface $em,
+        ProductMaterialImageRepository $productMaterialImageRepository
+    ): JsonResponse
+    {
+        $productMaterialImage = $productMaterialImageRepository->findOneBy([
+            "product" => $product,
+            "image" => $image
+        ]);
+
+        if ($productMaterialImage) {
+            $productMaterialImage->setMaterial($material);
+            $em->persist($productMaterialImage);
+            $em->flush();
+
+            return $this->json([
+                "error" => false
+            ]);
+        }
+
+        return $this->json([]);
     }
 
     /**

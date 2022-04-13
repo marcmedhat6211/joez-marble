@@ -1,18 +1,18 @@
 {% set cr = app.request.attributes.get('_route') %}
 {% extends 'adminTemplate/base.html.twig' %}
-{% set page_title %}Material Gallery{% endset %}
+{% set page_title %}Product Gallery{% endset %}
 {% block breadcrumb %}
     <a href="{{ path('dashboard') }}" class="breadcrumb-item">
         <i class="icon-home2 mr-2"></i>
         Dashboard
     </a>
-    <a href="{{ path('material_index') }}" class="breadcrumb-item">
-        Materials List
+    <a href="{{ path('product_index') }}" class="breadcrumb-item">
+        Products List
     </a>
-    <a href="{{ path('material_edit', {"id": material.id}) }}" class="breadcrumb-item">
-        {{ material.title }}
+    <a href="{{ path('product_edit', {"id": product.id}) }}" class="breadcrumb-item">
+        {{ product.title }}
     </a>
-    <span class="breadcrumb-item active">{{ material.title }}'s Gallery Images</span>
+    <span class="breadcrumb-item active">{{ product.title }}'s Gallery Images</span>
 {% endblock %}
 {% block content %}
     <div class="card">
@@ -25,19 +25,25 @@
                 {{ form_label(form.galleryImages) }}
                 {{ form_widget(form.galleryImages) }}
                 <span class="form-text text-muted">Valid Types are png, jpg, jpeg, gif</span>
-                <span class="form-text text-muted">Gallery Images Sizes: 600 px x 600 px</span>
+                <span class="form-text text-muted">Gallery Images Sizes: 540 px x 360 px</span>
             </div>
             {{ form_end(form) }}
         </div>
     </div>
-    {% if material.galleryImages is not empty %}
-        {% include 'ecommerce/admin/material/_gallery-images.html.twig' %}
+    {% if product.galleryImages is not empty %}
+        {% include 'ecommerce/admin/product/_gallery-images.html.twig' %}
     {% endif %}
 {% endblock %}
 {% block scripts %}
     {{ parent() }}
+    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/selects/select2.min.js') }}"></script>
     <script type="text/javascript"
             src="{{ asset('admin/js/plugins/uploaders/fileinput/plugins/sortable.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('admin/js/plugins/uploaders/fileinput/fileinput.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('admin/js/plugins/media/glightbox.min.js') }}"></script>
+    <script>
+        $(".form-control .materials-select").on("change", function() {
+
+        });
+    </script>
 {% endblock scripts %}

@@ -83,6 +83,16 @@ class Product implements DateTimeInterface
     private mixed $productSpecs;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\ECommerceBundle\Entity\ProductMaterialImage", mappedBy="product")
+     */
+    private mixed $productMaterialImages;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\MediaBundle\Entity\Image", inversedBy="products", cascade={"persist", "remove" })
+     */
+    private mixed $galleryImages;
+
+    /**
      * @ORM\ManyToMany(targetEntity="App\ECommerceBundle\Entity\Material")
      * @ORM\JoinTable(name="product_material",
      *      joinColumns={@ORM\JoinColumn(name="product_id", referencedColumnName="id")},
@@ -95,6 +105,8 @@ class Product implements DateTimeInterface
     {
         $this->productSpecs = new ArrayCollection();
         $this->materials = new ArrayCollection();
+        $this->productMaterialImages = new ArrayCollection();
+        $this->galleryImages = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -277,6 +289,60 @@ class Product implements DateTimeInterface
     public function removeMaterial(Material $material): self
     {
         $this->materials->removeElement($material);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProductMaterialImage>
+     */
+    public function getProductMaterialImages(): Collection
+    {
+        return $this->productMaterialImages;
+    }
+
+    public function addProductMaterialImage(ProductMaterialImage $productMaterialImage): self
+    {
+        if (!$this->productMaterialImages->contains($productMaterialImage)) {
+            $this->productMaterialImages[] = $productMaterialImage;
+            $productMaterialImage->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductMaterialImage(ProductMaterialImage $productMaterialImage): self
+    {
+        if ($this->productMaterialImages->removeElement($productMaterialImage)) {
+            // set the owning side to null (unless already changed)
+            if ($productMaterialImage->getProduct() === $this) {
+                $productMaterialImage->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Image>
+     */
+    public function getGalleryImages(): Collection
+    {
+        return $this->galleryImages;
+    }
+
+    public function addGalleryImage(Image $galleryImage): self
+    {
+        if (!$this->galleryImages->contains($galleryImage)) {
+            $this->galleryImages[] = $galleryImage;
+        }
+
+        return $this;
+    }
+
+    public function removeGalleryImage(Image $galleryImage): self
+    {
+        $this->galleryImages->removeElement($galleryImage);
 
         return $this;
     }

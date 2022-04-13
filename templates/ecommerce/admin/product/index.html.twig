@@ -78,6 +78,8 @@
                                             <a href="{{ path('product_delete', {"id": product.id}) }}"
                                                onclick="return confirm('Are you sure you want to remove this product ?')"
                                                class="dropdown-item"><i class="mi-delete-forever"></i>Delete</a>
+                                            <a href="{{ path('product_gallery_images', {"id": product.id}) }}"
+                                               class="dropdown-item"><i class="icon-images2"></i>Gallery Images</a>
                                         </div>
                                     </div>
                                 </div>

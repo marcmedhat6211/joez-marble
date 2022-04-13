@@ -140,35 +140,6 @@ class MaterialController extends AbstractController
         return $this->redirectToRoute("material_index");
     }
 
-    /**
-     * @Route("/{id}/gallery-images", name="material_gallery_images", methods={"GET", "POST"})
-     */
-    public function galleryImages(Request $request, Material $material, EntityManagerInterface $em, UploadFileService $uploadFileService): Response
-    {
-        $this->denyAccessUnlessGranted(UserInterface::ROLE_ADMIN);
-        $form = $this->createForm(MaterialGalleryType::class, $material);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $galleryImages = $form->get("galleryImages")->getData();
-            $validateUploadedImages = $uploadFileService->uploadGalleryImages($galleryImages, Material::class, $material, 540, 360);
-            if (!$validateUploadedImages["valid"]) {
-                foreach ($validateUploadedImages["errors"] as $error) {
-                    $this->addFlash("error", $error);
-                }
-                return $this->redirectToRoute("material_gallery_images", ["id" => $material->getId()]);
-            }
-
-            $this->addFlash("success", "All Gallery Images Uploaded Successfully");
-            return $this->redirectToRoute("material_gallery_images", ["id" => $material->getId()]);
-        }
-
-        return $this->render('ecommerce/admin/material/gallery.html.twig', [
-            'form' => $form->createView(),
-            'material' => $material,
-        ]);
-    }
-
     //=========================================================================PRIVATE METHODS=======================================================================
 
     private function getMaterials(Request $request, MaterialRepository $materialRepository)

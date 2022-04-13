@@ -2,13 +2,13 @@
 
 namespace App\ECommerceBundle\Form;
 
-use App\ECommerceBundle\Entity\Material;
+use App\ECommerceBundle\Entity\Product;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class MaterialGalleryType extends AbstractType
+class ProductGalleryType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -33,7 +33,7 @@ class MaterialGalleryType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Material::class
+            'data_class' => Product::class
         ]);
     }
 
@@ -42,7 +42,7 @@ class MaterialGalleryType extends AbstractType
      */
     public function getBlockPrefix(): string
     {
-        return 'bundle_ecommercebundle_material';
+        return 'bundle_ecommercebundle_product';
     }
 
 }
