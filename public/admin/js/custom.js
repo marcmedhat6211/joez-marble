@@ -2,6 +2,7 @@ $(document).ready(function () {
     if ($("select").length > 0) {
         $("select").select2();
     }
+
     if ($('.file-input').length > 0) {
         // Modal template
         var modalTemplate = '<div class="modal-dialog modal-lg" role="document">\n' +
@@ -94,3 +95,23 @@ $(document).ready(function () {
         });
     }
 });
+
+const popupQuickAlert = (type, message) => {
+    var swalInit = swal.mixin({
+        buttonsStyling: false,
+        customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-light',
+            denyButton: 'btn btn-light',
+            input: 'form-control'
+        }
+    });
+
+    swalInit.fire({
+        text: message,
+        icon: type,
+        toast: true,
+        showConfirmButton: true,
+        position: 'top-right'
+    });
+}

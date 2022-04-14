@@ -66,14 +66,15 @@
         <!-- Core JS files -->
         <script src="{{ asset('admin/js/main/jquery.min.js') }}"></script>
         <script src="{{ asset('admin/js/main/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ asset('admin/js/plugins/notifications/sweet_alert.min.js') }}"></script>
         <!-- /core JS files -->
-
-        <!-- Theme JS files -->
-        <script type="text/javascript" src="{{ asset('admin/js/app.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('admin/js/custom.js') }}"></script>
-        <!-- /theme JS files -->
     {% endblock scripts %}
     {# END SCRIPTS #}
+
+    <!-- Theme JS files -->
+    <script type="text/javascript" src="{{ asset('admin/js/app.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/custom.js') }}"></script>
+    <!-- /theme JS files -->
     </body>
     </html>
 {% endapply %}

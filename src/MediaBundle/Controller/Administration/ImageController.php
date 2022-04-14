@@ -2,6 +2,7 @@
 
 namespace App\MediaBundle\Controller\Administration;
 
+use App\ECommerceBundle\Entity\ProductMaterialImage;
 use App\MediaBundle\Entity\Image;
 use App\MediaBundle\Services\UploadFileService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,6 +27,10 @@ class ImageController extends AbstractController
     ) :Response
     {
         $entityObject = $em->getRepository($className)->find((int)$entityObjectId);
+        $productImageMaterial = $em->getRepository(ProductMaterialImage::class)->findOneBy(["product" => $entityObject, "image" => $image]);
+        if ($productImageMaterial) {
+            $em->remove($productImageMaterial);
+        }
         $entityObject->removeGalleryImage($image);
         $em->persist($entityObject);
         $em->flush();

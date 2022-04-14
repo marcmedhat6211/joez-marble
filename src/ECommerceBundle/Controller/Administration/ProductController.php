@@ -120,11 +120,20 @@ class ProductController extends AbstractController
     /**
      * @Route("/{id}/gallery-images", name="product_gallery_images", methods={"GET", "POST"})
      */
-    public function galleryImages(Request $request, Product $product, UploadFileService $uploadFileService): Response
+    public function galleryImages(Request $request, Product $product, UploadFileService $uploadFileService, EntityManagerInterface $em): Response
     {
         $this->denyAccessUnlessGranted(UserInterface::ROLE_ADMIN);
         $form = $this->createForm(ProductGalleryType::class, $product);
         $form->handleRequest($request);
+
+        $productGalleryImages = $product->getGalleryImages();
+        $imagesMaterials = [];
+        foreach ($productGalleryImages as $galleryImage) {
+            $productMaterialImage =  $em->getRepository(ProductMaterialImage::class)->findOneBy(["product" => $product, "image" => $galleryImage]);
+            if ($productMaterialImage) {
+                $imagesMaterials[$galleryImage->getId()] = $productMaterialImage->getMaterial();
+            }
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $galleryImages = $form->get("galleryImages")->getData();
@@ -143,26 +152,45 @@ class ProductController extends AbstractController
         return $this->render('ecommerce/admin/product/gallery.html.twig', [
             'form' => $form->createView(),
             'product' => $product,
+            'imagesMaterials' => $imagesMaterials
         ]);
     }
 
     /**
-     * @Route("/{id}/image/{id}/material/{id}/ajax", name="product_image_material_ajax", methods={"GET", "POST"})
+     * @Route("/{productId}/image/{imageId}/ajax", name="product_image_material_ajax", methods={"GET", "POST"})
      */
     public function productMaterialImage(
-        Product $product,
-        Image $image,
-        Material $material,
         EntityManagerInterface $em,
-        ProductMaterialImageRepository $productMaterialImageRepository
+        ProductMaterialImageRepository $productMaterialImageRepository,
+        Request $request,
+        $productId,
+        $imageId,
     ): JsonResponse
     {
-        $productMaterialImage = $productMaterialImageRepository->findOneBy([
-            "product" => $product,
-            "image" => $image
-        ]);
+            $materialId =  $request->request->get("materialId");
+            $productMaterialImage = $productMaterialImageRepository->findOneBy([
+                "product" => (int)$productId,
+                "image" => (int)$imageId
+            ]);
 
-        if ($productMaterialImage) {
+            if ($productMaterialImage) {
+                $material = $em->getRepository(Material::class)->find((int)$materialId);
+                $productMaterialImage->setMaterial($material);
+                $em->persist($productMaterialImage);
+                $em->flush();
+
+                return $this->json([
+                    "error" => false
+                ]);
+            }
+
+            $product = $em->getRepository(Product::class)->find((int)$productId);
+            $image = $em->getRepository(Image::class)->find((int)$imageId);
+            $material = $em->getRepository(Material::class)->find((int)$materialId);
+
+            $productMaterialImage = new ProductMaterialImage();
+            $productMaterialImage->setProduct($product);
+            $productMaterialImage->setImage($image);
             $productMaterialImage->setMaterial($material);
             $em->persist($productMaterialImage);
             $em->flush();
@@ -170,9 +198,6 @@ class ProductController extends AbstractController
             return $this->json([
                 "error" => false
             ]);
-        }
-
-        return $this->json([]);
     }
 
     /**

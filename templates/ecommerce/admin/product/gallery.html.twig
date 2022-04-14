@@ -42,8 +42,22 @@
     <script type="text/javascript" src="{{ asset('admin/js/plugins/uploaders/fileinput/fileinput.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('admin/js/plugins/media/glightbox.min.js') }}"></script>
     <script>
-        $(".form-control .materials-select").on("change", function() {
-
+        $(".form-control.materials-select").on("change", function() {
+            const selectedValue = $(this).val();
+            if (selectedValue === "") {
+                return;
+            }
+            const url = $(this).data("link");
+            const data = {
+                materialId: selectedValue,
+            }
+            $.post(url, data, function(json) {
+                if(!json.error) {
+                    popupQuickAlert('success', 'Material added Successfully');
+                } else {
+                    popupQuickAlert('error', 'Something went wrong');
+                }
+            });
         });
     </script>
 {% endblock scripts %}
