@@ -16,8 +16,6 @@ use App\MediaBundle\Entity\Image;
 use App\MediaBundle\Services\UploadFileService;
 use App\UserBundle\Model\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\PaginatorInterface;
-use phpDocumentor\Reflection\Types\Collection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,8 +27,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ProductController extends AbstractController
 {
-    private PaginatorInterface $paginator;
-
     /**
      * @Route("/", name="product_index", methods={"GET"})
      */

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="44" height="21" viewBox="0 0 44 21">
+  <defs>
+    <clipPath id="clip-iPhone_13_12_Pro_1">
+      <rect width="44" height="21"/>
+    </clipPath>
+  </defs>
+  <g id="iPhone_13_12_Pro_1" data-name="iPhone 13, 12 Pro – 1" clip-path="url(#clip-iPhone_13_12_Pro_1)">
+    <g id="heart" transform="translate(-107 -117)">
+      <rect id="Rectangle_2196" data-name="Rectangle 2196" width="256" height="256" fill="none"/>
+      <path id="Path_5187" data-name="Path 5187" d="M128,216S28,160,28,92A52,52,0,0,1,128,72h0A52,52,0,0,1,228,92C228,160,128,216,128,216Z" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/>
+    </g>
+    <g id="heart-2" data-name="heart" transform="translate(-107 -117)">
+      <rect id="Rectangle_2197" data-name="Rectangle 2197" width="256" height="256" fill="none"/>
+      <path id="Path_5188" data-name="Path 5188" d="M38.5,60.995S28,54.313,28,46.2a6.062,6.062,0,0,1,4.389-6.084,5.354,5.354,0,0,1,6.111,3.7h0a5.354,5.354,0,0,1,6.111-3.7A6.062,6.062,0,0,1,49,46.2C49,54.313,38.5,60.995,38.5,60.995Z" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/>
+    </g>
+    <g id="heart-fill" transform="translate(-105 -117)">
+      <rect id="Rectangle_2198" data-name="Rectangle 2198" width="256" height="256" fill="none"/>
+      <path id="Path_5189" data-name="Path 5189" d="M35.167,32A5.643,5.643,0,0,0,30.5,34.621a5.473,5.473,0,0,0-6.511-2.288A6.545,6.545,0,0,0,20,38.559c0,7.864,9.713,14.065,10.121,14.328A.693.693,0,0,0,30.5,53a.676.676,0,0,0,.379-.109,31.014,31.014,0,0,0,5.007-4.112C39.279,45.34,41,41.906,41,38.559,41,34.935,38.388,32,35.167,32Z" transform="translate(108 85.004)"/>
+    </g>
+    <g id="heart-3" data-name="heart" transform="translate(-107 -117)">
+      <rect id="Rectangle_2199" data-name="Rectangle 2199" width="256" height="256" fill="none"/>
+      <path id="Path_5190" data-name="Path 5190" d="M38.5,60.995S28,54.313,28,46.2a6.062,6.062,0,0,1,4.389-6.084,5.354,5.354,0,0,1,6.111,3.7h0a5.354,5.354,0,0,1,6.111-3.7A6.062,6.062,0,0,1,49,46.2C49,54.313,38.5,60.995,38.5,60.995Z" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/>
+    </g>
+    <g id="heart-4" data-name="heart" transform="translate(-107 -117)">
+      <rect id="Rectangle_2200" data-name="Rectangle 2200" width="256" height="256" fill="none"/>
+      <path id="Path_5191" data-name="Path 5191" d="M38.5,60.995S28,54.313,28,46.2a6.062,6.062,0,0,1,4.389-6.084,5.354,5.354,0,0,1,6.111,3.7h0a5.354,5.354,0,0,1,6.111-3.7A6.062,6.062,0,0,1,49,46.2C49,54.313,38.5,60.995,38.5,60.995Z" transform="translate(34 20)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/>
+    </g>
+    <path id="Vector_1_" data-name="Vector (1)" d="M11.141,19.891S1,13.88,1,6.581A5.786,5.786,0,0,1,2.2,3.044,5.231,5.231,0,0,1,5.238,1.109a5.018,5.018,0,0,1,3.512.545,5.479,5.479,0,0,1,2.39,2.777h0a5.479,5.479,0,0,1,2.39-2.777,5.018,5.018,0,0,1,3.512-.545,5.231,5.231,0,0,1,3.043,1.935,5.786,5.786,0,0,1,1.2,3.538C21.281,13.88,11.141,19.891,11.141,19.891Z" transform="translate(0 0.063)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+  </g>
+</svg>
