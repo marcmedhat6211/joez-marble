@@ -5,6 +5,7 @@ namespace App\CMSBundle\Controller\Administration;
 use App\CMSBundle\Entity\Banner;
 use App\CMSBundle\Form\BannerType;
 use App\CMSBundle\Repository\BannerRepository;
+use App\MediaBundle\Model\Image as ImageAlias;
 use App\MediaBundle\Services\UploadFileService;
 use App\UserBundle\Model\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -46,7 +47,19 @@ class BannerController extends AbstractController
             $em->flush();
 
             if ($form->get("image")->getData()) {
-                $isImageUploaded = $uploadFileService->uploadImage($form, Banner::class, $banner);
+                $sizesArrayKey = Banner::$placementDimensions[$banner->getPlacement()];
+                $width = $sizesArrayKey["width"];
+                $height = $sizesArrayKey["height"];
+                $isImageUploaded = $uploadFileService->uploadImage(
+                    $form,
+                    Banner::class,
+                    $banner,
+                    UploadFileService::ACTION_ADD,
+                    "image",
+                    ImageAlias::IMAGE_TYPE_MAIN,
+                    $width,
+                    $height
+                );
                 if (!$isImageUploaded["valid"]) {
                     foreach ($isImageUploaded["errors"] as $error) {
                         $this->addFlash("error", $error);
@@ -79,7 +92,19 @@ class BannerController extends AbstractController
             $em->flush();
 
             if ($form->get("image")->getData()) {
-                $isImageUploaded = $uploadFileService->uploadImage($form, Banner::class, $banner, UploadFileService::ACTION_EDIT);
+                $sizesArrayKey = Banner::$placementDimensions[$banner->getPlacement()];
+                $width = $sizesArrayKey["width"];
+                $height = $sizesArrayKey["height"];
+                $isImageUploaded = $uploadFileService->uploadImage(
+                    $form,
+                    Banner::class,
+                    $banner,
+                    UploadFileService::ACTION_EDIT,
+                    "image",
+                    ImageAlias::IMAGE_TYPE_MAIN,
+                    $width,
+                    $height
+                );
                 if (!$isImageUploaded["valid"]) {
                     foreach ($isImageUploaded["errors"] as $error) {
                         $this->addFlash("error", $error);

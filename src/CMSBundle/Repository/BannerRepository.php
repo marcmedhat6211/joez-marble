@@ -66,6 +66,11 @@ class BannerRepository extends ServiceEntityRepository
             $statement->setParameter('searchTerm', '%' . trim($search->string) . '%');
         }
 
+        if (isset($search->placement) and $search->placement != "") {
+            $statement->andWhere('b.placement = :placement');
+            $statement->setParameter('placement', $search->placement);
+        }
+
         if (isset($search->publish) and $search->publish != "") {
             $statement->andWhere('b.publish = :publish');
             $statement->setParameter('publish', $search->publish);

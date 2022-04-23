@@ -1,0 +1,59 @@
+<div
+        class="modal fade modal-style-3"
+        id="shopAndShipModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="shopAndShipModal"
+        aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form action="{{ path('fe_shop_and_ship') }}" class="modal-body" id="region_and_currency_form">
+                <div class="d-flex justify-content-end">
+                    <button
+                            type="button"
+                            class="btn close-modal-btn"
+                            data-dismiss="modal"
+                    >
+                        <i class="convert-svg" data-src="{{ asset('images/icons/x.svg') }}"></i>
+                    </button>
+                </div>
+                <h6 class="form-title mb-3">{{ 'shop_and_ship_txt'|trans }}</h6>
+                <div class="form-group input-style-3 w-75 has-icon">
+                    <select class="form-control" name="region">
+                        <option>{{ 'choose_region_txt'|trans }}</option>
+                        {# @todo: add regions #}
+                        <option value="egypt">Egypt</option>
+                        <option value="usa">USA</option>
+                    </select>
+                    <i class="convert-svg" data-src="{{ asset('images/icons/caret-down.svg') }}"></i>
+                </div>
+                <div class="form-group input-style-3 w-50 has-icon">
+                    <select class="form-control" name="currency">
+                        <option>{{ 'currency_txt'|trans }}</option>
+                        {% for currency in currencies %}
+                            <option value="{{ currency.id }}">{{ currency.code }}</option>
+                        {% endfor %}
+                    </select>
+                    <i class="convert-svg" data-src="{{ asset('images/icons/caret-down.svg') }}"></i>
+                </div>
+                <div class="modal-notes-container">
+                    <p class="notes-title">{{ 'few_things_to_note_txt'|trans }}</p>
+                    {# @todo: add dc #}
+                    <ul class="modal-notes">
+                        <li class="note">Lorem ipsum lorem ipsum lorem lorem.</li>
+                        <li class="note">Lorem ipsum lorem ipsum lorem lorem.</li>
+                        <li class="note">Lorem ipsum lorem ipsum lorem lorem.</li>
+                        <li class="note">Lorem ipsum lorem ipsum lorem lorem.</li>
+                    </ul>
+                </div>
+                <button
+                        type="submit"
+                        class="btn btn-style-1 bg-black hover-effect w-100"
+                >
+                    {{ 'save_txt'|trans }}
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

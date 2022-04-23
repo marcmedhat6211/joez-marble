@@ -1,1 +1,509 @@
-<h1 class="text-center">Home Page</h1>
+{% extends 'fe/base.html.twig' %}
+
+{% block stylesheet %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('vendors/swiper/swiper.css') }}"/>
+{% endblock %}
+
+{% block content %}
+
+    <div id="home_page_container">
+        {# MAIN BANNER SECTION #}
+        {% if mainBanners is not empty %}
+            <section class="banner-section">
+                <div class="swiper-container banner-swiper">
+                    <div class="banner-slider-scrollbar">
+                        <div class="scrollbar"></div>
+                    </div>
+                    <div class="swiper-wrapper">
+                        {% for banner in mainBanners %}
+                            {% set mainBannerImage = asset('images/placeholders/placeholder-lg.jpg') %}
+                            {% if banner.image %}
+                                {% set mainBannerImage = absolute_url(asset(banner.image.absolutePath)) %}
+                            {% endif %}
+                            <div class="swiper-slide">
+                                <div class="banner-container">
+                                    <img
+                                            class="swiper-lazy banner-img"
+                                            data-src="{{ mainBannerImage }}"
+                                            alt="{{ banner.title }}"
+                                    />
+                                    <div class="banner-text-container">
+                                        {% if banner.title %}
+                                            <h5 class="banner-title">
+                                                {{ banner.title }}
+                                            </h5>
+                                        {% endif %}
+                                        {% if banner.text %}
+                                            <p class="banner-description">
+                                                {{ banner.text }}
+                                            </p>
+                                        {% endif %}
+                                        {% if banner.url %}
+                                            <a href="{{ banner.url }}"
+                                               class="btn btn-style-6" {{ banner.openNewTab ? 'target="_blank"' }}>{{ banner.actionButtonText ? banner.actionButtonText : 'View' }}</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </section>
+        {% endif %}
+        {# END MAIN BANNER SECTION #}
+
+        {# COLLECTION BANNERS SECTION #}
+        {% if collectionBannerOne or collectionBannerTwo or collectionBannerThree %}
+            <section class="images-collections-section">
+                {% if collectionBannerOne %}
+                    {% set collectionBannerOneImage = 'images/placeholders/placeholder-lg.jpg' %}
+                    {% if collectionBannerOne.image %}
+                        {% set collectionBannerOneImage = absolute_url(asset(collectionBannerOne.image.absolutePath)) %}
+                    {% endif %}
+                    <a href="{{ collectionBannerOne.url ? collectionBannerOne.url : '#' }}" {{ collectionBannerOne.openNewTab ? 'target="_blank"' }}
+                       class="img-collection-link w-100">
+                        <img
+                                class="lazy w-100 h-100"
+                                data-src="{{ collectionBannerOneImage }}"
+                                alt="{{ collectionBannerOne.title }}"
+                        />
+                    </a>
+                {% endif %}
+                {% if collectionBannerTwo %}
+                    {% set collectionBannerTwoImage = 'images/placeholders/placeholder-lg.jpg' %}
+                    {% if collectionBannerTwo.image %}
+                        {% set collectionBannerTwoImage = absolute_url(asset(collectionBannerTwo.image.absolutePath)) %}
+                    {% endif %}
+                    <a href="{{ collectionBannerTwo.url ? collectionBannerTwo.url : '#' }}" {{ collectionBannerTwo.openNewTab ? 'target="_blank"' }}
+                       class="img-collection-link w-100">
+                        <img
+                                class="lazy w-100 h-100"
+                                data-src="{{ collectionBannerTwoImage }}"
+                                alt="{{ collectionBannerTwo.title }}"
+                        />
+                    </a>
+                {% endif %}
+                {% if collectionBannerThree %}
+                    {% set collectionBannerThreeImage = 'images/placeholders/placeholder-lg.jpg' %}
+                    {% if collectionBannerThree.image %}
+                        {% set collectionBannerThreeImage = absolute_url(asset(collectionBannerThree.image.absolutePath)) %}
+                    {% endif %}
+                    <a href="{{ collectionBannerThree.url ? collectionBannerThree.url : '#' }}" {{ collectionBannerThree.openNewTab ? 'target="_blank"' }}
+                       class="img-collection-link w-100">
+                        <img
+                                class="lazy w-100 h-100"
+                                data-src="{{ collectionBannerThreeImage }}"
+                                alt="{{ collectionBannerThree.title }}"
+                        />
+                    </a>
+                {% endif %}
+            </section>
+        {% endif %}
+        {# END COLLECTION BANNERS SECTION #}
+
+        {# MID PAGE BANNERS SECTION #}
+        {% if
+            midPageBigBanner or
+            midPageSmallBannerOne or
+            midPageSmallBannerTwo or
+            midPageSmallBannerThree or
+            midPageLeftBanner or
+            midPageRightSmallBannerOne or
+            midPageRightSmallBannerTwo %}
+            <section class="quick-access-links-images-section">
+                <div class="container">
+                    <div class="row">
+                        {% if midPageBigBanner %}
+                            {% set midPageBigBannerImage = 'images/placeholders/placeholder-lg.jpg' %}
+                            {% if midPageBigBanner.image %}
+                                {% set midPageBigBannerImage = absolute_url(asset(midPageBigBanner.image.absolutePath)) %}
+                            {% endif %}
+                            <div class="col-12 mb-4 mb-md-5">
+                                <a href="{{ midPageBigBanner.url ? midPageBigBanner.url : '#' }}" {{ midPageBigBanner.openNewTab ? 'target="_blank"' }}
+                                   class="img-link main-img w-100">
+                                    <img
+                                            class="lazy w-100 h-100"
+                                            data-src="{{ midPageBigBannerImage }}"
+                                            alt="{{ midPageBigBanner.title }}"
+                                    />
+                                </a>
+                            </div>
+                        {% endif %}
+                        {% if midPageSmallBannerOne %}
+                            {% set midPageSmallBannerOneImage = 'images/placeholders/placeholder-lg.jpg' %}
+                            {% if midPageSmallBannerOne.image %}
+                                {% set midPageSmallBannerOneImage = absolute_url(asset(midPageSmallBannerOne.image.absolutePath)) %}
+                            {% endif %}
+                            <div class="col-4 mb-4 mb-md-5">
+                                <a href="{{ midPageSmallBannerOne.url ? midPageSmallBannerOne.url : '#' }}" {{ midPageSmallBannerOne.openNewTab ? 'target="_blank"' }}
+                                   class="img-link thumb-img w-100">
+                                    <img
+                                            class="lazy w-100 h-100"
+                                            data-src="{{ midPageSmallBannerOneImage }}"
+                                            alt="{{ midPageSmallBannerOne.title }}"
+                                    />
+                                </a>
+                            </div>
+                        {% endif %}
+                        {% if midPageSmallBannerTwo %}
+                            {% set midPageSmallBannerTwoImage = 'images/placeholders/placeholder-lg.jpg' %}
+                            {% if midPageSmallBannerTwo.image %}
+                                {% set midPageSmallBannerTwoImage = absolute_url(asset(midPageSmallBannerTwo.image.absolutePath)) %}
+                            {% endif %}
+                            <div class="col-4 mb-4 mb-md-5">
+                                <a href="{{ midPageSmallBannerTwo.url ? midPageSmallBannerTwo.url : '#' }}" {{ midPageSmallBannerTwo.openNewTab ? 'target="_blank"' }}
+                                   class="img-link thumb-img w-100">
+                                    <img
+                                            class="lazy w-100 h-100"
+                                            data-src="{{ midPageSmallBannerTwoImage }}"
+                                            alt="{{ midPageSmallBannerTwo.title }}"
+                                    />
+                                </a>
+                            </div>
+                        {% endif %}
+                        {% if midPageSmallBannerThree %}
+                            {% set midPageSmallBannerThreeImage = 'images/placeholders/placeholder-lg.jpg' %}
+                            {% if midPageSmallBannerThree.image %}
+                                {% set midPageSmallBannerThreeImage = absolute_url(asset(midPageSmallBannerThree.image.absolutePath)) %}
+                            {% endif %}
+                            <div class="col-4 mb-4 mb-md-5">
+                                <a href="{{ midPageSmallBannerThree.url ? midPageSmallBannerThree.url : '#' }}" {{ midPageSmallBannerThree.openNewTab ? 'target="_blank"' }}
+                                   class="img-link thumb-img w-100">
+                                    <img
+                                            class="lazy w-100 h-100"
+                                            data-src="{{ midPageSmallBannerThreeImage }}"
+                                            alt="{{ midPageSmallBannerThree.title }}"
+                                    />
+                                </a>
+                            </div>
+                        {% endif %}
+                        {% if midPageLeftBanner %}
+                            {% set midPageLeftBannerImage = 'images/placeholders/placeholder-lg.jpg' %}
+                            {% if midPageLeftBanner.image %}
+                                {% set midPageLeftBannerImage = absolute_url(asset(midPageLeftBanner.image.absolutePath)) %}
+                            {% endif %}
+                            <div class="col-8">
+                                <a href="{{ midPageLeftBanner.url ? midPageLeftBanner.url : '#' }}" {{ midPageLeftBanner.openNewTab ? 'target="_blank"' }}
+                                   class="img-link main-img w-100">
+                                    <img
+                                            class="lazy w-100 h-100"
+                                            data-src="{{ midPageLeftBannerImage }}"
+                                            alt="{{ midPageLeftBanner.title }}"
+                                    />
+                                </a>
+                            </div>
+                        {% endif %}
+                        {% if midPageRightSmallBannerOne or midPageRightSmallBannerTwo %}
+                            <div class="col-4 h-100">
+                                {% if midPageRightSmallBannerOne %}
+                                    {% set midPageRightSmallBannerOneImage = 'images/placeholders/placeholder-lg.jpg' %}
+                                    {% if midPageRightSmallBannerOne.image %}
+                                        {% set midPageRightSmallBannerOneImage = absolute_url(asset(midPageRightSmallBannerOne.image.absolutePath)) %}
+                                    {% endif %}
+                                    <a href="{{ midPageRightSmallBannerOne.url ? midPageRightSmallBannerOne.url : '#' }}" {{ midPageRightSmallBannerOne.openNewTab ? 'target="_blank"' }}
+                                       class="img-link thumb-thumb-img w-100">
+                                        <img
+                                                class="lazy w-100 h-100"
+                                                data-src="{{ midPageRightSmallBannerOneImage }}"
+                                                alt="{{ midPageRightSmallBannerOne.title }}"
+                                        />
+                                    </a>
+                                {% endif %}
+                                {% if midPageRightSmallBannerTwo %}
+                                    {% set midPageRightSmallBannerTwoImage = 'images/placeholders/placeholder-lg.jpg' %}
+                                    {% if midPageRightSmallBannerTwo.image %}
+                                        {% set midPageRightSmallBannerTwoImage = absolute_url(asset(midPageRightSmallBannerTwo.image.absolutePath)) %}
+                                    {% endif %}
+                                    <a href="{{ midPageRightSmallBannerTwo.url ? midPageRightSmallBannerTwo.url : '#' }}" {{ midPageRightSmallBannerTwo.openNewTab ? 'target="_blank"' }}
+                                       class="img-link thumb-thumb-img w-100">
+                                        <img
+                                                class="lazy w-100 h-100"
+                                                data-src="{{ midPageRightSmallBannerTwoImage }}"
+                                                alt="{{ midPageRightSmallBannerTwo.title }}"
+                                        />
+                                    </a>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </section>
+            <hr class="line"/>
+        {% endif %}
+        {# END MID PAGE BANNERS SECTION #}
+
+        {# LIVING BANNER #}
+        {% if midPageLivingBanner %}
+            {% set midPageLivingBannerImage = 'images/placeholders/placeholder-lg.jpg' %}
+            {% if midPageLivingBanner.image %}
+                {% set midPageLivingBannerImage = absolute_url(asset(midPageLivingBanner.image.absolutePath)) %}
+            {% endif %}
+            <div class="container">
+                <section class="living-section">
+                    <div class="logo-container">
+                        <img
+                                class="lazy"
+                                data-src="{{ midPageLivingBannerImage }}"
+                                alt="{{ midPageLivingBanner.title }}"
+                        />
+                    </div>
+                    <div class="section-text-container">
+                        <h5 class="section-title">{{ midPageLivingBanner.title }}</h5>
+                        {% if midPageLivingBanner.text %}
+                            <p class="section-description">
+                                {{ midPageLivingBanner.text }}
+                            </p>
+                        {% endif %}
+                        {% if midPageLivingBanner.url %}
+                            <a href="{{ midPageLivingBanner.url }}"
+                               class="btn btn-style-1">{{ midPageLivingBanner.actionButtonText ? midPageLivingBanner.actionButtonText : 'explore_txt'|trans }}</a>
+                        {% endif %}
+                    </div>
+                </section>
+            </div>
+        {% endif %}
+        {# END LIVING BANNER #}
+
+        {# CATEGORY BANNERS SECTION #}
+        {% if categoryBannerOne or categoryBannerTwo %}
+            <section class="featured-products-section">
+                <div class="container">
+                    {% if categoryBannerOne %}
+                        {% set categoryBannerOneImage = 'images/placeholders/placeholder-lg.jpg' %}
+                        {% if categoryBannerOne.image %}
+                            {% set categoryBannerOneImage = absolute_url(asset(categoryBannerOne.image.absolutePath)) %}
+                        {% endif %}
+                        <div class="row">
+                            <div class="col-12 col-md-6 mb-4 mb-md-5">
+                                <a href="{{ categoryBannerOne.url ? categoryBannerOne.url : '#' }}" {{ categoryBannerOne.openNewTab ? 'target="_blank"' }}
+                                   class="section-img w-100">
+                                    <img
+                                            class="lazy w-100 h-100"
+                                            data-src="{{ categoryBannerOneImage }}"
+                                            alt="{{ categoryBannerOne.title }}"
+                                    />
+                                </a>
+                            </div>
+                            <div class="col-12 col-md-6 mb-4 mb-md-5">
+                                <h6 class="section-title">{{ categoryBannerOne.title }}</h6>
+                                {% if categoryBannerOne.text %}
+                                    <p class="section-description mb-0">
+                                        {{ categoryBannerOne.text }}
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if categoryBannerTwo %}
+                        {% set categoryBannerTwoImage = 'images/placeholders/placeholder-lg.jpg' %}
+                        {% if categoryBannerTwo.image %}
+                            {% set categoryBannerTwoImage = absolute_url(asset(categoryBannerTwo.image.absolutePath)) %}
+                        {% endif %}
+                        <div class="row">
+                            <div class="col-12 col-md-6 mb-4 mb-md-5">
+                                <h6 class="section-title">{{ categoryBannerTwo.title }}</h6>
+                                {% if categoryBannerTwo.text %}
+                                    <p class="section-description mb-0">
+                                        {{ categoryBannerTwo.text }}
+                                    </p>
+                                {% endif %}
+                            </div>
+                            <div class="col-12 col-md-6 mb-4 mb-md-5">
+                                <a href="{{ categoryBannerTwo.url ? categoryBannerTwo.url : '#' }}" {{ categoryBannerTwo.openNewTab ? 'target="_blank"' }}
+                                   class="section-img w-100">
+                                    <img
+                                            class="lazy w-100 h-100"
+                                            data-src="{{ categoryBannerTwoImage }}"
+                                            alt="{{ categoryBannerTwo.title }}"
+                                    />
+                                </a>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </section>
+            <hr class="line"/>
+        {% endif %}
+        {# END CATEGORY BANNERS SECTION #}
+
+        {# WHY CHOOSE US SECTION #}
+        <div class="container">
+            <section class="why-us-section">
+                <!-- section column -->
+                <div class="section-column">
+                    <h6 class="column-title">{{ 'attention_to_details_txt'|trans }}</h6>
+                    <lord-icon
+                            src="{{ asset('https://cdn.lordicon.com/tyounuzx.json') }}"
+                            trigger="loop"
+                            delay="1000"
+                            colors="primary:#121331,secondary:#4f1091"
+                            style="width: 100px; height: 100px"
+                    >
+                    </lord-icon>
+                    {# @todo: add dc #}
+                    <p class="mb-0 column-description text-center">
+                        Lorem ipsum lorem lorem ipsum lorem lorem lorem ipsum lorem
+                        lorem.
+                    </p>
+                </div>
+                <!-- end section column -->
+                <!-- section column -->
+                <div class="section-column">
+                    <h6 class="column-title">{{ 'craftsmanship_txt'|trans }}</h6>
+                    <lord-icon
+                            src="{{ asset('https://cdn.lordicon.com/sbiheqdr.json') }}"
+                            trigger="loop"
+                            delay="1000"
+                            colors="primary:#4f1091,secondary:#242424"
+                            style="width: 100px; height: 100px"
+                    >
+                    </lord-icon>
+                    {# @todo: add dc #}
+                    <p class="mb-0 column-description text-center">
+                        Lorem ipsum lorem lorem ipsum lorem lorem lorem ipsum lorem
+                        lorem.
+                    </p>
+                </div>
+                <!-- end section column -->
+                <!-- section column -->
+                <div class="section-column">
+                    <h6 class="column-title">{{ 'worldwide_txt'|trans }}</h6>
+                    <lord-icon
+                            src="{{ asset('https://cdn.lordicon.com/gqzfzudq.json') }}"
+                            trigger="loop"
+                            delay="1000"
+                            colors="primary:#121331,secondary:#4f1091"
+                            style="width: 100px; height: 100px"
+                    >
+                    </lord-icon>
+                    {# @todo: add dc #}
+                    <p class="mb-0 column-description text-center">
+                        Lorem ipsum lorem lorem ipsum lorem lorem lorem ipsum lorem
+                        lorem.
+                    </p>
+                </div>
+                <!-- end section column -->
+                <!-- section column -->
+                <div class="section-column">
+                    <h6 class="column-title">{{ 'handmade_txt'|trans }}</h6>
+                    <lord-icon
+                            src="{{ asset('https://cdn.lordicon.com/rqqkvjqf.json') }}"
+                            trigger="loop"
+                            colors="primary:#121331,secondary:#4f1091"
+                            style="width: 100px; height: 100px"
+                    >
+                    </lord-icon>
+                    {# @todo: add dc #}
+                    <p class="mb-0 column-description text-center">
+                        Lorem ipsum lorem lorem ipsum lorem lorem lorem ipsum lorem
+                        lorem.
+                    </p>
+                </div>
+                <!-- end section column -->
+                <!-- section column -->
+                <div class="section-column">
+                    <h6 class="column-title">{{ 'consulting_and_design_txt'|trans }}</h6>
+                    <lord-icon
+                            src="{{ asset('https://cdn.lordicon.com/wloilxuq.json') }}"
+                            trigger="loop"
+                            delay="1000"
+                            colors="primary:#121331,secondary:#4f1091"
+                            style="width: 100px; height: 100px"
+                    >
+                    </lord-icon>
+                    {# @todo: add dc #}
+                    <p class="mb-0 column-description text-center">
+                        Lorem ipsum lorem lorem ipsum lorem lorem lorem ipsum lorem
+                        lorem.
+                    </p>
+                </div>
+                <!-- end section column -->
+            </section>
+        </div>
+        {# END WHY CHOOSE US SECTION #}
+
+        {# TESTIMONIALS SECTION #}
+
+        <section class="reviews-section">
+            <div class="container-fluid">
+                {% if testimonials is not empty %}
+                    <h5 class="page-title text-center">{{ 'testimonials_title_txt'|trans }}</h5>
+                    <div class="container">
+                        <div class="swiper-container reviews-swiper">
+                            <div class="swiper-wrapper">
+                                {% for testimonial in testimonials %}
+                                    {% set testimonialImage = asset('images/placeholders/placeholder-md.jpg') %}
+                                    {% if testimonial.image %}
+                                        {% set testimonialImage = absolute_url(asset(testimonial.image.absolutePath)) %}
+                                    {% endif %}
+                                    <div class="swiper-slide">
+                                        <div class="card card-style-2">
+                                            <div class="img-container">
+                                                <img
+                                                        class="lazy"
+                                                        data-src="{{ testimonialImage }}"
+                                                        alt="{{ testimonial.client }}"
+                                                />
+                                            </div>
+                                            <h6 class="card-title">{{ testimonial.client }}</h6>
+                                            <p class="card-description">
+                                                {{ testimonial.message }}
+                                            </p>
+                                            <a href="#" class="card-link" target="_blank">
+                                                <i class="convert-svg"
+                                                   data-src="{{ asset('images/icons/facebook-logo.svg') }}"></i>
+                                                <span class="link-text">
+                                            {{ 'review_from_txt'|trans }}
+                                            <span class="vip-word">{{ 'facebook_txt'|trans }}</span>
+                                        </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div class="swiper-btns-container">
+                                <button type="button" class="btn swiper-btn swiper-btn-next swiper-btn-next-reviews">
+                                    <i class="convert-svg" data-src="{{ asset('images/icons/caret-right.svg') }}"></i>
+                                </button>
+                                <button type="button" class="btn swiper-btn swiper-btn-prev swiper-btn-prev-reviews">
+                                    <i class="convert-svg" data-src="{{ asset('images/icons/caret-left.svg') }}"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="share-feeback-section">
+                    <div class="share-feedback-container">
+                        <p class="title text-center">{{ 'share_feedback_txt'|trans }}</p>
+                        {# @todo: add dc #}
+                        <p class="text text-center">
+                            Lorem Ipsum Ipsum lorem lorem ipsum ipsum Lorem Ipsum Ipsum
+                            lorem lorem ipsum ipsum Lorem Ipsum Ipsum
+                        </p>
+                        <div class="d-flex justify-content-center">
+                            <button
+                                    type="button"
+                                    class="btn btn-style-1 w-25"
+                                    data-toggle="modal"
+                                    data-target="#userFeedbackModal"
+                            >
+                                {{ 'share_txt'|trans }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {# END TESTIMONIALS SECTION #}
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('https://cdn.lordicon.com/lusqsztk.js') }}"></script>
+    <script src="{{ asset('vendors/swiper/swiper.min.js') }}"></script>
+    <script src="{{ asset('js/pages/home.js') }}"></script>
+{% endblock %}

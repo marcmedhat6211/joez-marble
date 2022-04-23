@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {# META TAGS #}
+    {% block metatags %}
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <meta name="keywords" content="joez-marble"/>
+        <meta name="description" content="Joez Marble"/>
+    {% endblock %}
+    {# END META TAGS #}
+    {# FAVICON #}
+    {# @todo: add favicon #}
+    {# <link rel="shortcut icon" type="image/png" href="{{ asset('images/favicon.ico') }}"/> #}
+    {# END FAVICON #}
+
+    <title>{% block title %}{% endblock %} | {{ constant('\\App\\Kernel::WEBSITE_TITLE')|trans }}</title>
+    {# BASE CSS #}
+    {% block stylesheet %}
+        <link rel="stylesheet" href="{{ asset('vendors/fontawesome/css/all.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('css/main.css') }}"/>
+    {% endblock %}
+    {# END BASE CSS #}
+
+</head>
+
+<body>
+<div class="pre-loader">
+    <div class="pre-loader-object"></div>
+</div>
+{# HEADER #}
+{{ render(controller('App\\PageBundle\\Controller\\HomeController::menu', {"request": app.request})) }}
+{# END HEADER #}
+
+<main>
+    {# BODY #}
+    {% block content %}
+    {% endblock %}
+    {# END BODY #}
+</main>
+
+{{ render(controller('App\\PageBundle\\Controller\\HomeController::footer', {"request": app.request})) }}
+
+{# JS #}
+{% block javascripts %}
+    <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ asset('vendors/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('vendors/jquery-validation/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('vendors/jquery.lazy/jquery.lazy.min.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
+{% endblock %}
+{# END JS #}
+
+{# FIXED LAYOUTS #}
+{% block fixedLayouts %}
+    {% include 'fe/_back-to-top-btn.html.twig' %}
+    {{ render(controller('App\\PageBundle\\Controller\\HomeController::editProfile', {"request": app.request})) }}
+    {{ render(controller('App\\PageBundle\\Controller\\HomeController::shopAndShip', {"request": app.request})) }}
+    {{ render(controller('App\\PageBundle\\Controller\\HomeController::privacyPolicy', {"request": app.request})) }}
+    {{ render(controller('App\\PageBundle\\Controller\\HomeController::userFeedback', {"request": app.request})) }}
+    {{ render(controller('App\\PageBundle\\Controller\\HomeController::mobileMenu', {"request": app.request})) }}
+    {% include 'fe/_mobile-search-popup.html.twig' %}
+{% endblock %}
+{# END FIXED LAYOUTS #}
+</body>
+</html>

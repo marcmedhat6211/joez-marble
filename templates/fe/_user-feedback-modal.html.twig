@@ -1,0 +1,65 @@
+<div
+        class="modal fade modal-style-5"
+        id="userFeedbackModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="userFeedbackModalLabel"
+        aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button
+                        type="button"
+                        class="btn close-modal-btn"
+                        data-dismiss="modal"
+                >
+                    <i class="convert-svg" data-src="{{ asset('images/icons/x.svg') }}"></i>
+                </button>
+                <div class="logo-img-container">
+                    {# @todo: add right logo #}
+                    <img
+                            class="lazy"
+                            data-src="{{ asset('images/logo.jpg') }}"
+                            alt="Joez Marble"
+                    />
+                </div>
+                <form action="{{ path('fe_user_feedback') }}" id="user_feedback_form">
+                    <p class="form-text-info">
+                        {{ 'user_feedback_question_txt'|trans }}
+                    </p>
+                    <div class="radios-container">
+                        <div class="radios">
+                            {% for i in 1..10 %}
+                                <input
+                                        type="radio"
+                                        class="radio radio-style-1"
+                                        name="feedback"
+                                        value="{{ i }}"
+                                        required
+                                />
+                            {% endfor %}
+                        </div>
+                        <div class="info-text">
+                            <p class="info mb-0">{{ 'not_at_all_txt'|trans }}</p>
+                            <p class="info mb-0">{{ 'extremely_likely_txt'|trans }}</p>
+                        </div>
+                    </div>
+                    <p class="form-text-info">
+                        {{ 'choose_category_txt'|trans }}
+                    </p>
+                    <div class="form-group">
+                        <select class="custom-select" required>
+                            <option value="" selected>Choose..</option>
+                            <option value="1">{{ 'service_txt'|trans }}</option>
+                            <option value="2">{{ 'shipping_txt'|trans }}</option>
+                        </select>
+                    </div>
+                    <div class="submit-btn-container d-flex justify-content-center align-items-center">
+                        <button type="submit" class="btn btn-style-1">{{ 'submit_caps_txt'|trans }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

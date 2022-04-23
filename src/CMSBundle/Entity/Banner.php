@@ -19,10 +19,36 @@ class Banner implements DateTimeInterface
     use DateTimeTrait, VirtualDeleteTrait;
 
     public static array $placements = [
-        'Home Page slider (1920px * 975px)' => 1,
+        'Home Page slider (1850px * 355px)' => 1,
+        'Collection banner one (1850px * 270px)' => 2,
+        'Collection banner two (1850px * 270px)' => 3,
+        'Collection banner three (1850px * 270px)' => 4,
+        'Mid Page Big Banner (1290px * 510px)' => 5,
+        'Mid Page small Banner One (410px * 375px)' => 6,
+        'Mid Page small Banner Two (410px * 375px)' => 7,
+        'Mid Page small Banner Three (410px * 375px)' => 8,
+        'Mid Page Left Banner (575px * 510px)' => 9,
+        'Mid Page Right Small Banner One (410px * 240px)' => 10,
+        'Mid Page Right Small Banner Two (410px * 240px)' => 11,
+        'Mid Page Living Banner (300px * 300px)' => 12,
+        'Category Banner One (630px * 350px)' => 13,
+        'Category Banner Two (630px * 350px)' => 14,
     ];
     public static array $placementDimensions = [
-        1 => ["width" => 1920, "height" => 975],
+        1 => ["width" => 1850, "height" => 355],
+        2 => ["width" => 1850, "height" => 270],
+        3 => ["width" => 1850, "height" => 270],
+        4 => ["width" => 1850, "height" => 270],
+        5 => ["width" => 1290, "height" => 510],
+        6 => ["width" => 410, "height" => 375],
+        7 => ["width" => 410, "height" => 375],
+        8 => ["width" => 410, "height" => 375],
+        9 => ["width" => 575, "height" => 510],
+        10 => ["width" => 410, "height" => 240],
+        11 => ["width" => 410, "height" => 240],
+        12 => ["width" => 300, "height" => 300],
+        13 => ["width" => 630, "height" => 350],
+        14 => ["width" => 630, "height" => 350],
     ];
 
     /**

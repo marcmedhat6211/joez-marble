@@ -1,0 +1,88 @@
+<div
+        class="modal fade modal-style-4"
+        id="editProfileModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="editProfileModal"
+        aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form action="{{ path('fe_edit_profile') }}" class="modal-body" id="edit_profile_form">
+                <div class="d-flex justify-content-end">
+                    <button
+                        type="button"
+                        class="btn close-modal-btn"
+                        data-dismiss="modal"
+                    >
+                        <i class="convert-svg" data-src="{{ asset('images/icons/x.svg') }}"></i>
+                    </button>
+                </div>
+                {# @todo: create formtype and adjust this form #}
+                <div class="form-group input-style-4 style-side w-75">
+                    <label for="name">Name</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="name"
+                        id="name"
+                        placeholder="Enter your name.."
+                        required
+                        value="Joe Roman"
+                    />
+                </div>
+                <div class="form-group input-style-4 style-side w-75">
+                    <label for="email">Email</label>
+                    <input
+                            type="text"
+                            class="form-control"
+                            name="email"
+                            id="email"
+                            placeholder="Enter your email.."
+                            value="joeroman@gmail.com"
+                            required
+                    />
+                </div>
+                <div class="form-group input-style-4 style-side w-75">
+                    <label for="phone">Phone</label>
+                    <input
+                            type="text"
+                            class="form-control"
+                            name="phone"
+                            id="phone"
+                            placeholder="1234567"
+                            required
+                    />
+                </div>
+                <div class="form-group input-style-4 style-side w-75">
+                    <label for="password">Password</label>
+                    <input
+                            type="password"
+                            class="form-control"
+                            name="password"
+                            id="password"
+                            placeholder="Enter your password.."
+                            required
+                            value="123456"
+                    />
+                </div>
+                <div class="form-group input-style-4 style-side w-75">
+                    <label for="confirm_password">Confirm Password</label>
+                    <input
+                            type="password"
+                            class="form-control"
+                            name="confirm-password"
+                            id="confirm_password"
+                            required
+                            value="123456"
+                    />
+                </div>
+                <div class="d-flex justify-content-end mt-5">
+                    <button type="submit" class="btn btn-style-1 hover-effect w-25">
+                        Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,231 @@
+<header>
+    <div id="desktop_header" class="d-none d-md-block">
+        <!-- HEADER PART ONE -->
+        <div id="header_part_one">
+            <div class="header-one-content">
+                {# @todo: add links #}
+                <a href="#" class="header-one-link">{{ 'sales_caps_txt'|trans }}</a>
+                <a href="#" class="header-one-link">{{ 'free_services_caps_txt'|trans }}</a>
+                <a href="#" class="header-one-link">{{ 'new_arrivals_txt'|trans }}</a>
+            </div>
+        </div>
+        <!-- END HEADER PART ONE -->
+        <!-- HEADER PART TWO -->
+        <div id="header_part_two">
+            <!-- quick access links section -->
+            <div class="quick-access-links-container">
+                <div class="pages-links">
+                    {# @todo: add links #}
+                    <a href="#" class="quick-access-link active">{{ 'joez_designs_txt'|trans }}</a>
+                    <a href="#" class="quick-access-link">{{ 'joez_living_txt'|trans }}</a>
+                </div>
+                <button
+                    class="btn country-btn"
+                    id="country_btn"
+                    data-toggle="modal"
+                    data-target="#shopAndShipModal"
+                >
+                    <img
+                            class="lazy"
+                            data-src="{{ asset('images/placeholders/flag-1.jpg') }}"
+                            alt="Shop and Ship"
+                    />
+                </button>
+            </div>
+            <!-- end quick access links section -->
+            <!-- main header -->
+            <div class="main-header">
+                <form action="#" id="desktop_search_form">
+                    <div class="input-container">
+                        <input
+                            class="form-control"
+                            type="text"
+                            placeholder="{{ 'what_can_we_help_with_qs_txt'|trans }}"
+                        />
+                        <i class="convert-svg search-icon" data-src="{{ asset('images/icons/magnifying-glass.svg') }}"></i>
+                    </div>
+                </form>
+                <a href="{{ path('fe_home') }}" class="desktop-logo-container">
+                    {# @todo: add the right logo #}
+                    <img
+                            class="lazy"
+                            data-src="{{ asset('images/logo.jpg') }}"
+                            alt="{{ 'joez_designs_txt'|trans }}"
+                    />
+                </a>
+                <div class="desktop-icons-container">
+                    <div class="icon-container">
+                        <button
+                                type="button"
+                                class="btn icon-btn"
+                                id="desktop_user_button"
+                        >
+                            <div class="icon">
+                                <i class="convert-svg" data-src="{{ asset('images/icons/user.svg') }}"></i>
+                            </div>
+                        </button>
+                        <div
+                            class="profile-dropdown-container icon-dropdown"
+                            id="desktop_profile_dropdown"
+                        >
+                            {% if app.user %}
+                            <p class="dropdown-title">{{ 'hi_txt'|trans }} {{ app.user.fullName }}</p>
+                            <a
+                                    href=""
+                                    class="profile-dropdown-link"
+                                    data-toggle="modal"
+                                    data-target="#editProfileModal">{{ 'edit_profile_txt'|trans }}
+                            </a>
+                            {# @todo: add link #}
+                            <a href="#" class="profile-dropdown-link">{{ 'my_orders_txt'|trans }}</a>
+                            <a href="{{ path('app_user_logout') }}" class="profile-dropdown-link">{{ 'sign_out_txt'|trans }}</a>
+                            {% else %}
+                                <p class="dropdown-title">{{ 'welcome_to_joez_designs_txt'|trans }}</p>
+                                {# @todo: add link #}
+                                <a href="#" class="profile-dropdown-link">{{ 'sign_in_txt'|trans }}</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="icon-container">
+                        {# @todo: add link #}
+                        <a
+                                href="#"
+                                class="icon-btn"
+                                id="desktop_wishlist_button"
+                        >
+                            <div class="icon">
+                                <i
+                                        class="convert-svg"
+                                        data-src="{{ asset('images/icons/heart.svg') }}"
+                                ></i>
+                            </div>
+                            {# @todo: add count #}
+                            <span class="items-count" id="desktop_wishlist_items_count">0</span>
+                        </a>
+                    </div>
+                    <div class="icon-container">
+                        <button
+                                type="button"
+                                class="btn icon-btn"
+                                id="desktop_cart_button"
+                        >
+                            <div class="icon">
+                                <i class="convert-svg" data-src="{{ asset('images/icons/cart.svg') }}"></i>
+                            </div>
+                            {# @todo: add count #}
+                            <span class="items-count" id="desktop_cart_items_count">0</span>
+                        </button>
+                        <div
+                                class="items-dropdown icon-dropdown"
+                                id="desktop_cart_dropdown"
+                        >
+                            <div class="items-container">
+                                <p>{{ 'cart_empty_txt'|trans }}</p>
+                            </div>
+                            <div class="dropdown-btn-container d-flex justify-content-center align-items-center">
+                                {# @todo: add link #}
+                                <a href="#" class="btn btn-style-1 hover-effect">{{ 'view_cart_txt'|trans }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end main header -->
+        </div>
+        <!-- END HEADER PART TWO -->
+        <!-- HEADER PART THREE -->
+        <div id="header_part_three">
+            <ul class="header-three-items-container">
+                {% for category in categories %}
+                    <li class="header-three-item">
+                    <span class="item-text">{{ category.title }}</span>
+                    <div class="header-three-dropdown">
+                        <div class="dropdown-links-container">
+                            {% for subcategory in category.subcategories %}
+                                {# @todo: add link #}
+                                <a href="#" class="link">{{ subcategory.title }}</a>
+                            {% endfor %}
+                            <a href="#" class="link">{{ 'see_all_category_txt'|trans({"%categoryTitle%": category.title}) }}</a>
+                        </div>
+                        <div class="dropdown-imgs-links-container">
+                            {# @todo: add link #}
+                            <a href="#" class="img-link">
+                                {# @todo: add image #}
+                                <img
+                                    class="lazy"
+                                    data-src="{{ asset('https://via.placeholder.com/335x400') }}"
+                                    alt="{{ category.title }}"
+                                />
+                            </a>
+                            {# @todo: add link #}
+                            <a href="#" class="img-link">
+                                {# @todo: add image #}
+                                <img
+                                    class="lazy"
+                                    data-src="{{ asset('https://via.placeholder.com/335x400') }}"
+                                    alt="{{ category.title }}"
+                                />
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <!-- END HEADER PART THREE -->
+    </div>
+    <!-- mobile header -->
+    <div id="mobile_header" class="d-flex d-md-none">
+        <button type="button" id="mobile_menu_btn" class="btn">
+            <i class="convert-svg" data-src="{{ asset('images/icons/mobile-menu.svg') }}"></i>
+        </button>
+        <a href="{{ path('fe_home') }}" class="mobile-logo">
+            {# @todo: add right logo #}
+            <img
+                class="lazy"
+                data-src="{{ asset('images/logo.jpg') }}"
+                alt="{{ 'joez_designs_txt'|trans }}"
+            />
+        </a>
+        <div class="mobile-icons-container">
+            <button
+                    type="button"
+                    class="btn mobile-icon-btn search-icon"
+                    id="mobile_search_btn"
+            >
+                <i
+                        class="convert-svg"
+                        data-src="{{ asset('images/icons/magnifying-glass.svg') }}"
+                ></i>
+            </button>
+            <button
+                    type="button"
+                    class="btn mobile-icon-btn"
+                    id="mobile_cart_btn"
+            >
+                <i class="convert-svg" data-src="{{ asset('images/icons/cart.svg') }}"></i>
+            </button>
+        </div>
+        <form action="#" id="mobile_cart" class="mobile-cart">
+            <div class="title-container">
+                <h3 class="cart-title">{{ 'your_cart_txt'|trans }}</h3>
+            </div>
+            <!-- cart items -->
+            <div class="items-container">
+                {# @todo: add cart items #}
+                <p>{{ 'cart_empty_txt'|trans }}</p>
+            </div>
+            <!-- end cart items -->
+            <div class="cart-total-container">
+                <p class="text mb-0">{{ 'total_caps_txt'|trans }}</p>
+                {# @todo: add right amount #}
+                <p class="amount mb-0">750.00 EGP</p>
+            </div>
+            <button type="button" id="close_cart_btn" class="btn close-cart-btn">
+                <i class="convert-svg" data-src="{{ asset('images/icons/x.svg') }}"></i>
+            </button>
+            <button type="submit" class="btn btn-style-1 w-100">{{ 'check_out_caps_txt'|trans }}</button>
+        </form>
+    </div>
+    <!-- end mobile header -->
+</header>

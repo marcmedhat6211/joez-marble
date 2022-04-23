@@ -1,0 +1,344 @@
+<footer>
+    <div id="desktop_footer" class="d-none d-md-block">
+        <div class="footer-strip">
+            <span>{{ 'taxes_txt'|trans }}</span>
+            <span>{{ 'taxes_txt'|trans }}</span>
+            <span>{{ 'taxes_txt'|trans }}</span>
+        </div>
+        <div class="main-footer">
+            <div class="container py-4">
+                <div class="row">
+                    <!-- logos -->
+                    <div class="col-3">
+                        {# @todo: add right logos and links #}
+                        <a href="#">
+                            <img
+                                    class="lazy mb-3 footer-img"
+                                    data-src="{{ asset('https://via.placeholder.com/300x110') }}"
+                                    alt="{{ 'joez_designs_txt'|trans }}"
+                            />
+                        </a>
+                        <a href="#">
+                            <img
+                                    class="lazy footer-img"
+                                    data-src="{{ asset('https://via.placeholder.com/300x110') }}"
+                                    alt="{{ 'joez_living_txt'|trans }}"
+                            />
+                        </a>
+                    </div>
+                    <!-- end logos -->
+                    <div class="col-9">
+                        <div class="row mb-5">
+                            <!-- footer column -->
+                            <div class="col-3">
+                                <h5 class="column-title">{{ 'contact_us_txt'|trans }}</h5>
+                                {# @todo: add right link #}
+                                <a href="#" class="column-link">{{ 'contact_us_txt'|trans }}</a>
+                                {# @todo: add dca #}
+                                <a href="tel: +20 123 456 7891" class="column-link">+20 123 456 7891</a>
+                            </div>
+                            <!-- end footer column -->
+                            <!-- footer column -->
+                            <div class="col-3">
+                                <h5 class="column-title">
+                                    {{ 'order_tracking_txt'|trans }}
+                                </h5>
+                                {# @todo: add right link #}
+                                <a href="#" class="column-link">{{ 'track_order_txt'|trans }}</a>
+                                {# @todo: add dca #}
+                                <a href="tel: +20 123 456 7891" class="column-link">+20 123 456 7891</a>
+                            </div>
+                            <!-- end footer column -->
+                            <!-- footer column -->
+                            <div class="col-3">
+                                <h5 class="column-title">{{ 'resources_txt'|trans }}</h5>
+                                {# @todo: add right links #}
+                                {% if app.user %}
+                                <a
+                                    href="#"
+                                    data-toggle="modal"
+                                    data-target="#editProfileModal"
+                                    class="column-link">
+                                    {{ 'my_account_txt'|trans }}
+                                </a>
+                                {% else %}
+                                    <a
+                                        href="#"
+                                        class="column-link">
+                                        {{ 'sign_in_txt'|trans }}
+                                    </a>
+                                {% endif %}
+                                <a
+                                    href="#"
+                                    data-toggle="modal"
+                                    data-target="#privacyPolicyModal"
+                                    class="column-link">
+                                    {{ 'privacy_policy_txt'|trans }}
+                                </a>
+                            </div>
+                            <!-- end footer column -->
+                            <!-- footer column -->
+                            <div class="col-3">
+                                <h5 class="column-title">{{ 'our_company_txt'|trans }}</h5>
+                                {# @todo: add right links #}
+                                <a href="#" class="column-link">{{ 'about_us_txt'|trans }}</a>
+                                <a href="#" class="column-link">{{ 'faqs_txt'|trans }}</a>
+                            </div>
+                            <!-- end footer column -->
+                        </div>
+                        {# @todo: handle subscription #}
+                        <form action="#" id="desktop_footer_subscription_form">
+                            <button
+                                type="submit"
+                                class="btn btn-style-1 bg-black hover-effect"
+                            >
+                                {{ 'subscribe_caps_txt'|trans }}
+                            </button>
+                            <input
+                                    type="email"
+                                    class="form-control"
+                                    name="email"
+                                    id="mobile_email"
+                                    placeholder="Enter your email.."
+                                    required
+                            />
+                        </form>
+                    </div>
+                </div>
+                <div class="taxes-info-container">
+                    {# @todo: add dca #}
+                    <div class="taxes-info-text">
+                        {{ 'tax_number_txt'|trans }} <span id="tax_id_number">########</span> {{ 'segel_togary_txt'}} <span id="segel_number">########</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="mobile_footer" class="d-block d-md-none">
+        <div class="mobile-footer-info-container">
+            <form action="#" id="mobile_subscription_form">
+                <h6 class="form-title">{{ 'sign_up_for_emails_caps_txt'|trans }}</h6>
+                <div class="form-field-container">
+                    <div class="form-group">
+                        <input
+                                class="form-control"
+                                type="email"
+                                name="email"
+                                placeholder="ENTER EMAIL ADDRESS"
+                                required
+                        />
+                    </div>
+                    <button type="submit" class="btn btn-style-1">{{ 'submit_caps_txt'|trans }}</button>
+                </div>
+            </form>
+            <div class="privacy-info">
+                <a
+                        href="#"
+                        class="info-link"
+                        data-toggle="modal"
+                        data-target="#privacyPolicyModal"
+                >
+                    {{ 'click_here_txt'|trans }}
+                </a>
+                <span>{{ 'read_privacy_notice_txt'|trans }}</span>
+                {# @todo: add link #}
+                <a href="#" class="info-link">{{ 'contact_us_txt'|trans }}</a>
+            </div>
+            <div id="mobile_footer_accordion">
+                <!-- mobile footer card btn -->
+                <div class="card">
+                    <div class="card-header" id="mobileFooterBtnOne">
+                        <button
+                                class="btn mobile-footer-btn collapsed"
+                                data-toggle="collapse"
+                                data-target="#mobileFooterCollapseOne"
+                                aria-expanded="true"
+                                aria-controls="mobileFooterCollapseOne"
+                        >
+                            <span>{{ 'contact_us_txt'|trans }}</span>
+                            <i class="convert-svg" data-src="images/icons/plus.svg"></i>
+                        </button>
+                    </div>
+                    <div
+                            id="mobileFooterCollapseOne"
+                            class="collapse"
+                            aria-labelledby="mobileFooterBtnOne"
+                            data-parent="#mobile_footer_accordion"
+                    >
+                        <div class="card-body">
+                            <ul class="mobile-footer-links-container">
+                                <li class="mobile-footer-link-container">
+                                    {# @todo: add link #}
+                                    <a href="#" class="mobile-footer-link">{{ 'contact_us_txt'|trans }}</a>
+                                    {# @todo: add dc #}
+                                    <a href="tel:01225464214" class="mobile-footer-link">+20 122 5464 214</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- end mobile footer card btn -->
+                <!-- mobile footer card btn -->
+                <div class="card">
+                    <div class="card-header" id="mobileFooterBtnTwo">
+                        <button
+                                class="btn mobile-footer-btn collapsed"
+                                data-toggle="collapse"
+                                data-target="#mobileFooterCollapseTwo"
+                                aria-expanded="true"
+                                aria-controls="mobileFooterCollapseTwo"
+                        >
+                            <span>{{ 'order_tracking_txt'|trans }}</span>
+                            <i class="convert-svg" data-src="{{ asset('images/icons/plus.svg') }}"></i>
+                        </button>
+                    </div>
+                    <div
+                            id="mobileFooterCollapseTwo"
+                            class="collapse"
+                            aria-labelledby="mobileFooterBtnTwo"
+                            data-parent="#mobile_footer_accordion"
+                    >
+                        <div class="card-body">
+                            <ul class="mobile-footer-links-container">
+                                <li class="mobile-footer-link-container">
+                                    {# @todo: add link #}
+                                    <a href="#" class="mobile-footer-link">{{ 'track_order_txt'|trans }}</a>
+                                    {# @todo: add dc #}
+                                    <a href="tel:01225464214" class="mobile-footer-link">+20 122 5464 214</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- end mobile footer card btn -->
+                <!-- mobile footer card btn -->
+                <div class="card">
+                    <div class="card-header" id="mobileFooterBtnThree">
+                        <button
+                                class="btn mobile-footer-btn collapsed"
+                                data-toggle="collapse"
+                                data-target="#mobileFooterCollapseThree"
+                                aria-expanded="true"
+                                aria-controls="mobileFooterCollapseThree"
+                        >
+                            <span>{{ 'resources_txt'|trans }}</span>
+                            <i class="convert-svg" data-src="{{ asset('images/icons/plus.svg') }}"></i>
+                        </button>
+                    </div>
+                    <div
+                            id="mobileFooterCollapseThree"
+                            class="collapse"
+                            aria-labelledby="mobileFooterBtnThree"
+                            data-parent="#mobile_footer_accordion"
+                    >
+                        <div class="card-body">
+                            <ul class="mobile-footer-links-container">
+                                <li class="mobile-footer-link-container">
+                                    {% if app.user %}
+                                    <a
+                                            href="#"
+                                            data-toggle="modal"
+                                            data-target="#editProfileModal"
+                                            class="mobile-footer-link"
+                                    >
+                                        {{ 'edit_account_txt'|trans }}
+                                    </a>
+                                    {% else %}
+                                        {# @todo: add link #}
+                                        <a
+                                            href="#"
+                                            data-toggle="modal"
+                                            data-target="#editProfileModal"
+                                            class="mobile-footer-link"
+                                        >
+                                            {{ 'sign_in_txt'|trans }}
+                                        </a>
+                                    {% endif %}
+                                    <a
+                                            href="#"
+                                            data-toggle="modal"
+                                            data-target="#privacyPolicyModal"
+                                            class="mobile-footer-link"
+                                    >
+                                        {{ 'privacy_policy_txt'|trans }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- end mobile footer card btn -->
+                <!-- mobile footer card btn -->
+                <div class="card">
+                    <div class="card-header" id="mobileFooterBtnFour">
+                        <button
+                                class="btn mobile-footer-btn collapsed"
+                                data-toggle="collapse"
+                                data-target="#mobileFooterCollapseFour"
+                                aria-expanded="true"
+                                aria-controls="mobileFooterCollapseFour"
+                        >
+                            <span>{{ 'our_company_txt'|trans }}</span>
+                            <i class="convert-svg" data-src="{{ asset('images/icons/plus.svg') }}"></i>
+                        </button>
+                    </div>
+                    <div
+                            id="mobileFooterCollapseFour"
+                            class="collapse"
+                            aria-labelledby="mobileFooterBtnFour"
+                            data-parent="#mobile_footer_accordion"
+                    >
+                        <div class="card-body">
+                            <ul class="mobile-footer-links-container">
+                                <li class="mobile-footer-link-container">
+                                    {# @todo: add link #}
+                                    <a href="#" class="mobile-footer-link"
+                                    >
+                                        {{ 'about_us_txt'|trans }}
+                                    </a>
+                                    {# @todo: add link #}
+                                    <a href="#" class="mobile-footer-link">{{ 'faqs_txt'|trans }}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- end mobile footer card btn -->
+            </div>
+            <div class="mobile-footer-logo-container d-flex justify-content-center align-items-center">
+                <a href="{{ path('fe_home') }}" class="mobile-footer-logo">
+                    {# @todo: add right logo #}
+                    <img
+                        class="lazy"
+                        data-src="{{ asset('images/logo.jpg') }}"
+                        alt="Joez Designs"
+                    />
+                </a>
+            </div>
+            <div class="mobile-footer-social-media-icons">
+                {# @todo: add dc #}
+                <a
+                        href="https://instagram.com/joez_designs?igshid=4i3gl74qsucd"
+                        target="_blank"
+                        class="social-media-item"
+                >
+                    <i class="convert-svg" data-src="{{ asset('images/icons/instagram.svg') }}"></i>
+                    <span class="social-media-text">{{ 'joez_instagram_txt'|trans }}</span>
+                </a>
+                {# @todo: add dc #}
+                <a
+                        href="https://www.facebook.com/Joez.Designss"
+                        target="_blank"
+                        class="social-media-item"
+                >
+                    <i
+                            class="convert-svg"
+                            data-src="{{ asset('images/icons/facebook-colored.svg') }}"
+                    ></i>
+                    <span class="social-media-text">{{ 'joez_facebook_txt'|trans }}</span>
+                </a>
+            </div>
+        </div>
+        <div class="mobile-footer-last-section"></div>
+    </div>
+</footer>

@@ -1,0 +1,114 @@
+<div id="mobile_menu_wrapper">
+    <div id="mobile_menu">
+        <button
+                type="button"
+                id="close_mobile_menu_btn"
+                class="btn close-mobile-menu-btn"
+        >
+            <i class="convert-svg" data-src="{{ asset('images/icons/x.svg') }}"></i>
+        </button>
+        <div class="mobile-menu-body">
+            <ul class="mobile-menu-links">
+                <li class="mobile-menu-link active">
+                    <a href="{{ path('fe_home') }}" class="link">{{ 'home_txt'|trans }}</a>
+                </li>
+                <li class="mobile-menu-link">
+                    {# @todo: add link #}
+                    <a href="#" class="link">{{ 'wishlist_txt'|trans }}</a>
+                </li>
+                <div id="mobile_menu_accordion">
+                    <div class="card">
+                        <div class="card-header mobile-menu-link" id="headingThree">
+                            <button
+                                    class="btn link collapsed"
+                                    data-toggle="collapse"
+                                    data-target="#collapseThree"
+                                    aria-expanded="false"
+                                    aria-controls="collapseThree"
+                            >
+                                <span>{{ 'profile_txt'|trans }}</span>
+                                <i class="convert-svg" data-src="{{ asset('images/icons/plus.svg') }}"></i>
+                            </button>
+                        </div>
+                        <div
+                                id="collapseThree"
+                                class="collapse"
+                                aria-labelledby="headingThree"
+                                data-parent="#mobile_menu_accordion"
+                        >
+                            <div class="card-body">
+                                <ul class="mobile-menu-dropdown-links">
+                                    <li class="mobile-menu-dropdown-group">
+                                        {% if app.user %}
+                                            {# @todo: add links #}
+                                            <a
+                                                    href="#"
+                                                    data-toggle="modal"
+                                                    data-target="#editProfileModal"
+                                                    class="link-text">
+                                                {{ 'edit_profile_txt'|trans }}
+                                            </a>
+                                            <a href="#" class="link-text">{{ 'my_orders_txt'|trans }}</a>
+                                            <a href="{{ path('app_user_logout') }}"
+                                               class="link-text">{{ 'logout_txt'|trans }}</a>
+                                        {% else %}
+                                            {# @todo: add link #}
+                                            <a href="#" class="link-text">{{ 'sign_in_txt'|trans }}</a>
+                                        {% endif %}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header mobile-menu-link" id="headingOne">
+                            <button
+                                    class="btn link collapsed"
+                                    data-toggle="collapse"
+                                    data-target="#collapseOne"
+                                    aria-expanded="true"
+                                    aria-controls="collapseOne"
+                            >
+                                <span>{{ 'products_txt'|trans }}</span>
+                                <i class="convert-svg" data-src="{{ asset('images/icons/plus.svg') }}"></i>
+                            </button>
+                        </div>
+                        <div
+                                id="collapseOne"
+                                class="collapse"
+                                aria-labelledby="headingOne"
+                                data-parent="#mobile_menu_accordion"
+                        >
+                            <div class="card-body">
+                                <ul class="mobile-menu-dropdown-links">
+                                    {% for category in categories %}
+                                        <li class="mobile-menu-dropdown-group">
+                                            <h6 class="main-category-title">{{ category.title }}</h6>
+                                            {% for subcategory in category.subcategories %}
+                                                {# @todo: add link #}
+                                                <a href="#" class="link-text">{{ subcategory.title }}</a>
+                                            {% endfor %}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <li class="mobile-menu-link">
+                    {# @todo: add link #}
+                    <a href="#" class="link">{{ 'faqs_txt'|trans }}</a>
+                </li>
+                <li class="mobile-menu-link">
+                    <a
+                            href="#"
+                            data-toggle="modal"
+                            data-target="#shopAndShipModal"
+                            class="link">
+                        {{ 'region_and_currency_txt'|trans }}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
