@@ -3,9 +3,12 @@
 namespace App\ECommerceBundle\Controller\Administration;
 
 use App\ECommerceBundle\Entity\Material;
+use App\ECommerceBundle\Entity\ProductMaterialImage;
 use App\ECommerceBundle\Form\MaterialGalleryType;
 use App\ECommerceBundle\Form\MaterialType;
 use App\ECommerceBundle\Repository\MaterialRepository;
+use App\ECommerceBundle\Repository\ProductMaterialImageRepository;
+use App\ECommerceBundle\Repository\ProductRepository;
 use App\MediaBundle\Model\Image as BaseImage;
 use App\MediaBundle\Services\UploadFileService;
 use App\UserBundle\Model\UserInterface;
@@ -68,7 +71,7 @@ class MaterialController extends AbstractController
             }
 
             $this->addFlash('success', 'Successfully saved');
-            return $this->redirectToRoute("material_gallery_images", ["id" => $material->getId()]);
+            return $this->redirectToRoute("material_index");
         }
 
         return $this->render('ecommerce/admin/material/new.html.twig', [
@@ -103,8 +106,8 @@ class MaterialController extends AbstractController
                 if (!$isImageUploaded["valid"]) {
                     foreach ($isImageUploaded["errors"] as $error) {
                         $this->addFlash("error", $error);
-                        return $this->redirectToRoute("material_edit", ["id" => $material->getId()]);
                     }
+                    return $this->redirectToRoute("material_edit", ["id" => $material->getId()]);
                 }
             }
             $this->addFlash("success", "Material updated successfully");
@@ -121,14 +124,23 @@ class MaterialController extends AbstractController
     /**
      * @Route("/{id}/delete", name="material_delete", methods={"GET", "POST"})
      */
-    public function delete(Material $material, EntityManagerInterface $em, UploadFileService $uploadFileService): Response
+    public function delete(
+        Material $material,
+        EntityManagerInterface $em,
+        ProductMaterialImageRepository $productMaterialImageRepository,
+        UploadFileService $uploadFileService
+    ): Response
     {
         $this->denyAccessUnlessGranted(UserInterface::ROLE_ADMIN);
+
+        $materialUsedCount = $this->getMaterialsUsedCount($material, $productMaterialImageRepository);
+        if ($materialUsedCount > 0) {
+            $this->addFlash("error", "You can't delete this material because it is connected to products and images, delete all images that uses this material and try again!");
+            return $this->redirectToRoute("material_index");
+        }
+
         if ($material->getMainImage()) {
             $uploadFileService->removeImage($material->getMainImage());
-        }
-        if (count($material->getGalleryImages()) > 0) {
-            $uploadFileService->removeGalleryImages($material->getGalleryImages(), $material);
         }
 
         $material->setDeleted(new \DateTime());
@@ -148,5 +160,13 @@ class MaterialController extends AbstractController
         $search->deleted = 0;
 
         return $materialRepository->filter($search, false, true, 10, $request);
+    }
+
+    private function getMaterialsUsedCount(Material $material, ProductMaterialImageRepository $productMaterialImageRepository): int
+    {
+        $search = new \stdClass();
+        $search->material = $material->getId();
+
+        return $productMaterialImageRepository->filter($search, true);
     }
 }

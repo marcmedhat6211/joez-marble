@@ -21,7 +21,6 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>SKU</th>
                     <th>Title</th>
                     <th>Price (EGP)</th>
                     <th>Category</th>
@@ -38,7 +37,6 @@
                     {% for product in paginator %}
                         <tr>
                             <td>{{ product.id }}</td>
-                            <td>{{ product.sku }}</td>
                             <td>{{ product.title }}</td>
                             <td>{{ product.price }}</td>
                             <td>{{ product.subcategory.category.title }}</td>

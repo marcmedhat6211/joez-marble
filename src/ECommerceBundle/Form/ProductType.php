@@ -52,15 +52,6 @@ class ProductType extends AbstractType
                     ])
                 ]
             ])
-            ->add('sku', TextType::class, [
-                'required' => false,
-                "attr" => [
-                    "class" => "form-control"
-                ],
-                "constraints" => [
-                    new NotBlank(),
-                ]
-            ])
             ->add('price', NumberType::class, [
                 'required' => false,
                 "attr" => [
@@ -178,11 +169,20 @@ class ProductType extends AbstractType
     public function onSubmit(FormEvent $event): void
     {
         $form = $event->getForm();
-        $materials = $form->get("materials")->getData();
-        $errorMessage = "Please add at least one (1) material";
+//        $materials = $form->get("materials")->getData();
+//        $errorMessage = "Please add at least one (1) material";
+//
+//        if (count($materials) == 0) {
+//            $form->get("materials")
+//                ->addError(new FormError($errorMessage));
+//        }
 
-        if (count($materials) == 0) {
-            $form->get("materials")
+        $title = $form->get("title")->getData();
+        $otherProductWithSameSlug = $this->em->getRepository(Product::class)->findBy(["title" => $title, "deleted" => NULL]);
+        $errorMessage = "Another product has the same title as this one, please choose another title for this product";
+        if ($otherProductWithSameSlug)
+        {
+            $form->get("title")
                 ->addError(new FormError($errorMessage));
         }
     }

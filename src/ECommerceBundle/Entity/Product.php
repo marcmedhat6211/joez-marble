@@ -3,20 +3,21 @@
 namespace App\ECommerceBundle\Entity;
 
 use App\MediaBundle\Entity\Image;
+use App\SeoBundle\Entity\Seo;
+use App\SeoBundle\Model\SeoInterface;
 use App\ServiceBundle\Model\DateTimeInterface;
 use App\ServiceBundle\Model\DateTimeTrait;
 use App\ServiceBundle\Model\VirtualDeleteTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\JoinColumn;
 use JetBrains\PhpStorm\Pure;
 
 /**
  * @ORM\Table(name="product")
  * @ORM\Entity(repositoryClass="App\ECommerceBundle\Repository\ProductRepository")
  */
-class Product implements DateTimeInterface
+class Product implements DateTimeInterface, SeoInterface
 {
     use DateTimeTrait, VirtualDeleteTrait;
 
@@ -31,11 +32,6 @@ class Product implements DateTimeInterface
      * @ORM\Column(name="title", type="string", length=50)
      */
     private ?string $title;
-
-    /**
-     * @ORM\Column(name="sku", type="string", length=50)
-     */
-    private ?string $sku;
 
     /**
      * @ORM\Column(name="price", type="float")
@@ -71,6 +67,11 @@ class Product implements DateTimeInterface
      * @ORM\Column(name="best_seller", type="boolean")
      */
     private bool $bestSeller = false;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\SeoBundle\Entity\Seo", inversedBy="product", cascade={"persist", "remove" })
+     */
+    private ? Seo $seo;
 
     /**
      * @ORM\ManyToOne(targetEntity="Subcategory", inversedBy="products", cascade={"persist"})
@@ -127,18 +128,6 @@ class Product implements DateTimeInterface
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    public function getSku(): ?string
-    {
-        return $this->sku;
-    }
-
-    public function setSku(string $sku): self
-    {
-        $this->sku = $sku;
 
         return $this;
     }
@@ -343,6 +332,18 @@ class Product implements DateTimeInterface
     public function removeGalleryImage(Image $galleryImage): self
     {
         $this->galleryImages->removeElement($galleryImage);
+
+        return $this;
+    }
+
+    public function getSeo(): ?Seo
+    {
+        return $this->seo;
+    }
+
+    public function setSeo($seo)
+    {
+        $this->seo = $seo;
 
         return $this;
     }
