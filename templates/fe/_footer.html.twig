@@ -32,8 +32,7 @@
                             <!-- footer column -->
                             <div class="col-3">
                                 <h5 class="column-title">{{ 'contact_us_txt'|trans }}</h5>
-                                {# @todo: add right link #}
-                                <a href="#" class="column-link">{{ 'contact_us_txt'|trans }}</a>
+                                <a href="{{ path('fe_contact') }}" class="column-link">{{ 'contact_us_txt'|trans }}</a>
                                 {# @todo: add dca #}
                                 <a href="tel: +20 123 456 7891" class="column-link">+20 123 456 7891</a>
                             </div>
@@ -80,9 +79,8 @@
                             <!-- footer column -->
                             <div class="col-3">
                                 <h5 class="column-title">{{ 'our_company_txt'|trans }}</h5>
-                                {# @todo: add right links #}
-                                <a href="#" class="column-link">{{ 'about_us_txt'|trans }}</a>
-                                <a href="#" class="column-link">{{ 'faqs_txt'|trans }}</a>
+                                <a href="{{ path('fe_about') }}" class="column-link">{{ 'about_us_txt'|trans }}</a>
+                                <a href="{{ path('fe_faqs') }}" class="column-link">{{ 'faqs_txt'|trans }}</a>
                             </div>
                             <!-- end footer column -->
                         </div>
@@ -141,8 +139,7 @@
                     {{ 'click_here_txt'|trans }}
                 </a>
                 <span>{{ 'read_privacy_notice_txt'|trans }}</span>
-                {# @todo: add link #}
-                <a href="#" class="info-link">{{ 'contact_us_txt'|trans }}</a>
+                <a href="{{ path('fe_contact') }}" class="info-link">{{ 'contact_us_txt'|trans }}</a>
             </div>
             <div id="mobile_footer_accordion">
                 <!-- mobile footer card btn -->
@@ -156,7 +153,7 @@
                                 aria-controls="mobileFooterCollapseOne"
                         >
                             <span>{{ 'contact_us_txt'|trans }}</span>
-                            <i class="convert-svg" data-src="images/icons/plus.svg"></i>
+                            <i class="convert-svg" data-src="{{ asset('images/icons/plus.svg') }}"></i>
                         </button>
                     </div>
                     <div
@@ -168,8 +165,7 @@
                         <div class="card-body">
                             <ul class="mobile-footer-links-container">
                                 <li class="mobile-footer-link-container">
-                                    {# @todo: add link #}
-                                    <a href="#" class="mobile-footer-link">{{ 'contact_us_txt'|trans }}</a>
+                                    <a href="{{ path('fe_contact') }}" class="mobile-footer-link">{{ 'contact_us_txt'|trans }}</a>
                                     {# @todo: add dc #}
                                     <a href="tel:01225464214" class="mobile-footer-link">+20 122 5464 214</a>
                                 </li>
@@ -291,13 +287,10 @@
                         <div class="card-body">
                             <ul class="mobile-footer-links-container">
                                 <li class="mobile-footer-link-container">
-                                    {# @todo: add link #}
-                                    <a href="#" class="mobile-footer-link"
-                                    >
+                                    <a href="{{ path('fe_about') }}" class="mobile-footer-link">
                                         {{ 'about_us_txt'|trans }}
                                     </a>
-                                    {# @todo: add link #}
-                                    <a href="#" class="mobile-footer-link">{{ 'faqs_txt'|trans }}</a>
+                                    <a href="{{ path('fe_faqs') }}" class="mobile-footer-link">{{ 'faqs_txt'|trans }}</a>
                                 </li>
                             </ul>
                         </div>
