@@ -68,9 +68,9 @@ class SubcategoryRepository extends ServiceEntityRepository
 
         if (isset($search->deleted) and in_array($search->deleted, array(0, 1))) {
             if ($search->deleted == 1) {
-                $statement->andWhere('c.deleted IS NOT NULL');
+                $statement->andWhere('sc.deleted IS NOT NULL');
             } else {
-                $statement->andWhere('c.deleted IS NULL');
+                $statement->andWhere('sc.deleted IS NULL');
             }
         }
 

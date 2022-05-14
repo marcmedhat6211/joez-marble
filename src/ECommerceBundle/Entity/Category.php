@@ -2,6 +2,8 @@
 
 namespace App\ECommerceBundle\Entity;
 
+use App\SeoBundle\Entity\Seo;
+use App\SeoBundle\Model\SeoInterface;
 use App\ServiceBundle\Model\DateTimeInterface;
 use App\ServiceBundle\Model\DateTimeTrait;
 use App\ServiceBundle\Model\VirtualDeleteTrait;
@@ -14,7 +16,7 @@ use JetBrains\PhpStorm\Pure;
  * @ORM\Table(name="category")
  * @ORM\Entity(repositoryClass="App\ECommerceBundle\Repository\CategoryRepository")
  */
-class Category implements DateTimeInterface
+class Category implements DateTimeInterface, SeoInterface
 {
     use DateTimeTrait, VirtualDeleteTrait;
 
@@ -34,6 +36,11 @@ class Category implements DateTimeInterface
      * @ORM\Column(name="living", type="boolean")
      */
     private bool $living = false;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\SeoBundle\Entity\Seo", inversedBy="category", cascade={"persist", "remove" })
+     */
+    private ? Seo $seo;
 
     /**
      * @ORM\OneToMany(targetEntity="Subcategory", mappedBy="category")
@@ -105,6 +112,18 @@ class Category implements DateTimeInterface
                 $subcategory->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSeo(): ?Seo
+    {
+        return $this->seo;
+    }
+
+    public function setSeo($seo)
+    {
+        $this->seo = $seo;
 
         return $this;
     }
