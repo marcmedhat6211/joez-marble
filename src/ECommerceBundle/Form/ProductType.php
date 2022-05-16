@@ -104,6 +104,15 @@ class ProductType extends AbstractType
                         ->orderBy('sc.id', 'DESC');
                 },
             ])
+            ->add('mainImage', FileType::class, [
+                'mapped' => false,
+                'label_attr' => [
+                    "class" => "custom-file-label"
+                ],
+                "attr" => [
+                    "class" => "custom-file-input"
+                ]
+            ])
             ->add('publish', CheckboxType::class, [
                 'label_attr' => [
                     "class" => "custom-control-label"
@@ -135,7 +144,17 @@ class ProductType extends AbstractType
                 "attr" => [
                     "class" => "custom-control-input"
                 ]
-            ]);
+            ])
+            ->add('onSale', CheckboxType::class, [
+                'label' => "On Sale",
+                'label_attr' => [
+                    "class" => "custom-control-label"
+                ],
+                "attr" => [
+                    "class" => "custom-control-input"
+                ]
+            ])
+        ;
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'onPreSetData']);
         $builder->addEventListener(FormEvents::PRE_SUBMIT, [$this, 'onPreSubmit']);

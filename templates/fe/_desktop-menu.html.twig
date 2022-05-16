@@ -4,7 +4,7 @@
         <div id="header_part_one">
             <div class="header-one-content">
                 {# @todo: add links #}
-                <a href="#" class="header-one-link">{{ 'sales_caps_txt'|trans }}</a>
+                <a href="{{ path('fe_filter_product_sale') }}" class="header-one-link">{{ 'sales_caps_txt'|trans }}</a>
                 <a href="#" class="header-one-link">{{ 'free_services_caps_txt'|trans }}</a>
                 <a href="#" class="header-one-link">{{ 'new_arrivals_txt'|trans }}</a>
             </div>
@@ -16,7 +16,7 @@
             <div class="quick-access-links-container">
                 <div class="pages-links">
                     {# @todo: add links #}
-                    <a href="#" class="quick-access-link active">{{ 'joez_designs_txt'|trans }}</a>
+                    <a href="{{ path('fe_filter_product') }}" class="quick-access-link active">{{ 'joez_designs_txt'|trans }}</a>
                     <a href="#" class="quick-access-link">{{ 'joez_living_txt'|trans }}</a>
                 </div>
                 <button

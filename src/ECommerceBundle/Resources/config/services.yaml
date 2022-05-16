@@ -15,6 +15,10 @@ services:
     resource: '../../Controller/Administration'
     tags: [ 'controller.service_arguments' ]
 
+  App\ECommerceBundle\Controller\FrontEnd:
+    resource: '../../Controller/FrontEnd'
+    tags: [ 'controller.service_arguments' ]
+
   App\ECommerceBundle\Repository\:
     resource: '../../Repository/*'
     tags: [ 'doctrine.repository_service' ]

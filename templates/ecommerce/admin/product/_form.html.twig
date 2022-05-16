@@ -28,6 +28,14 @@
             {{ form_errors(form.materials) }}
         </div>
     </div>
+    <div class="col-12 mb-3">
+        <div class="custom-file">
+            {{ form_widget(form.mainImage) }}
+            {{ form_label(form.mainImage) }}
+            {{ form_errors(form.mainImage) }}
+            <span class="form-text text-muted">Size: 225 px x 225 px</span>
+        </div>
+    </div>
     <div class="col-12">
         <div class="form-group">
             {{ form_label(form.brief) }}
@@ -42,32 +50,39 @@
             {{ form_errors(form.description) }}
         </div>
     </div>
-    <div class="col-12 col-md-3">
+    <div class="col-12 col-md-2">
         <div class="custom-control custom-switch custom-switch-square custom-control-success mb-2">
             {{ form_widget(form.publish) }}
             {{ form_label(form.publish) }}
             {{ form_errors(form.publish) }}
         </div>
     </div>
-    <div class="col-12 col-md-3">
+    <div class="col-12 col-md-2">
         <div class="custom-control custom-switch custom-switch-square custom-control-success mb-2">
             {{ form_widget(form.featured) }}
             {{ form_label(form.featured) }}
             {{ form_errors(form.featured) }}
         </div>
     </div>
-    <div class="col-12 col-md-3">
+    <div class="col-12 col-md-2">
         <div class="custom-control custom-switch custom-switch-square custom-control-success mb-2">
             {{ form_widget(form.newArrival) }}
             {{ form_label(form.newArrival) }}
             {{ form_errors(form.newArrival) }}
         </div>
     </div>
-    <div class="col-12 col-md-3">
+    <div class="col-12 col-md-2">
         <div class="custom-control custom-switch custom-switch-square custom-control-success mb-2">
             {{ form_widget(form.bestSeller) }}
             {{ form_label(form.bestSeller) }}
             {{ form_errors(form.bestSeller) }}
+        </div>
+    </div>
+    <div class="col-12 col-md-2">
+        <div class="custom-control custom-switch custom-switch-square custom-control-success mb-2">
+            {{ form_widget(form.onSale) }}
+            {{ form_label(form.onSale) }}
+            {{ form_errors(form.onSale) }}
         </div>
     </div>
 </div>

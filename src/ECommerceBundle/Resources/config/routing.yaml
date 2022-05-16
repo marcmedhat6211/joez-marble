@@ -1,4 +1,8 @@
-cms_admin:
+ecommerce_admin:
   resource: "@ECommerceBundle/Controller/Administration"
   type:     annotation
   prefix:   /admin
+
+ecommerce_frontend:
+  resource: "@ECommerceBundle/Controller/FrontEnd"
+  type:     annotation

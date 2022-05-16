@@ -11,6 +11,7 @@ use App\ServiceBundle\Model\VirtualDeleteTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
 use JetBrains\PhpStorm\Pure;
 
 /**
@@ -67,6 +68,17 @@ class Product implements DateTimeInterface, SeoInterface
      * @ORM\Column(name="best_seller", type="boolean")
      */
     private bool $bestSeller = false;
+
+    /**
+     * @ORM\Column(name="on_sale", type="boolean")
+     */
+    private bool $onSale = false;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\MediaBundle\Entity\Image", inversedBy="testimonial", cascade={"persist", "remove" })
+     * @JoinColumn(name="main_image_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    private ?Image $mainImage;
 
     /**
      * @ORM\OneToOne(targetEntity="App\SeoBundle\Entity\Seo", inversedBy="product", cascade={"persist", "remove" })
@@ -344,6 +356,30 @@ class Product implements DateTimeInterface, SeoInterface
     public function setSeo($seo)
     {
         $this->seo = $seo;
+
+        return $this;
+    }
+
+    public function getOnSale(): ?bool
+    {
+        return $this->onSale;
+    }
+
+    public function setOnSale(bool $onSale): self
+    {
+        $this->onSale = $onSale;
+
+        return $this;
+    }
+
+    public function getMainImage(): ?Image
+    {
+        return $this->mainImage;
+    }
+
+    public function setMainImage(?Image $mainImage): self
+    {
+        $this->mainImage = $mainImage;
 
         return $this;
     }

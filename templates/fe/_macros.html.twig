@@ -1,0 +1,23 @@
+{% macro product(entity) %}
+    {% set image = asset('images/placeholders/placeholder-md.jpg') %}
+    {% if entity.mainImage %}
+        {% set image = absolute_url(asset(entity.mainImage.absolutePath)) %}
+    {% endif %}
+    <div class="card card-style-1">
+        <div class="card-img-container">
+            <img
+                class="lazy"
+                data-src="{{ image }}"
+                alt="{{ entity.title }}"
+            />
+            <button type="button" class="btn fav-btn has-active-icon"></button>
+            <button type="button" class="btn cart-btn btn-style-1 hover-effect">
+                {{ 'add_to_cart_txt'|trans }}
+            </button>
+        </div>
+        {# @todo: add link #}
+        <a href="#" class="card-title text-center">{{ entity.title }}</a>
+        {# @todo: adjust currency and value #}
+        <p class="card-price text-center mb-0">{{ entity.price }} EGP</p>
+    </div>
+{% endmacro %}

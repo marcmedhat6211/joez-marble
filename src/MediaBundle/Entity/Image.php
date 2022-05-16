@@ -31,6 +31,11 @@ class Image extends BaseImage
     private ?Testimonial $testimonial;
 
     /**
+     * @ORM\OneToOne(targetEntity="App\ECommerceBundle\Entity\Product", mappedBy="mainImage")
+     */
+    private ?Product $product;
+
+    /**
      * @ORM\OneToOne(targetEntity="App\ECommerceBundle\Entity\Currency", mappedBy="flag")
      */
     private ?Currency $currency;
@@ -197,6 +202,28 @@ class Image extends BaseImage
         if ($this->products->removeElement($product)) {
             $product->removeGalleryImage($this);
         }
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($product === null && $this->product !== null) {
+            $this->product->setMainImage(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($product !== null && $product->getMainImage() !== $this) {
+            $product->setMainImage($this);
+        }
+
+        $this->product = $product;
 
         return $this;
     }

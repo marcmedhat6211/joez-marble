@@ -13,6 +13,7 @@ use App\ECommerceBundle\Repository\ProductRepository;
 use App\ECommerceBundle\Repository\ProductSpecRepository;
 use App\ECommerceBundle\Services\ProductService;
 use App\MediaBundle\Entity\Image;
+use App\MediaBundle\Model\Image as BaseImage;
 use App\MediaBundle\Services\UploadFileService;
 use App\UserBundle\Model\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -43,16 +44,38 @@ class ProductController extends AbstractController
     /**
      * @Route("/new", name="product_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $em): Response
+    public function new(Request $request, EntityManagerInterface $em, UploadFileService $uploadFileService): Response
     {
         $this->denyAccessUnlessGranted(UserInterface::ROLE_ADMIN);
         $product = new Product();
+        //@todo: only for testing (remove important)
+        $product->addMaterial($em->getRepository(Material::class)->findOneBy([]));
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($product);
             $em->flush();
+
+            if ($form->get("mainImage")->getData()) {
+                $isImageUploaded = $uploadFileService->uploadImage(
+                    $form,
+                    Product::class,
+                    $product,
+                    UploadFileService::ACTION_ADD,
+                    "image",
+                    BaseImage::IMAGE_TYPE_MAIN,
+                    225,
+                    225
+                );
+                if (!$isImageUploaded["valid"]) {
+                    foreach ($isImageUploaded["errors"] as $error) {
+                        $this->addFlash("error", $error);
+                    }
+                    return $this->redirectToRoute("product_edit", ["id" => $product->getId()]);
+                }
+            }
+
             $this->addFlash('success', 'Successfully saved');
 
             return $this->redirectToRoute("product_index");
@@ -66,7 +89,12 @@ class ProductController extends AbstractController
     /**
      * @Route("/{id}/edit", name="product_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Product $product, EntityManagerInterface $em): Response
+    public function edit(
+        Request $request,
+        Product $product,
+        EntityManagerInterface $em,
+        UploadFileService $uploadFileService
+    ): Response
     {
         $this->denyAccessUnlessGranted(UserInterface::ROLE_ADMIN);
         $form = $this->createForm(ProductType::class, $product);
@@ -75,6 +103,26 @@ class ProductController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($product);
             $em->flush();
+
+            if ($form->get("mainImage")->getData()) {
+                $isImageUploaded = $uploadFileService->uploadImage(
+                    $form,
+                    Product::class,
+                    $product,
+                    UploadFileService::ACTION_EDIT,
+                    "image",
+                    BaseImage::IMAGE_TYPE_MAIN,
+                    225,
+                    225
+                );
+                if (!$isImageUploaded["valid"]) {
+                    foreach ($isImageUploaded["errors"] as $error) {
+                        $this->addFlash("error", $error);
+                    }
+                    return $this->redirectToRoute("product_edit", ["id" => $product->getId()]);
+                }
+            }
+
             $this->addFlash("success", "Product updated successfully");
 
             return $this->redirectToRoute("product_index");

@@ -65,7 +65,6 @@ class ProductRepository extends ServiceEntityRepository
         if (isset($search->string) and Validate::not_null($search->string)) {
             $statement->andWhere('p.id LIKE :searchTerm '
                 . 'OR p.title LIKE :searchTerm '
-                . 'OR p.sku LIKE :searchTerm '
             );
             $statement->setParameter('searchTerm', '%' . trim($search->string) . '%');
         }
@@ -75,7 +74,7 @@ class ProductRepository extends ServiceEntityRepository
             $statement->setParameter('price', $search->price);
         }
 
-        if (isset($search->subcategory) and $search->subcategory > 0) {
+        if (isset($search->subcategory) and $search->subcategory != "") {
             $statement->andWhere('p.subcategory = :subcategory');
             $statement->setParameter('subcategory', $search->subcategory);
         }
@@ -98,6 +97,16 @@ class ProductRepository extends ServiceEntityRepository
         if (isset($search->bestSeller) and $search->bestSeller != "") {
             $statement->andWhere('p.bestSeller = :bestSeller');
             $statement->setParameter('bestSeller', $search->bestSeller);
+        }
+
+        if (isset($search->onSale) and $search->onSale != "") {
+            $statement->andWhere('p.onSale = :onSale');
+            $statement->setParameter('onSale', $search->onSale);
+        }
+
+        if (isset($search->living) and $search->living != "") {
+            $statement->andWhere('c.living = :living');
+            $statement->setParameter('living', $search->living);
         }
 
         if (isset($search->deleted) and in_array($search->deleted, array(0, 1))) {

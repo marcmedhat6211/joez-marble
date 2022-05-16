@@ -7,6 +7,7 @@ use App\SeoBundle\Entity\Seo;
 use App\SeoBundle\Model\SeoInterface;
 use App\SeoBundle\Repository\SeoRepository;
 use App\SeoBundle\Service\SeoService;
+use App\ServiceBundle\Utils\Validate;
 use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -66,10 +67,13 @@ class EntityPersistenceListener implements EventSubscriberInterface
         $entity = $args->getObject();
         if ($entity instanceof SeoInterface)
         {
+            if ($entity->getDeleted()) {
+                return;
+            }
+
             $entitySeo = $entity->getSeo();
             $entityIdentifier = $entity->__toString();
             $newSlug = $this->seoService->generateSeoSlug($entityIdentifier);
-
             $isSameSlug = $this->seoRepository->findOneBy(["slug" => $newSlug]);
             if ($isSameSlug) {
                 return;
@@ -78,7 +82,6 @@ class EntityPersistenceListener implements EventSubscriberInterface
             $entitySeo->setTitle($entityIdentifier);
             $entitySeo->setSlug($newSlug);
             $this->em->persist($entitySeo);
-            $this->em->flush();
         }
     }
 }

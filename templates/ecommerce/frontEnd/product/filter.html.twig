@@ -1,0 +1,31 @@
+{% extends 'fe/base.html.twig' %}
+{% block title %}{{ 'filter_page_txt'|trans }}{% endblock %}
+{% import 'fe/_macros.html.twig' as macros %}
+
+{% block content %}
+
+    <div id="filter_page" class="pb-5">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 col-xl-2 col-md-3 pr-0 pl-0">
+                    {% include 'ecommerce/frontEnd/product/_filter-bar.html.twig' %}
+                </div>
+                <div class="col-12 col-xl-10 col-md-9 pt-20">
+                    <div class="container">
+                        <div class="row">
+                            {% for product in products %}
+                                <div class="col-6 col-md-3 mb-4 mb-md-5">
+                                    {{ macros.product(product) }}
+                                </div>
+                            {% endfor %}
+                            <div class="col-12 d-flex justify-content-center">
+                                {% include 'fe/_pagination.html.twig' %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

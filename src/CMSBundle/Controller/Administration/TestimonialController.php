@@ -61,8 +61,8 @@ class TestimonialController extends AbstractController
                 if (!$isImageUploaded["valid"]) {
                     foreach ($isImageUploaded["errors"] as $error) {
                         $this->addFlash("error", $error);
-                        return $this->redirectToRoute("testimonial_edit", ["id" => $testimonial->getId()]);
                     }
+                    return $this->redirectToRoute("testimonial_edit", ["id" => $testimonial->getId()]);
                 }
             }
 
@@ -103,8 +103,8 @@ class TestimonialController extends AbstractController
                 if (!$isImageUploaded["valid"]) {
                     foreach ($isImageUploaded["errors"] as $error) {
                         $this->addFlash("error", $error);
-                        return $this->redirectToRoute("testimonial_edit", ["id" => $testimonial->getId()]);
                     }
+                    return $this->redirectToRoute("testimonial_edit", ["id" => $testimonial->getId()]);
                 }
             }
 

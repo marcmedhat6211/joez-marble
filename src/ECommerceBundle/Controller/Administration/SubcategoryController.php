@@ -104,6 +104,7 @@ class SubcategoryController extends AbstractController
     private function getSubcategories(Request $request, SubcategoryRepository $subcategoryRepository)
     {
         $search = new \stdClass();
+        $search->deleted = 0;
 
         return $subcategoryRepository->filter($search, false, true, 10, $request);
     }

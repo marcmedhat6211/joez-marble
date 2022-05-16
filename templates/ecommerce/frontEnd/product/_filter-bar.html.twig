@@ -1,0 +1,15 @@
+{% set mainCategory = firstCategory %}
+{% set activeSubcategory = firstSubcategory %}
+{% if currentRoute == "fe_filter_subcategory" %}
+    {% set activeSubcategory = filteredSubcategory %}
+    {% set mainCategory = filteredSubcategory.category %}
+{% endif %}
+{% if mainCategory %}
+    <div class="filter filter-style-1">
+        <h4 class="current-main-filter">{{ mainCategory.title }}</h4>
+        {% for subcategory in mainCategory.subcategories %}
+            <a href="{{ path('fe_filter_subcategory', {"slug": subcategory.seo.slug}) }}"
+               class="filter-link">{{ subcategory.title }}</a>
+        {% endfor %}
+    </div>
+{% endif %}
