@@ -197,10 +197,15 @@ class ProductType extends AbstractType
 //        }
 
         $title = $form->get("title")->getData();
-        $otherProductWithSameSlug = $this->em->getRepository(Product::class)->findBy(["title" => $title, "deleted" => NULL]);
-        $errorMessage = "Another product has the same title as this one, please choose another title for this product";
-        if ($otherProductWithSameSlug)
-        {
+
+        $search = new \stdClass();
+        $search->deleted = 0;
+        $search->title = $title;
+        $search->notId = $form->getData()->getId();
+        $otherProductWithSameSlugCount = $this->em->getRepository(Product::class)->filter($search, true);
+
+        if ($otherProductWithSameSlugCount > 0) {
+            $errorMessage = "Another product has the same title as this one, please choose another title for this product";
             $form->get("title")
                 ->addError(new FormError($errorMessage));
         }

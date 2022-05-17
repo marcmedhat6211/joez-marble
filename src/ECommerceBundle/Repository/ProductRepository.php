@@ -74,6 +74,21 @@ class ProductRepository extends ServiceEntityRepository
             $statement->setParameter('price', $search->price);
         }
 
+        if (isset($search->notId) and Validate::not_null($search->notId)) {
+            $statement->andWhere('p.id <> :notId');
+            $statement->setParameter('notId', $search->notId);
+        }
+
+        if (isset($search->category) and $search->category != "") {
+            $statement->andWhere('sc.category = :category');
+            $statement->setParameter('category', $search->category);
+        }
+
+        if (isset($search->title) and $search->title != "") {
+            $statement->andWhere('sc.title = :title');
+            $statement->setParameter('title', $search->title);
+        }
+
         if (isset($search->subcategory) and $search->subcategory != "") {
             $statement->andWhere('p.subcategory = :subcategory');
             $statement->setParameter('subcategory', $search->subcategory);

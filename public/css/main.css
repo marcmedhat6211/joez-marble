@@ -13267,7 +13267,7 @@ header #mobile_header .mobile-cart .cart-total-container .amount {
 }
 .filter.filter-style-1 {
   background: transparent;
-  padding: 40px 60px;
+  padding-top: 40px;
   position: sticky;
   top: 0;
   background: transparent;
@@ -13283,7 +13283,6 @@ header #mobile_header .mobile-cart .cart-total-container .amount {
   color: black;
   font-size: 15px;
   font-weight: 400;
-  white-space: nowrap;
   -webkit-transition: all 0.2s ease-in-out;
   -moz-transition: all 0.2s ease-in-out;
   -ms-transition: all 0.2s ease-in-out;

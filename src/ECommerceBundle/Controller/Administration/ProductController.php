@@ -63,7 +63,7 @@ class ProductController extends AbstractController
                     Product::class,
                     $product,
                     UploadFileService::ACTION_ADD,
-                    "image",
+                    "mainImage",
                     BaseImage::IMAGE_TYPE_MAIN,
                     225,
                     225
@@ -110,10 +110,8 @@ class ProductController extends AbstractController
                     Product::class,
                     $product,
                     UploadFileService::ACTION_EDIT,
-                    "image",
+                    "mainImage",
                     BaseImage::IMAGE_TYPE_MAIN,
-                    225,
-                    225
                 );
                 if (!$isImageUploaded["valid"]) {
                     foreach ($isImageUploaded["errors"] as $error) {

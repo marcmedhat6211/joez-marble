@@ -75,7 +75,7 @@ class Product implements DateTimeInterface, SeoInterface
     private bool $onSale = false;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\MediaBundle\Entity\Image", inversedBy="testimonial", cascade={"persist", "remove" })
+     * @ORM\OneToOne(targetEntity="App\MediaBundle\Entity\Image", inversedBy="product", cascade={"persist", "remove" })
      * @JoinColumn(name="main_image_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private ?Image $mainImage;

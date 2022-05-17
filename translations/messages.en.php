@@ -81,4 +81,5 @@ return [
     "send_message_txt" => "Send Message",
     "filter_page_txt" => "Filter Page",
     "add_to_cart_txt" => "Add to cart",
+    "show_all_txt" => "Show All",
 ];
