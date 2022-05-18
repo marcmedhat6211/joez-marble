@@ -3,10 +3,12 @@
         <!-- HEADER PART ONE -->
         <div id="header_part_one">
             <div class="header-one-content">
-                <a href="{{ path('fe_filter_product_sale') }}" class="header-one-link">{{ 'sales_caps_txt'|trans }}</a>
-                {# @todo: add link #}
+                {# @todo: add links #}
+                <a href="{{ path('fe_filter_designs_product_sale') }}" class="header-one-link">{{ 'designs_sales_caps_txt'|trans }}</a>
+                <a href="#" class="header-one-link">{{ 'living_sales_caps_txt'|trans }}</a>
                 <a href="#" class="header-one-link">{{ 'free_services_caps_txt'|trans }}</a>
-                <a href="{{ path('fe_filter_product_new_arrival') }}" class="header-one-link">{{ 'new_arrivals_txt'|trans }}</a>
+                <a href="{{ path('fe_filter_designs_product_new_arrival') }}" class="header-one-link">{{ 'designs_new_arrivals_txt'|trans }}</a>
+                <a href="#" class="header-one-link">{{ 'living_new_arrivals_txt'|trans }}</a>
             </div>
         </div>
         <!-- END HEADER PART ONE -->
@@ -16,7 +18,7 @@
             <div class="quick-access-links-container">
                 <div class="pages-links">
                     {# @todo: add links #}
-                    <a href="{{ path('fe_filter_product') }}" class="quick-access-link active">{{ 'joez_designs_txt'|trans }}</a>
+                    <a href="{{ path('fe_filter_designs_product') }}" class="quick-access-link active">{{ 'joez_designs_txt'|trans }}</a>
                     <a href="#" class="quick-access-link">{{ 'joez_living_txt'|trans }}</a>
                 </div>
                 <button
@@ -143,13 +145,13 @@
                     <div class="header-three-dropdown">
                         <div class="dropdown-links-container">
                             {% for subcategory in category.subcategories %}
-                                <a href="{{ path('fe_filter_subcategory', {"slug": subcategory.seo.slug}) }}" class="link">{{ subcategory.title }}</a>
+                                <a href="{{ path('fe_filter_designs_subcategory', {"slug": subcategory.seo.slug}) }}" class="link">{{ subcategory.title }}</a>
                             {% endfor %}
-                            <a href="{{ path('fe_filter_category', {"slug": category.seo.slug}) }}" class="link">{{ 'see_all_category_txt'|trans({"%categoryTitle%": category.title}) }}</a>
+                            <a href="{{ path('fe_filter_designs_category', {"slug": category.seo.slug}) }}" class="link">{{ 'see_all_category_txt'|trans({"%categoryTitle%": category.title}) }}</a>
                         </div>
                         <div class="dropdown-imgs-links-container">
                             {# @todo: add link #}
-                            <a href="{{ path('fe_filter_category', {"slug": category.seo.slug}) }}" class="img-link">
+                            <a href="{{ path('fe_filter_designs_category', {"slug": category.seo.slug}) }}" class="img-link">
                                 {# @todo: add image #}
                                 <img
                                     class="lazy"
@@ -158,7 +160,7 @@
                                 />
                             </a>
                             {# @todo: add link #}
-                            <a href="{{ path('fe_filter_category', {"slug": category.seo.slug}) }}" class="img-link">
+                            <a href="{{ path('fe_filter_designs_category', {"slug": category.seo.slug}) }}" class="img-link">
                                 {# @todo: add image #}
                                 <img
                                     class="lazy"

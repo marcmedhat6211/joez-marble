@@ -1,9 +1,9 @@
 {% set mainCategory = firstCategory %}
 {% set activeSubcategory = firstSubcategory %}
-{% if currentRoute == "fe_filter_subcategory" %}
+{% if currentRoute == "fe_filter_designs_subcategory" %}
     {% set activeSubcategory = filteredSubcategory %}
     {% set mainCategory = filteredSubcategory.category %}
-{% elseif currentRoute == "fe_filter_category" %}
+{% elseif currentRoute == "fe_filter_designs_category" %}
     {% set activeSubcategory = NULL %}
     {% set mainCategory = filteredCategory %}
 {% endif %}
@@ -12,13 +12,13 @@
         <h4 class="current-main-filter">{{ mainCategory.title }}</h4>
         {% for subcategory in mainCategory.subcategories %}
             {% set isActive = false %}
-            {% if currentRoute == 'fe_filter_subcategory' and subcategory.id == activeSubcategory.id %}
+            {% if currentRoute == 'fe_filter_designs_subcategory' and subcategory.id == activeSubcategory.id %}
                 {% set isActive = true %}
             {% endif %}
-            <a href="{{ path('fe_filter_subcategory', {"slug": subcategory.seo.slug}) }}"
+            <a href="{{ path('fe_filter_designs_subcategory', {"slug": subcategory.seo.slug}) }}"
                class="filter-link {{ isActive ? 'active' }}">{{ subcategory.title }}</a>
         {% endfor %}
-        <a href="{{ path('fe_filter_category', {"slug": mainCategory.seo.slug}) }}"
+        <a href="{{ path('fe_filter_designs_category', {"slug": mainCategory.seo.slug}) }}"
            class="filter-link">{{ 'show_all_txt'|trans }}</a>
     </div>
 {% endif %}
