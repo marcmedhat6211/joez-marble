@@ -81,7 +81,8 @@ return [
     "leave_msg_txt" => "Leave us a message!",
     "contact_message_sent_success_msg" => "Your message was sent successfully, we will get back to you as soon as possible",
     "send_message_txt" => "Send Message",
-    "filter_page_txt" => "Filter Page",
+    "designs_filter_page_txt" => "Joez Designs Filter Page",
+    "living_filter_page_txt" => "Joez Living Filter Page",
     "add_to_cart_txt" => "Add to cart",
     "show_all_txt" => "Show All",
 ];

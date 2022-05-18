@@ -67,6 +67,11 @@ class CategoryRepository extends ServiceEntityRepository
             $statement->setParameter('searchTerm', '%' . trim($search->string) . '%');
         }
 
+        if (isset($search->living) and $search->living != "") {
+            $statement->andWhere('c.living = :living');
+            $statement->setParameter('living', $search->living);
+        }
+
         if (isset($search->deleted) and in_array($search->deleted, array(0, 1))) {
             if ($search->deleted == 1) {
                 $statement->andWhere('c.deleted IS NOT NULL');

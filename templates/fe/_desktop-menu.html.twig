@@ -19,7 +19,7 @@
                 <div class="pages-links">
                     {# @todo: add links #}
                     <a href="{{ path('fe_filter_designs_product') }}" class="quick-access-link active">{{ 'joez_designs_txt'|trans }}</a>
-                    <a href="#" class="quick-access-link">{{ 'joez_living_txt'|trans }}</a>
+                    <a href="{{ path('fe_filter_living_product') }}" class="quick-access-link">{{ 'joez_living_txt'|trans }}</a>
                 </div>
                 <button
                     class="btn country-btn"
@@ -140,17 +140,22 @@
             <ul class="header-three-items-container">
                 {# @todo: make sure of the case if the category is 'living' category  #}
                 {% for category in categories %}
+                    {% set subcategoryLink = "fe_filter_designs_subcategory" %}
+                    {% if category.living %}
+                        {% set subcategoryLink = "fe_filter_living_show" %}
+                    {% endif %}
                     <li class="header-three-item">
                     <span class="item-text">{{ category.title }}</span>
                     <div class="header-three-dropdown">
                         <div class="dropdown-links-container">
                             {% for subcategory in category.subcategories %}
-                                <a href="{{ path('fe_filter_designs_subcategory', {"slug": subcategory.seo.slug}) }}" class="link">{{ subcategory.title }}</a>
+                                <a href="{{ path(subcategoryLink, {"slug": subcategory.seo.slug}) }}" class="link">{{ subcategory.title }}</a>
                             {% endfor %}
-                            <a href="{{ path('fe_filter_designs_category', {"slug": category.seo.slug}) }}" class="link">{{ 'see_all_category_txt'|trans({"%categoryTitle%": category.title}) }}</a>
+                            {% if not category.living %}
+                                <a href="{{ path('fe_filter_designs_category', {"slug": category.seo.slug}) }}" class="link underlined">{{ 'see_all_category_txt'|trans({"%categoryTitle%": category.title}) }}</a>
+                            {% endif %}
                         </div>
                         <div class="dropdown-imgs-links-container">
-                            {# @todo: add link #}
                             <a href="{{ path('fe_filter_designs_category', {"slug": category.seo.slug}) }}" class="img-link">
                                 {# @todo: add image #}
                                 <img
@@ -159,7 +164,6 @@
                                     alt="{{ category.title }}"
                                 />
                             </a>
-                            {# @todo: add link #}
                             <a href="{{ path('fe_filter_designs_category', {"slug": category.seo.slug}) }}" class="img-link">
                                 {# @todo: add image #}
                                 <img
@@ -191,14 +195,11 @@
         </a>
         <div class="mobile-icons-container">
             <button
-                    type="button"
-                    class="btn mobile-icon-btn search-icon"
-                    id="mobile_search_btn"
+                type="button"
+                class="btn mobile-icon-btn search-icon"
+                id="mobile_search_btn"
             >
-                <i
-                        class="convert-svg"
-                        data-src="{{ asset('images/icons/magnifying-glass.svg') }}"
-                ></i>
+                <i class="convert-svg" data-src="{{ asset('images/icons/magnifying-glass.svg') }}"></i>
             </button>
             <button
                     type="button"

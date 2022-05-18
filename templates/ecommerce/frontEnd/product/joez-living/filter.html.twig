@@ -1,0 +1,53 @@
+{% extends 'fe/base.html.twig' %}
+{% block title %}{{ 'living_filter_page_txt'|trans }}{% endblock %}
+{% import 'fe/_macros.html.twig' as macros %}
+
+{% block stylesheet %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('vendors/swiper/swiper.css') }}"/>
+{% endblock %}
+
+{% block content %}
+
+    <div id="living_page" class="pb-4">
+        {% for category in categories %}
+            <!-- living main section -->
+            <div class="living-main-section mb-4">
+                <div class="hero-header hero-header-1 mb-4 mb-md-5">
+                    {# @todo: add image #}
+                    <img
+                        class="lazy"
+                        data-src="https://via.placeholder.com/1850x350"
+                        alt="{{ category.title }}"
+                    />
+                    <div class="container position-absolute header-title-container">
+                        <h5 class="header-title">{{ category.title }}</h5>
+                    </div>
+                </div>
+                <div class="container">
+                    {% include 'ecommerce/frontEnd/product/joez-living/_filter-slider.html.twig' %}
+                    <div class="products-list-section">
+                        <div class="products-container">
+                            {% for product in category.products %}
+                                {{ macros.product(product) }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end living main section -->
+        {% endfor %}
+
+        <!-- pagination -->
+        <div class="d-flex justify-content-center">
+            {{ knp_pagination_render(categories) }}
+        </div>
+        <!-- end pagination -->
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('vendors/swiper/swiper.min.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,9 @@
+<div class="swiper-container categories-btns-swiper mb-4 mb-md-5">
+    <div class="swiper-wrapper">
+        {% for subcategory in category.subcategories %}
+            <div class="swiper-slide">
+                <a href="{{ path('fe_filter_living_show', {"slug": subcategory.seo.slug}) }}" class="btn btn-style-3">{{ subcategory.title }}</a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
