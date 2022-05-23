@@ -11,7 +11,7 @@
                 alt="{{ entity.title }}"
             />
             <button type="button" class="btn fav-btn has-active-icon"></button>
-            <button type="button" class="btn cart-btn btn-style-1 hover-effect">
+            <button type="button" class="btn cart-btn btn-style-1 hover-effect" data-link="{{ path('fe_add_item_to_cart_ajax', {"slug": entity.seo.slug}) }}">
                 {{ 'add_to_cart_txt'|trans }}
             </button>
         </div>
@@ -19,5 +19,39 @@
         <a href="#" class="card-title text-center">{{ entity.title }}</a>
         {# @todo: adjust currency and value #}
         <p class="card-price text-center mb-0">{{ entity.price }} EGP</p>
+    </div>
+{% endmacro %}
+
+{% macro cartItem(entity) %}
+    {% set image = asset('images/placeholders/placeholder-md.jpg') %}
+    {% set product = entity.product %}
+    {% if product.mainImage %}
+        {% set image = absolute_url(asset(product.mainImage.absolutePath)) %}
+    {% endif %}
+    <div class="item">
+        <div class="item-img-container">
+            <img
+                    class="lazy"
+                    data-src="{{ image }}"
+                    alt="{{ product.title }}"
+            />
+        </div>
+        <div class="item-details-container">
+            <div class="item-text-container">
+                {# @todo: add link #}
+                <a href="#" class="item-title">{{ product.title }}</a>
+                <p class="item-quantity mb-0">{{ 'quantity_txt'|trans }} <span>{{ entity.quantity }}</span></p>
+            </div>
+            <div class="price-btn-container">
+                {# adjust currency and value #}
+                <p class="item-price mb-0">{{ product.price }} <span>EGP</span></p>
+                <button
+                    type="button"
+                    class="btn btn-style-1 hover-effect"
+                >
+                    {{ 'remove_txt'|trans }}
+                </button>
+            </div>
+        </div>
     </div>
 {% endmacro %}

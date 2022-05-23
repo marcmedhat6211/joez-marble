@@ -60,6 +60,7 @@
     {{ render(controller('App\\PageBundle\\Controller\\HomeController::userFeedback', {"request": app.request})) }}
     {{ render(controller('App\\PageBundle\\Controller\\HomeController::mobileMenu', {"request": app.request})) }}
     {% include 'fe/_mobile-search-popup.html.twig' %}
+    {% include 'fe/_alert.html.twig' %}
 {% endblock %}
 {# END FIXED LAYOUTS #}
 </body>

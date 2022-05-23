@@ -86,6 +86,11 @@ class Product implements DateTimeInterface, SeoInterface
     private ? Seo $seo;
 
     /**
+     * @ORM\OneToOne(targetEntity="App\ECommerceBundle\Entity\CartItem", mappedBy="product")
+     */
+    private ?CartItem $cartItem;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Subcategory", inversedBy="products", cascade={"persist"})
      */
     private ?Subcategory $subcategory;
@@ -380,6 +385,28 @@ class Product implements DateTimeInterface, SeoInterface
     public function setMainImage(?Image $mainImage): self
     {
         $this->mainImage = $mainImage;
+
+        return $this;
+    }
+
+    public function getCartItem(): ?CartItem
+    {
+        return $this->cartItem;
+    }
+
+    public function setCartItem(?CartItem $cartItem): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($cartItem === null && $this->cartItem !== null) {
+            $this->cartItem->setProduct(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($cartItem !== null && $cartItem->getProduct() !== $this) {
+            $cartItem->setProduct($this);
+        }
+
+        $this->cartItem = $cartItem;
 
         return $this;
     }

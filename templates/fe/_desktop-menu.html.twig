@@ -1,13 +1,16 @@
+{% import 'fe/_macros.html.twig' as macros %}
 <header>
     <div id="desktop_header" class="d-none d-md-block">
         <!-- HEADER PART ONE -->
         <div id="header_part_one">
             <div class="header-one-content">
                 {# @todo: add links #}
-                <a href="{{ path('fe_filter_designs_product_sale') }}" class="header-one-link">{{ 'designs_sales_caps_txt'|trans }}</a>
+                <a href="{{ path('fe_filter_designs_product_sale') }}"
+                   class="header-one-link">{{ 'designs_sales_caps_txt'|trans }}</a>
                 <a href="#" class="header-one-link">{{ 'living_sales_caps_txt'|trans }}</a>
                 <a href="#" class="header-one-link">{{ 'free_services_caps_txt'|trans }}</a>
-                <a href="{{ path('fe_filter_designs_product_new_arrival') }}" class="header-one-link">{{ 'designs_new_arrivals_txt'|trans }}</a>
+                <a href="{{ path('fe_filter_designs_product_new_arrival') }}"
+                   class="header-one-link">{{ 'designs_new_arrivals_txt'|trans }}</a>
                 <a href="#" class="header-one-link">{{ 'living_new_arrivals_txt'|trans }}</a>
             </div>
         </div>
@@ -18,14 +21,16 @@
             <div class="quick-access-links-container">
                 <div class="pages-links">
                     {# @todo: add links #}
-                    <a href="{{ path('fe_filter_designs_product') }}" class="quick-access-link active">{{ 'joez_designs_txt'|trans }}</a>
-                    <a href="{{ path('fe_filter_living_product') }}" class="quick-access-link">{{ 'joez_living_txt'|trans }}</a>
+                    <a href="{{ path('fe_filter_designs_product') }}"
+                       class="quick-access-link active">{{ 'joez_designs_txt'|trans }}</a>
+                    <a href="{{ path('fe_filter_living_product') }}"
+                       class="quick-access-link">{{ 'joez_living_txt'|trans }}</a>
                 </div>
                 <button
-                    class="btn country-btn"
-                    id="country_btn"
-                    data-toggle="modal"
-                    data-target="#shopAndShipModal"
+                        class="btn country-btn"
+                        id="country_btn"
+                        data-toggle="modal"
+                        data-target="#shopAndShipModal"
                 >
                     <img
                             class="lazy"
@@ -40,11 +45,12 @@
                 <form action="#" id="desktop_search_form">
                     <div class="input-container">
                         <input
-                            class="form-control"
-                            type="text"
-                            placeholder="{{ 'what_can_we_help_with_qs_txt'|trans }}"
+                                class="form-control"
+                                type="text"
+                                placeholder="{{ 'what_can_we_help_with_qs_txt'|trans }}"
                         />
-                        <i class="convert-svg search-icon" data-src="{{ asset('images/icons/magnifying-glass.svg') }}"></i>
+                        <i class="convert-svg search-icon"
+                           data-src="{{ asset('images/icons/magnifying-glass.svg') }}"></i>
                     </div>
                 </form>
                 <a href="{{ path('fe_home') }}" class="desktop-logo-container">
@@ -67,20 +73,21 @@
                             </div>
                         </button>
                         <div
-                            class="profile-dropdown-container icon-dropdown"
-                            id="desktop_profile_dropdown"
+                                class="profile-dropdown-container icon-dropdown"
+                                id="desktop_profile_dropdown"
                         >
                             {% if app.user %}
-                            <p class="dropdown-title">{{ 'hi_txt'|trans }} {{ app.user.fullName }}</p>
-                            <a
-                                    href=""
-                                    class="profile-dropdown-link"
-                                    data-toggle="modal"
-                                    data-target="#editProfileModal">{{ 'edit_profile_txt'|trans }}
-                            </a>
-                            {# @todo: add link #}
-                            <a href="#" class="profile-dropdown-link">{{ 'my_orders_txt'|trans }}</a>
-                            <a href="{{ path('app_user_logout') }}" class="profile-dropdown-link">{{ 'sign_out_txt'|trans }}</a>
+                                <p class="dropdown-title">{{ 'hi_txt'|trans }} {{ app.user.fullName }}</p>
+                                <a
+                                        href=""
+                                        class="profile-dropdown-link"
+                                        data-toggle="modal"
+                                        data-target="#editProfileModal">{{ 'edit_profile_txt'|trans }}
+                                </a>
+                                {# @todo: add link #}
+                                <a href="#" class="profile-dropdown-link">{{ 'my_orders_txt'|trans }}</a>
+                                <a href="{{ path('app_user_logout') }}"
+                                   class="profile-dropdown-link">{{ 'sign_out_txt'|trans }}</a>
                             {% else %}
                                 <p class="dropdown-title">{{ 'welcome_to_joez_designs_txt'|trans }}</p>
                                 {# @todo: add link #}
@@ -106,6 +113,10 @@
                         </a>
                     </div>
                     <div class="icon-container">
+                        {% set cartTotalQuantity = 0 %}
+                        {% if app.user and cart %}
+                            {% set cartTotalQuantity = cart.totalQuantity %}
+                        {% endif %}
                         <button
                                 type="button"
                                 class="btn icon-btn"
@@ -114,15 +125,21 @@
                             <div class="icon">
                                 <i class="convert-svg" data-src="{{ asset('images/icons/cart.svg') }}"></i>
                             </div>
-                            {# @todo: add count #}
-                            <span class="items-count" id="desktop_cart_items_count">0</span>
+                            {# @todo: add count by js #}
+                            <span class="items-count" id="desktop_cart_items_count">{{ cartTotalQuantity }}</span>
                         </button>
                         <div
                                 class="items-dropdown icon-dropdown"
                                 id="desktop_cart_dropdown"
                         >
                             <div class="items-container">
-                                <p>{{ 'cart_empty_txt'|trans }}</p>
+                                {% if app.user and cart %}
+                                    {% for item in cart.cartItems %}
+                                        {{ macros.cartItem(item) }}
+                                    {% endfor %}
+                                {% else %}
+                                    <p>{{ 'cart_empty_txt'|trans }}</p>
+                                {% endif %}
                             </div>
                             <div class="dropdown-btn-container d-flex justify-content-center align-items-center">
                                 {# @todo: add link #}
@@ -138,43 +155,47 @@
         <!-- HEADER PART THREE -->
         <div id="header_part_three">
             <ul class="header-three-items-container">
-                {# @todo: make sure of the case if the category is 'living' category  #}
+                {# @todo: make sure of the case if the category is 'living' category #}
                 {% for category in categories %}
                     {% set subcategoryLink = "fe_filter_designs_subcategory" %}
                     {% if category.living %}
                         {% set subcategoryLink = "fe_filter_living_show" %}
                     {% endif %}
                     <li class="header-three-item">
-                    <span class="item-text">{{ category.title }}</span>
-                    <div class="header-three-dropdown">
-                        <div class="dropdown-links-container">
-                            {% for subcategory in category.subcategories %}
-                                <a href="{{ path(subcategoryLink, {"slug": subcategory.seo.slug}) }}" class="link">{{ subcategory.title }}</a>
-                            {% endfor %}
-                            {% if not category.living %}
-                                <a href="{{ path('fe_filter_designs_category', {"slug": category.seo.slug}) }}" class="link underlined">{{ 'see_all_category_txt'|trans({"%categoryTitle%": category.title}) }}</a>
-                            {% endif %}
+                        <span class="item-text">{{ category.title }}</span>
+                        <div class="header-three-dropdown">
+                            <div class="dropdown-links-container">
+                                {% for subcategory in category.subcategories %}
+                                    <a href="{{ path(subcategoryLink, {"slug": subcategory.seo.slug}) }}"
+                                       class="link">{{ subcategory.title }}</a>
+                                {% endfor %}
+                                {% if not category.living %}
+                                    <a href="{{ path('fe_filter_designs_category', {"slug": category.seo.slug}) }}"
+                                       class="link underlined">{{ 'see_all_category_txt'|trans({"%categoryTitle%": category.title}) }}</a>
+                                {% endif %}
+                            </div>
+                            <div class="dropdown-imgs-links-container">
+                                <a href="{{ path('fe_filter_designs_category', {"slug": category.seo.slug}) }}"
+                                   class="img-link">
+                                    {# @todo: add image #}
+                                    <img
+                                            class="lazy"
+                                            data-src="{{ asset('https://via.placeholder.com/335x400') }}"
+                                            alt="{{ category.title }}"
+                                    />
+                                </a>
+                                <a href="{{ path('fe_filter_designs_category', {"slug": category.seo.slug}) }}"
+                                   class="img-link">
+                                    {# @todo: add image #}
+                                    <img
+                                            class="lazy"
+                                            data-src="{{ asset('https://via.placeholder.com/335x400') }}"
+                                            alt="{{ category.title }}"
+                                    />
+                                </a>
+                            </div>
                         </div>
-                        <div class="dropdown-imgs-links-container">
-                            <a href="{{ path('fe_filter_designs_category', {"slug": category.seo.slug}) }}" class="img-link">
-                                {# @todo: add image #}
-                                <img
-                                    class="lazy"
-                                    data-src="{{ asset('https://via.placeholder.com/335x400') }}"
-                                    alt="{{ category.title }}"
-                                />
-                            </a>
-                            <a href="{{ path('fe_filter_designs_category', {"slug": category.seo.slug}) }}" class="img-link">
-                                {# @todo: add image #}
-                                <img
-                                    class="lazy"
-                                    data-src="{{ asset('https://via.placeholder.com/335x400') }}"
-                                    alt="{{ category.title }}"
-                                />
-                            </a>
-                        </div>
-                    </div>
-                </li>
+                    </li>
                 {% endfor %}
             </ul>
         </div>
@@ -188,16 +209,16 @@
         <a href="{{ path('fe_home') }}" class="mobile-logo">
             {# @todo: add right logo #}
             <img
-                class="lazy"
-                data-src="{{ asset('images/logo.jpg') }}"
-                alt="{{ 'joez_designs_txt'|trans }}"
+                    class="lazy"
+                    data-src="{{ asset('images/logo.jpg') }}"
+                    alt="{{ 'joez_designs_txt'|trans }}"
             />
         </a>
         <div class="mobile-icons-container">
             <button
-                type="button"
-                class="btn mobile-icon-btn search-icon"
-                id="mobile_search_btn"
+                    type="button"
+                    class="btn mobile-icon-btn search-icon"
+                    id="mobile_search_btn"
             >
                 <i class="convert-svg" data-src="{{ asset('images/icons/magnifying-glass.svg') }}"></i>
             </button>

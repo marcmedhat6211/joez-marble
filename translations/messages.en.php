@@ -85,4 +85,9 @@ return [
     "living_filter_page_txt" => "Joez Living Filter Page",
     "add_to_cart_txt" => "Add to cart",
     "show_all_txt" => "Show All",
+    "login_before_adding_to_cart_msg" => "Please Login to add items to cart",
+    "product_not_available_anymore_msg" => "This Product is not available anymore",
+    "item_added_to_cart_success_msg" => "Item added to cart successfully",
+    "quantity_txt" => "Quantity:",
+    "remove_txt" => "Remove",
 ];

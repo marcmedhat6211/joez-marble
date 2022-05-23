@@ -2,6 +2,7 @@
 
 namespace App\UserBundle\Entity;
 
+use App\ECommerceBundle\Entity\Cart;
 use App\UserBundle\Model\BaseUser;
 use App\UserBundle\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -56,6 +57,11 @@ class User extends BaseUser
      * @ORM\Column(name="google_id", type="string", length=255, nullable=true)
      */
     private ?string $googleId;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\ECommerceBundle\Entity\Cart", mappedBy="user")
+     */
+    private ?Cart $cart;
 
     public function getId(): ?int
     {
@@ -131,6 +137,28 @@ class User extends BaseUser
     public function setGoogleId(?string $googleId): self
     {
         $this->googleId = $googleId;
+
+        return $this;
+    }
+
+    public function getCart(): ?Cart
+    {
+        return $this->cart;
+    }
+
+    public function setCart(?Cart $cart): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($cart === null && $this->cart !== null) {
+            $this->cart->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($cart !== null && $cart->getUser() !== $this) {
+            $cart->setUser($this);
+        }
+
+        $this->cart = $cart;
 
         return $this;
     }

@@ -5,6 +5,7 @@ namespace App\PageBundle\Controller;
 use App\CMSBundle\Entity\Banner;
 use App\CMSBundle\Repository\BannerRepository;
 use App\CMSBundle\Repository\TestimonialRepository;
+use App\ECommerceBundle\Repository\CartRepository;
 use App\ECommerceBundle\Repository\CategoryRepository;
 use App\ECommerceBundle\Repository\CurrencyRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -39,13 +40,20 @@ class HomeController extends AbstractController
         ]);
     }
 
-    public function menu(Request $request, CategoryRepository $categoryRepository): Response
+    public function menu(
+        Request $request,
+        CategoryRepository $categoryRepository,
+        CartRepository $cartRepository
+    ): Response
     {
+        $user = $this->getUser();
         $categories = $this->getCategories($categoryRepository);
+        $cart = $cartRepository->findOneBy(["user" => $user]);
 
         return $this->render('fe/_desktop-menu.html.twig', [
             "request" => $request,
-            "categories" => $categories
+            "categories" => $categories,
+            "cart" => $cart ?: null
         ]);
     }
 
