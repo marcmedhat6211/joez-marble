@@ -28,7 +28,7 @@
     {% if product.mainImage %}
         {% set image = absolute_url(asset(product.mainImage.absolutePath)) %}
     {% endif %}
-    <div class="item">
+    <div class="item" data-item-id="{{ entity.id }}">
         <div class="item-img-container">
             <img
                     class="lazy"
@@ -40,7 +40,7 @@
             <div class="item-text-container">
                 {# @todo: add link #}
                 <a href="#" class="item-title">{{ product.title }}</a>
-                <p class="item-quantity mb-0">{{ 'quantity_txt'|trans }} <span>{{ entity.quantity }}</span></p>
+                <p class="item-quantity mb-0">{{ 'quantity_txt'|trans }} {{ entity.quantity }}</p>
             </div>
             <div class="price-btn-container">
                 {# adjust currency and value #}

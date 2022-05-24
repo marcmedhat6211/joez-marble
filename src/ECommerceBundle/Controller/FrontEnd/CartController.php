@@ -6,8 +6,11 @@ use App\ECommerceBundle\Repository\ProductRepository;
 use App\ECommerceBundle\Services\CartService;
 use App\SeoBundle\Repository\SeoRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Asset\Packages;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -19,11 +22,14 @@ class CartController extends AbstractController
      * @Route("/add-item-ajax/{slug}", name="fe_add_item_to_cart_ajax", methods={"GET", "POST"})
      */
     public function create(
-        TranslatorInterface $translator,
-        SeoRepository       $seoRepository,
-        ProductRepository   $productRepository,
-        CartService         $cartService,
-                            $slug = null
+        Request               $request,
+        TranslatorInterface   $translator,
+        SeoRepository         $seoRepository,
+        ProductRepository     $productRepository,
+        CartService           $cartService,
+        UrlGeneratorInterface $generator,
+        Packages              $assets,
+                              $slug = null
     ): JsonResponse
     {
         $user = $this->getUser();
@@ -49,10 +55,14 @@ class CartController extends AbstractController
             ]);
         }
 
-        $cartService->addItem($product, $user);
+        $cartItem = $cartService->addItem($product, $user);
+        $cartItemObj = $cartService->getCartItemInArray($cartItem);
+
         return $this->json([
             "error" => false,
-            "message" => $translator->trans("item_added_to_cart_success_msg")
+            "message" => $translator->trans("item_added_to_cart_success_msg"),
+            "totalCartQuantity" => $cartItem->getCart()->getTotalQuantity(),
+            "cartItem" => $cartItemObj,
         ]);
     }
 }
