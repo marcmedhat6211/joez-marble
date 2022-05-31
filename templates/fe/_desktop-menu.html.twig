@@ -138,12 +138,11 @@
                                         {{ macros.cartItem(item) }}
                                     {% endfor %}
                                 {% else %}
-                                    <p>{{ 'cart_empty_txt'|trans }}</p>
+                                    <p class="desktop-cart-empty-txt">{{ 'cart_empty_txt'|trans }}</p>
                                 {% endif %}
                             </div>
                             <div class="dropdown-btn-container d-flex justify-content-center align-items-center">
-                                {# @todo: add link #}
-                                <a href="#" class="btn btn-style-1 hover-effect">{{ 'view_cart_txt'|trans }}</a>
+                                <a href="{{ path('fe_cart') }}" class="btn btn-style-1 hover-effect">{{ 'view_cart_txt'|trans }}</a>
                             </div>
                         </div>
                     </div>
@@ -178,6 +177,7 @@
                                 <a href="{{ path('fe_filter_designs_category', {"slug": category.seo.slug}) }}"
                                    class="img-link">
                                     {# @todo: add image #}
+                                    {# @todo: add right link (living and designs) #}
                                     <img
                                             class="lazy"
                                             data-src="{{ asset('https://via.placeholder.com/335x400') }}"
@@ -187,6 +187,7 @@
                                 <a href="{{ path('fe_filter_designs_category', {"slug": category.seo.slug}) }}"
                                    class="img-link">
                                     {# @todo: add image #}
+                                    {# @todo: add right link (living and designs) #}
                                     <img
                                             class="lazy"
                                             data-src="{{ asset('https://via.placeholder.com/335x400') }}"

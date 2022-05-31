@@ -33,7 +33,7 @@ class CartItem implements DateTimeInterface
     private ?float $itemTotalPrice;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\ECommerceBundle\Entity\Product", inversedBy="cartItem", cascade={"persist", "remove" })
+     * @ORM\OneToOne(targetEntity="App\ECommerceBundle\Entity\Product", inversedBy="cartItem", cascade={"persist"})
      */
     private ?Product $product;
 

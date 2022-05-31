@@ -172,51 +172,78 @@ $(document).ready(function () {
     $(".alert.alert-1").find("button.alert__btn").on("click", function () {
         $(this).closest(".alert.alert-1").removeClass("show");
     });
-});
 
-// CART HANDLING
-if (productCard.length > 0) {
-    productCard.each(function () {
-        const cartBtn = $(this).find(".cart-btn");
-        const addItemAjaxLink = cartBtn.data("link");
+    // CART HANDLING
+    if (productCard.length > 0) {
+        productCard.each(function () {
+            const cartBtn = $(this).find(".cart-btn");
+            const addItemAjaxLink = cartBtn.data("link");
 
-        cartBtn.on("click", function () {
-            cartBtn.text("loading...");
-            $.post(addItemAjaxLink, function (json) {
-                if (!json.error) {
-                    const desktopCartDropdown = $("#desktop_cart_dropdown");
-                    const itemsContainer = desktopCartDropdown.find(".items-container");
-                    const items = itemsContainer.find(".item");
-                    const totalCartQty = json.totalCartQuantity
-                    const cartItem = json.cartItem;
-
-                    desktopCartDropdown.closest(".icon-container").find("#desktop_cart_items_count").text(totalCartQty);
-                    let isItemExist = false;
-                    if (items.length > 0) {
-                        items.each(function() {
-                            const existingItem = $(this);
-                            const existingItemId = existingItem.data("item-id");
-                            if (existingItemId === cartItem.itemId) {
-                                isItemExist = true;
-                                existingItem.find(".item-quantity").text(`Quantity: ${cartItem.itemQty}`)
-                            }
-                        })
+            cartBtn.on("click", function () {
+                cartBtn.attr("disabled", true).text("loading..."); //@todo: translate text
+                $.post(addItemAjaxLink, function (json) {
+                    cartBtn.attr("disabled", false).text("Add to cart"); //@todo: translate text
+                    if (!json.error) {
+                        const desktopCartDropdown = $("#desktop_cart_dropdown");
+                        const itemsContainer = desktopCartDropdown.find(".items-container");
+                        const items = itemsContainer.find(".item");
+                        const totalCartQty = json.totalCartQuantity
+                        const cartItem = json.cartItem;
+                        itemsContainer.find("p.desktop-cart-empty-txt").remove();
+                        desktopCartDropdown.closest(".icon-container").find("#desktop_cart_items_count").text(totalCartQty);
+                        let isItemExist = false;
+                        if (items.length > 0) {
+                            items.each(function () {
+                                const existingItem = $(this);
+                                const existingItemId = existingItem.data("item-id");
+                                if (existingItemId === cartItem.itemId) {
+                                    isItemExist = true;
+                                    existingItem.find(".item-quantity").text(`Quantity: ${cartItem.itemQty}`)
+                                }
+                            })
+                        }
+                        if (items.length === 0 || !isItemExist) {
+                            drawCartItem(cartItem, itemsContainer);
+                            $("img.lazy").lazy({
+                                effect: "fadeIn",
+                            });
+                        }
+                        showAlert("success", json.message);
+                    } else {
+                        showAlert("error", json.message);
                     }
-                    if (items.length === 0 || !isItemExist) {
-                        drawCartItem(cartItem, itemsContainer);
-                        $("img.lazy").lazy({
-                            effect: "fadeIn",
-                        });
-                    }
-                    showAlert("success", json.message);
-                } else {
-                    showAlert("error", json.message);
+                })
+            });
+        });
+    }
+
+    $("body").on("click", "#desktop_cart_dropdown .item .price-btn-container button", function () {
+        const removeWholeItemBtn = $(this);
+        const desktopCartDropDown = $("#desktop_cart_dropdown");
+        const cartItem = removeWholeItemBtn.closest(".item");
+        const removeWholeItemLink = removeWholeItemBtn.data("link");
+        removeWholeItemBtn.attr("disabled", true).text("loading..."); //@todo: translate text
+
+        $.post(removeWholeItemLink, function (json) {
+            removeWholeItemBtn.attr("disabled", false).text("Remove"); //@todo: translate text
+            if (!json.error) {
+                updateDropDownCartQty(json.newCartTotalQuantity);
+                cartItem.remove();
+                const itemsCount = desktopCartDropDown.find(".item").length;
+                if (itemsCount === 0) {
+                    const cartEmptyMsg = $("<p>", {
+                        class: "desktop-cart-empty-txt",
+                        text: "You cart is empty" //@todo: translate text
+                    });
+                    cartEmptyMsg.appendTo(desktopCartDropDown.find(".items-container"));
                 }
-            })
-            cartBtn.text("Add to cart");
+                showAlert("success", json.message);
+            } else {
+                showAlert("error", json.message);
+            }
         });
     });
-}
+});
 
 const drawCartItem = (cartItem, itemsContainer) => {
     const item = $("<div>", {
@@ -243,7 +270,7 @@ const drawCartItem = (cartItem, itemsContainer) => {
         text: cartItem.itemTitle
     }).attr({
         class: "item-title",
-        href: "#", //TODO: add right link
+        href: cartItem.itemLink,
     });
     const itemQty = $("<p>", {
         class: "item-quantity mb-0",
@@ -259,6 +286,7 @@ const drawCartItem = (cartItem, itemsContainer) => {
     const removeBtn = $("<button>", {text: "Remove"}).attr({ // @todo: translate text
         type: "button",
         class: "btn btn-style-1 hover-effect",
+        "data-link": cartItem.removeWholeItemUrl,
     });
 
     itemImage.appendTo(itemImageContainer);
@@ -272,6 +300,12 @@ const drawCartItem = (cartItem, itemsContainer) => {
     itemDetailsContainer.appendTo(item);
     item.appendTo(itemsContainer);
 }
+
+const updateDropDownCartQty = (totalQty) => {
+    $("#desktop_cart_items_count").text(totalQty);
+}
+
+
 // END CART HANDLING
 
 function convertSvgToIcon($img) {

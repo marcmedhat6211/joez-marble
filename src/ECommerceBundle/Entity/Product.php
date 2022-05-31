@@ -27,7 +27,7 @@ class Product implements DateTimeInterface, SeoInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private int $id;
+    private int $id = 0;
 
     /**
      * @ORM\Column(name="title", type="string", length=50)

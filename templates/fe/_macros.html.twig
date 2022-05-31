@@ -45,11 +45,54 @@
             <div class="price-btn-container">
                 {# adjust currency and value #}
                 <p class="item-price mb-0">{{ product.price }} <span>EGP</span></p>
-                <button
-                    type="button"
-                    class="btn btn-style-1 hover-effect"
-                >
+                <button type="button" class="btn btn-style-1 hover-effect" data-link="{{ path('fe_remove_whole_item_from_cart_ajax', {"id": entity.id}) }}">
                     {{ 'remove_txt'|trans }}
+                </button>
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro cartItemInPage(entity) %}
+    {% set image = asset('images/placeholders/placeholder-md.jpg') %}
+    {% set product = entity.product %}
+    {% if product.mainImage %}
+        {% set image = absolute_url(asset(product.mainImage.absolutePath)) %}
+    {% endif %}
+    <div class="cart-item-container">
+        <div class="cart-item">
+            <div class="item-img">
+                <img
+                    class="lazy"
+                    data-src="{{ image }}"
+                    alt="{{ product.title }}"
+                />
+            </div>
+            <div class="item-details">
+                <div class="item-text">
+                    <h5 class="item-main-category">{{ product.subcategory.title }}</h5>
+                    {# @todo: add link #}
+                    <a class="item-title" href="#">{{ product.title }}</a>
+                    {# @todo: add right currency #}
+                    <p class="item-price mb-0">{{ product.price }} EGP</p>
+                </div>
+                <div class="item-btns">
+                    <a href="#" class="btn btn-style-1">{{ 'remove_txt'|trans }}</a>
+                    {# @todo: add wishlist logic #}
+                    <a href="#" class="btn btn-style-1 bg-black">{{ 'move_to_wishlist_txt'|trans }}</a>
+                </div>
+            </div>
+        </div>
+        <div class="incrementor incrementor-style-1">
+            <p class="incrementor-title">{{ 'quantity_txt'|trans }}</p>
+            <div class="incrementor-container">
+                <button type="button" class="btn minus" data-link="#">
+                    <i class="convert-svg" data-src="{{ asset('images/icons/caret-circle-left.svg') }}"></i>
+                </button>
+                {# @todo: add readonly in frontend #}
+                <input type="number" readonly name="qty" min="0" value="{{ entity.quantity }}"/>
+                <button type="button" class="btn plus" data-link="{{ path('fe_add_item_to_cart_ajax', {"slug": product.seo.slug}) }}">
+                    <i class="convert-svg" data-src="{{ asset('images/icons/caret-circle-right.svg') }}"></i>
                 </button>
             </div>
         </div>

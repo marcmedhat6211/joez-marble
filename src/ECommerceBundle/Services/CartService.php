@@ -13,6 +13,7 @@ use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class CartService
 {
@@ -21,13 +22,15 @@ class CartService
     private CartItemRepository $cartItemRepository;
     private Packages $assets;
     private Request $request;
+    private UrlGeneratorInterface $urlGenerator;
 
     public function __construct(
         EntityManagerInterface $em,
         CartRepository         $cartRepository,
         CartItemRepository     $cartItemRepository,
         Packages               $assets,
-        RequestStack           $requestStack
+        RequestStack           $requestStack,
+        UrlGeneratorInterface $urlGenerator
     )
     {
         $this->em = $em;
@@ -35,6 +38,7 @@ class CartService
         $this->cartItemRepository = $cartItemRepository;
         $this->assets = $assets;
         $this->request = $requestStack->getCurrentRequest();
+        $this->urlGenerator = $urlGenerator;
     }
 
     /**
@@ -90,12 +94,27 @@ class CartService
     }
 
     /**
-     * This method removes an item from the cart
-     * @param Product $product
-     * @param User $user
+     * This method removes the whole item from the cart
+     * @param CartItem $cartItem
      */
-    public function removeItem(Product $product, User $user)
+    public function removeTheWholeItem(CartItem $cartItem): void
     {
+        $cart = $cartItem->getCart();
+        $itemQty = $cartItem->getQuantity();
+        $itemTotalPrice = $cartItem->getItemTotalPrice();
+
+        $cart->setTotalQuantity($cart->getTotalQuantity() - $itemQty);
+        $cart->setTotalPrice($cart->getTotalPrice() - $itemTotalPrice);
+
+        $this->em->remove($cartItem);
+
+        if ($cart->getTotalQuantity() == 0) {
+            $this->em->remove($cart);
+        } else {
+            $this->em->persist($cart);
+        }
+
+        $this->em->flush();
     }
 
     /**
@@ -103,18 +122,38 @@ class CartService
      * @param CartItem $cartItem
      * @return array
      */
-    #[ArrayShape(["itemId" => "int|null", "itemImageUrl" => "string", "itemTitle" => "null|string", "itemQty" => "int|null", "itemPrice" => "float|null"])] public function getCartItemInArray(CartItem $cartItem): array
+    #[ArrayShape(["itemId" => "int|null", "itemImageUrl" => "string", "itemTitle" => "null|string", "itemQty" => "int|null", "itemPrice" => "float|null", "itemLink" => "string", "removeWholeItemUrl" => "string"])] public function getCartItemInArray(CartItem $cartItem): array
     {
         $product = $cartItem->getProduct();
-        $productImageUrl = $this->request->getSchemeAndHttpHost() . $this->assets->getUrl($product->getMainImage()->getAbsolutePath());
+        $productImageUrl = $this->request->getSchemeAndHttpHost() . "/images/placeholders/placeholder-md.jpg";
+        if ($product->getMainImage()) {
+            $productImageUrl = $this->request->getSchemeAndHttpHost() . $this->assets->getUrl($product->getMainImage()->getAbsolutePath());
+        }
+        $removeWholeItemUrl = $this->urlGenerator->generate("fe_remove_whole_item_from_cart_ajax", ["id" => $cartItem->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
 
-        //@todo: add product absolute link
+
         return [
             "itemId" => $cartItem->getId(),
             "itemImageUrl" => $productImageUrl,
             "itemTitle" => $product->getTitle(),
             "itemQty" => $cartItem->getQuantity(),
             "itemPrice" => $product->getPrice(),
+            "itemLink" => "#", //@todo: add product absolute link
+            "removeWholeItemUrl" => $removeWholeItemUrl,
         ];
+    }
+
+    /**
+     * This method gets the cart total after adding taxes and shipping fees
+     * @param Cart $cart
+     * @return float
+     */
+    public function getCartTotal(Cart $cart): float
+    {
+        //@todo: add right taxes and shipping
+        $taxes = 140;
+        $shipping = 30;
+
+        return $cart->getTotalPrice() + $taxes + $shipping;
     }
 }

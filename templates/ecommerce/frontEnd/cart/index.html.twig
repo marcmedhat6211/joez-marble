@@ -1,0 +1,37 @@
+{% extends 'fe/base.html.twig' %}
+{% block title %}{{ 'cart_txt'|trans }}{% endblock %}
+{% import 'fe/_macros.html.twig' as macros %}
+
+{% block content %}
+
+    <div id="cart_page" class="py-5">
+        <div class="container">
+            <div class="row mb-4 mb-md-5">
+                <div class="col-12">
+                    <h1 class="page-title text-center">{{ 'cart_txt'|trans }}</h1>
+                </div>
+            </div>
+            <form action="" id="cart_form">
+                <div class="row">
+                    <div class="col-12 col-md-8 mb-5">
+                        {% for item in cartItems %}
+                            {{ macros.cartItemInPage(item) }}
+                        {% endfor %}
+                    </div>
+                    <div class="col-12 col-md-4 mb-5 mb-md-0">
+                        {% include 'ecommerce/frontEnd/cart/_cart-summary-box.html.twig' %}
+                    </div>
+                    <div class="col-12 d-flex justify-content-center">
+                        {{ knp_pagination_render(cartItems) }}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/pages/cart.js') }}"></script>
+{% endblock %}

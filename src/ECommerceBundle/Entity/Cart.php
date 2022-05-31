@@ -35,7 +35,7 @@ class Cart implements DateTimeInterface
     private int $totalQuantity = 0;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\UserBundle\Entity\User", inversedBy="cart", cascade={"persist", "remove" })
+     * @ORM\OneToOne(targetEntity="App\UserBundle\Entity\User", inversedBy="cart", cascade={"persist"})
      */
     private ?User $user;
 
