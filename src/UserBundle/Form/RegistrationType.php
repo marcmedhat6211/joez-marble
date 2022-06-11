@@ -22,24 +22,46 @@ class RegistrationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email', EmailType::class)
-            ->add('gender', ChoiceType::class, [
-                'choices' => [
-                    'Male' => User::GENDER_MALE,
-                    'Female' => User::GENDER_FEMALE,
-                ],
+            ->add('fullName', TextType::class, [
+                "attr" => [
+                    "class" => "form-control"
+                ]
             ])
+            ->add('email', EmailType::class, [
+                "attr" => [
+                    "class" => "form-control"
+                ]
+            ])
+//            ->add('gender', ChoiceType::class, [
+//                'choices' => [
+//                    'Male' => User::GENDER_MALE,
+//                    'Female' => User::GENDER_FEMALE,
+//                ],
+//            ])
             ->add('phone', TelType::class, [
                 'attr' => [
                     'placeholder' => '01xxxxxxxxx',
+                    "class" => "form-control"
                 ],
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'required' => true,
                 'attr' => ['autocomplete' => 'new-password'],
-                'first_options' => ['label' => 'Password'],
-                'second_options' => ['label' => 'Confirm Password'],
+                'first_options' => [
+                    'label' => false,
+                    "attr" => [
+                        "placeholder" => "Password",
+                        "class" => "form-control"
+                    ],
+                ],
+                'second_options' => [
+                    'label' => false,
+                    "attr" => [
+                        "placeholder" => "Confirm Password",
+                        "class" => "form-control"
+                    ],
+                ],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter a password',
@@ -50,11 +72,6 @@ class RegistrationType extends AbstractType
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
-                ],
-            ])
-            ->add('Register', SubmitType::class, [
-                'attr' => [
-                    'class' => 'btn btn-success float-right',
                 ],
             ]);
     }

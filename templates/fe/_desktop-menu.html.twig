@@ -86,12 +86,16 @@
                                 </a>
                                 {# @todo: add link #}
                                 <a href="#" class="profile-dropdown-link">{{ 'my_orders_txt'|trans }}</a>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <a href="{{ path('dashboard') }}"
+                                       class="profile-dropdown-link">{{ 'Manage Website'|trans }}</a>
+                                {% endif %}
                                 <a href="{{ path('app_user_logout') }}"
                                    class="profile-dropdown-link">{{ 'sign_out_txt'|trans }}</a>
                             {% else %}
                                 <p class="dropdown-title">{{ 'welcome_to_joez_designs_txt'|trans }}</p>
-                                {# @todo: add link #}
-                                <a href="#" class="profile-dropdown-link">{{ 'sign_in_txt'|trans }}</a>
+                                <a href="{{ path('app_user_login') }}"
+                                   class="profile-dropdown-link">{{ 'sign_in_txt'|trans }}</a>
                             {% endif %}
                         </div>
                     </div>
@@ -142,7 +146,8 @@
                                 {% endif %}
                             </div>
                             <div class="dropdown-btn-container d-flex justify-content-center align-items-center">
-                                <a href="{{ path('fe_cart') }}" class="btn btn-style-1 hover-effect">{{ 'view_cart_txt'|trans }}</a>
+                                <a href="{{ path('fe_cart') }}"
+                                   class="btn btn-style-1 hover-effect">{{ 'view_cart_txt'|trans }}</a>
                             </div>
                         </div>
                     </div>

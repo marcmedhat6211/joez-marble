@@ -1,0 +1,45 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}Users Feedbacks List{% endset %}
+{% block breadcrumb %}
+    <a href="{{ path('dashboard') }}" class="breadcrumb-item">
+        <i class="icon-home2 mr-2"></i>
+        Dashboard
+    </a>
+    <span class="breadcrumb-item active">Users Feedbacks List</span>
+{% endblock %}
+{% block content %}
+    <div class="card">
+        <div class="px-2 pt-2">
+            {% include 'adminTemplate/_flash-messages.html.twig' %}
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>User</th>
+                    <th>Category</th>
+                    <th>Rate</th>
+                    <th>Created</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if paginator is not empty %}
+                    {% for userFeedback in paginator %}
+                        <tr>
+                            <td>{{ userFeedback.id }}</td>
+                            <td>{{ userFeedback.user.fullName }}</td>
+                            <td>{{ userFeedback.category }}</td>
+                            <td>{{ userFeedback.rating }}</td>
+                            <td>{{ userFeedback.created|date('d/m/Y') }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex justify-content-center py-3">
+            {{ knp_pagination_render(paginator) }}
+        </div>
+    </div>
+{% endblock %}

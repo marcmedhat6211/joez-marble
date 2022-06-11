@@ -3,15 +3,20 @@
 namespace App\PageBundle\Controller;
 
 use App\CMSBundle\Entity\Banner;
+use App\CMSBundle\Entity\UserFeedback;
 use App\CMSBundle\Repository\BannerRepository;
 use App\CMSBundle\Repository\TestimonialRepository;
+use App\CMSBundle\Repository\UserFeedbackRepository;
 use App\ECommerceBundle\Repository\CartRepository;
 use App\ECommerceBundle\Repository\CategoryRepository;
 use App\ECommerceBundle\Repository\CurrencyRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class HomeController extends AbstractController
 {
@@ -106,12 +111,57 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/user-feedback", name="fe_user_feedback", methods={"GET", "POST"})
+     * @Route("/user-feedback-ajax", name="fe_user_feedback_ajax", methods={"POST"})
      */
-    public function userFeedback(Request $request): Response
+    public function userFeedback(
+        Request $request,
+        TranslatorInterface $translator,
+        EntityManagerInterface $em,
+        UserFeedbackRepository $userFeedbackRepository
+    ): JsonResponse
     {
-        return $this->render('fe/_user-feedback-modal.html.twig', [
-            "request" => $request
+        $user = $this->getUser();
+
+        if (!$user) {
+            return $this->json([
+                "error" => true,
+                "message" =>  $translator->trans("login_to_feedback_msg"),
+            ]);
+        }
+
+        $rating = $request->request->get("rate");
+        $category = $request->request->get("category");
+
+        if (!$rating || !$category) {
+            return $this->json([
+                "error" => true,
+                "message" =>  $translator->trans("all_fields_required_error_msg"),
+            ]);
+        }
+
+        $latestUserFeedback = $userFeedbackRepository->getLatestUserFeedback($user);
+        if ($latestUserFeedback) {
+            $latestUserFeedbackCreatedDate = $latestUserFeedback->getCreated();
+            $now = new \DateTime();
+            $diffInHrs = $now->diff($latestUserFeedbackCreatedDate)->format("%h");
+            if ($diffInHrs < 1) {
+                return $this->json([
+                    "error" => true,
+                    "message" =>  $translator->trans("just_added_feedback_msg"),
+                ]);
+            }
+        }
+
+        $userFeedback = new UserFeedback();
+        $userFeedback->setUser($user);
+        $userFeedback->setRating($rating);
+        $userFeedback->setCategory($category);
+        $em->persist($userFeedback);
+        $em->flush();
+
+        return $this->json([
+           "error" => false,
+           "message" =>  $translator->trans("thanks_for_feedback_msg"),
         ]);
     }
 

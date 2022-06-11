@@ -1,31 +1,33 @@
-<div class="cart-summary-container" id="cart_summary">
-    <h6 class="box-title">{{ 'summary_txt'|trans }}</h6>
-    <div class="box-details">
-        <div class="box-info">
-            <p class="info-title mb-0">{{ 'items_txt'|trans }}</p>
-            <p class="info-value items-number mb-0">{{ cart.totalQuantity }}</p>
+{% if cart %}
+    <div class="cart-summary-container" id="cart_summary">
+        <h6 class="box-title">{{ 'summary_txt'|trans }}</h6>
+        <div class="box-details">
+            <div class="box-info">
+                <p class="info-title mb-0">{{ 'items_txt'|trans }}</p>
+                <p class="info-value items-number mb-0">{{ cart.totalQuantity }}</p>
+            </div>
+            <div class="box-info">
+                <p class="info-title mb-0">{{ 'subtotal_txt'|trans }}</p>
+                {# @todo: add right currency #}
+                <p class="info-value subtotal-amount mb-0">{{ cart.totalPrice|number_format }} EGP</p>
+            </div>
+            <div class="box-info">
+                <p class="info-title mb-0">{{ 'taxes_title_txt'|trans }}</p>
+                {# @todo: add right currency #}
+                <p class="info-value taxes-amount mb-0">{{ taxes|number_format }} EGP</p>
+            </div>
+            <div class="box-info">
+                <p class="info-title mb-0">{{ 'shipping_title_txt'|trans }}</p>
+                {# @todo: add right currency #}
+                <p class="info-value shipping-amount mb-0">{{ shipping|number_format }} EGP</p>
+            </div>
+            <div class="box-info">
+                <p class="info-title mb-0">{{ 'total_txt'|trans }}</p>
+                <p class="info-value cart-total mb-0">{{ cartTotal|number_format }} EGP</p>
+            </div>
         </div>
-        <div class="box-info">
-            <p class="info-title mb-0">{{ 'subtotal_txt'|trans }}</p>
-            {# @todo: add right currency #}
-            <p class="info-value subtotal-amount mb-0">{{ cart.totalPrice|number_format }} EGP</p>
-        </div>
-        <div class="box-info">
-            <p class="info-title mb-0">{{ 'taxes_title_txt'|trans }}</p>
-            {# @todo: add right currency #}
-            <p class="info-value taxes-amount mb-0">{{ taxes|number_format }} EGP</p>
-        </div>
-        <div class="box-info">
-            <p class="info-title mb-0">{{ 'shipping_title_txt'|trans }}</p>
-            {# @todo: add right currency #}
-            <p class="info-value shipping-amount mb-0">{{ shipping|number_format }} EGP</p>
-        </div>
-        <div class="box-info">
-            <p class="info-title mb-0">{{ 'total_txt'|trans }}</p>
-            <p class="info-value cart-total mb-0">{{ cartTotal|number_format }} EGP</p>
-        </div>
+        <button type="submit" class="btn btn-style-1 bg-black hover-effect w-100">
+            {{ 'proceed_to_checkout_txt'|trans }}
+        </button>
     </div>
-    <button type="submit" class="btn btn-style-1 bg-black hover-effect w-100">
-        {{ 'proceed_to_checkout_txt'|trans }}
-    </button>
-</div>
+{% endif %}

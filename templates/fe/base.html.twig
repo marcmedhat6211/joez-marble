@@ -1,3 +1,5 @@
+{% set cr = app.request.attributes.get('_route') %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,8 +30,11 @@
 <div class="pre-loader">
     <div class="pre-loader-object"></div>
 </div>
+
 {# HEADER #}
-{{ render(controller('App\\PageBundle\\Controller\\HomeController::menu', {"request": app.request})) }}
+{% if cr not in ['app_user_login', 'app_user_registration'] %}
+    {{ render(controller('App\\PageBundle\\Controller\\HomeController::menu', {"request": app.request})) }}
+{% endif %}
 {# END HEADER #}
 
 <main>
@@ -39,7 +44,11 @@
     {# END BODY #}
 </main>
 
-{{ render(controller('App\\PageBundle\\Controller\\HomeController::footer', {"request": app.request})) }}
+{# FOOTER #}
+{% if cr not in ['app_user_login', 'app_user_registration'] %}
+    {{ render(controller('App\\PageBundle\\Controller\\HomeController::footer', {"request": app.request})) }}
+{% endif %}
+{# END FOOTER #}
 
 {# JS #}
 {% block javascripts %}
@@ -52,16 +61,17 @@
 {# END JS #}
 
 {# FIXED LAYOUTS #}
-{% block fixedLayouts %}
-    {% include 'fe/_back-to-top-btn.html.twig' %}
-    {{ render(controller('App\\PageBundle\\Controller\\HomeController::editProfile', {"request": app.request})) }}
-    {{ render(controller('App\\PageBundle\\Controller\\HomeController::shopAndShip', {"request": app.request})) }}
-    {{ render(controller('App\\PageBundle\\Controller\\HomeController::privacyPolicy', {"request": app.request})) }}
-    {{ render(controller('App\\PageBundle\\Controller\\HomeController::userFeedback', {"request": app.request})) }}
-    {{ render(controller('App\\PageBundle\\Controller\\HomeController::mobileMenu', {"request": app.request})) }}
-    {% include 'fe/_mobile-search-popup.html.twig' %}
-    {% include 'fe/_alert.html.twig' %}
-{% endblock %}
-{# END FIXED LAYOUTS #}
+{% if cr not in ['app_user_login', 'app_user_registration'] %}
+    {% block fixedLayouts %}
+        {% include 'fe/_back-to-top-btn.html.twig' %}
+        {{ render(controller('App\\PageBundle\\Controller\\HomeController::editProfile', {"request": app.request})) }}
+        {{ render(controller('App\\PageBundle\\Controller\\HomeController::shopAndShip', {"request": app.request})) }}
+        {{ render(controller('App\\PageBundle\\Controller\\HomeController::privacyPolicy', {"request": app.request})) }}
+        {{ render(controller('App\\PageBundle\\Controller\\HomeController::mobileMenu', {"request": app.request})) }}
+        {% include 'fe/_mobile-search-popup.html.twig' %}
+        {% include 'fe/_alert.html.twig' %}
+    {% endblock %}
+    {# END FIXED LAYOUTS #}
+{% endif %}
 </body>
 </html>

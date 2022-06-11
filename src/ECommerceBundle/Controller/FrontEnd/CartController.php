@@ -7,6 +7,7 @@ use App\ECommerceBundle\Repository\CartRepository;
 use App\ECommerceBundle\Repository\ProductRepository;
 use App\ECommerceBundle\Services\CartService;
 use App\SeoBundle\Repository\SeoRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -32,12 +33,19 @@ class CartController extends AbstractController
     {
         $user = $this->getUser();
         $cart = $cartRepository->findOneBy(["user" => $user]);
-        $cartItemsObjs = $cart->getCartItems();
+        $cartItemsObjs = [];
+        $cartTotal = 0;
+        $taxes = 0;
+        $shipping = 0;
+        if ($cart) {
+            $cartItemsObjs = $cart->getCartItems();
+            $cartTotal = $cartService->getCartTotal($cart);
+            //@todo: add right taxes and shipping fees
+            $taxes = 140;
+            $shipping = 30;
+        }
+
         $cartItems = $paginator->paginate($cartItemsObjs, $request->query->getInt('page', 1), 5);
-        $cartTotal = $cartService->getCartTotal($cart);
-        //@todo: add right taxes and shipping fees
-        $taxes = 140;
-        $shipping = 30;
 
         return $this->render('ecommerce/frontEnd/cart/index.html.twig', [
             "cart" => $cart,

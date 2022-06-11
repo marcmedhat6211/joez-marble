@@ -24,7 +24,7 @@
                             alt="Joez Marble"
                     />
                 </div>
-                <form action="{{ path('fe_user_feedback') }}" id="user_feedback_form">
+                <form action="{{ path('fe_user_feedback_ajax') }}" id="user_feedback_form">
                     <p class="form-text-info">
                         {{ 'user_feedback_question_txt'|trans }}
                     </p>
@@ -49,10 +49,11 @@
                         {{ 'choose_category_txt'|trans }}
                     </p>
                     <div class="form-group">
-                        <select class="custom-select" required>
+                        {# @todo: add field name to frontend #}
+                        <select class="custom-select" name="category" required>
                             <option value="" selected>Choose..</option>
-                            <option value="1">{{ 'service_txt'|trans }}</option>
-                            <option value="2">{{ 'shipping_txt'|trans }}</option>
+                            <option value="{{ 'service_txt'|trans }}">{{ 'service_txt'|trans }}</option>
+                            <option value="{{ 'shipping_txt'|trans }}">{{ 'shipping_txt'|trans }}</option>
                         </select>
                     </div>
                     <div class="submit-btn-container d-flex justify-content-center align-items-center">

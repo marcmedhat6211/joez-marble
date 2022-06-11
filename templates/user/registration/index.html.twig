@@ -1,8 +1,63 @@
-{% extends 'base.html.twig' %}
+{% extends 'fe/base.html.twig' %}
+{% block title %}{{ 'sign_up_txt'|trans }}{% endblock %}
 
-{% block title %}Registration Page{% endblock %}
+{% block content %}
+{#    {{ form(form) }}#}
+    <div id="bg_image_page">
+        <div class="container d-flex justify-content-center align-items-center">
+            {{ form_start(form, {'attr':{"class":"account-form-container w-75 flex-column", "id":"sign_up_form"} }) }}
+                <div class="form-content w-50">
+                    <h5 class="form-title">{{ 'sign_up_txt'|trans }}</h5>
+                    <div class="form-group input-style-1 w-100">
+                        {{ form_widget(form.fullName) }}
+                        {{ form_errors(form.fullName) }}
+                    </div>
+                    <div class="form-group input-style-1 w-100">
+                        {{ form_widget(form.phone) }}
+                        {{ form_errors(form.phone) }}
+                    </div>
+                    <div class="form-group input-style-1 w-100">
+                        {{ form_widget(form.email) }}
+                        {{ form_errors(form.email) }}
+                    </div>
+                    <div class="form-group input-style-1 has-icon w-100">
+                        {{ form_widget(form.plainPassword.first) }}
+                        {{ form_errors(form.plainPassword.first) }}
+                        <button type="button" class="btn toggle-pass-btn">
+                            <i class="convert-svg" data-src="images/icons/eye.svg"></i>
+                        </button>
+                    </div>
+                    <div class="form-group input-style-1 has-icon w-100">
+                        {{ form_widget(form.plainPassword.second) }}
+                        {{ form_errors(form.plainPassword.second) }}
+                        <button type="button" class="btn toggle-pass-btn">
+                            <i class="convert-svg" data-src="images/icons/eye.svg"></i>
+                        </button>
+                    </div>
+                    <button type="submit" class="btn btn-style-4">Sign up</button>
+                    <a href="#" class="btn btn-style-5 w-100 facebook">
+                        <i class="convert-svg" data-src="images/icons/facebook-logo-white.svg"></i>
+                        <span>Continue with Facebook</span>
+                    </a>
+                    <a href="#" class="btn btn-style-5 w-100 google">
+                        <i class="convert-svg" data-src="images/icons/google-logo.svg"></i>
+                        <span>Continue with Google</span>
+                    </a>
+                    <a href="#" class="btn btn-style-5 w-100 apple">
+                        <i class="convert-svg" data-src="images/icons/apple-logo.svg"></i>
+                        <span>Continue with Apple</span>
+                    </a>
+                    <div class="other-option-text">
+                        <span>already have an account?</span>
+                        <a href="{{ path('app_user_login') }}" class="black-link">Sign In</a>
+                    </div>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
 
-{% block body %}
-    <h1 class="text-center">Registration</h1>
-    {{ form(form) }}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/pages/account-form.js') }}"></script>
 {% endblock %}

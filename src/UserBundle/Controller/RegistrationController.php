@@ -50,8 +50,8 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // persisting and adding the user to the database
-            $this->em()->persist($user);
-            $this->em()->flush();
+            $em->persist($user);
+            $em->flush();
             //@todo: Test login after signup
             $this->addFlash("success", "Signed up successfully");
 

@@ -42,7 +42,7 @@
     <script type="text/javascript" src="{{ asset('admin/js/plugins/uploaders/fileinput/plugins/sortable.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('admin/js/plugins/uploaders/fileinput/fileinput.min.js') }}"></script>
     <script>
-        let materialsAjaxUrl = '{{ path('materials_ajax') }}';
+        const materialsAjaxUrl = '{{ path('materials_ajax') }}';
         $(document).ready(function() {
             $('#bundle_ecommercebundle_product_materials').select2({
                 minimumInputLength: 2,

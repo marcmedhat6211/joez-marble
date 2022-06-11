@@ -507,3 +507,8 @@
     <script src="{{ asset('vendors/swiper/swiper.min.js') }}"></script>
     <script src="{{ asset('js/pages/home.js') }}"></script>
 {% endblock %}
+
+{% block fixedLayouts %}
+    {{ parent() }}
+    {% include 'fe/_user-feedback-modal.html.twig' %}
+{% endblock %}

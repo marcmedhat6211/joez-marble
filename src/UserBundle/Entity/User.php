@@ -2,9 +2,12 @@
 
 namespace App\UserBundle\Entity;
 
+use App\CMSBundle\Entity\UserFeedback;
 use App\ECommerceBundle\Entity\Cart;
 use App\UserBundle\Model\BaseUser;
 use App\UserBundle\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -62,6 +65,16 @@ class User extends BaseUser
      * @ORM\OneToOne(targetEntity="App\ECommerceBundle\Entity\Cart", mappedBy="user")
      */
     private ?Cart $cart;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\CMSBundle\Entity\UserFeedback", mappedBy="user")
+     */
+    private mixed $feedbacks;
+
+    public function __construct()
+    {
+        $this->feedbacks = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -159,6 +172,36 @@ class User extends BaseUser
         }
 
         $this->cart = $cart;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserFeedback>
+     */
+    public function getFeedbacks(): Collection
+    {
+        return $this->feedbacks;
+    }
+
+    public function addFeedback(UserFeedback $feedback): self
+    {
+        if (!$this->feedbacks->contains($feedback)) {
+            $this->feedbacks[] = $feedback;
+            $feedback->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFeedback(UserFeedback $feedback): self
+    {
+        if ($this->feedbacks->removeElement($feedback)) {
+            // set the owning side to null (unless already changed)
+            if ($feedback->getUser() === $this) {
+                $feedback->setUser(null);
+            }
+        }
 
         return $this;
     }

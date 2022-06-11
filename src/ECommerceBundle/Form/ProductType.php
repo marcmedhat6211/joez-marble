@@ -188,13 +188,13 @@ class ProductType extends AbstractType
     public function onSubmit(FormEvent $event): void
     {
         $form = $event->getForm();
-//        $materials = $form->get("materials")->getData();
-//        $errorMessage = "Please add at least one (1) material";
-//
-//        if (count($materials) == 0) {
-//            $form->get("materials")
-//                ->addError(new FormError($errorMessage));
-//        }
+        $materials = $form->get("materials")->getData();
+        $errorMessage = "Please add at least one (1) material";
+
+        if (count($materials) == 0) {
+            $form->get("materials")
+                ->addError(new FormError($errorMessage));
+        }
 
         $title = $form->get("title")->getData();
 
@@ -238,7 +238,8 @@ class ProductType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Product::class
+            'data_class' => Product::class,
+            "error_bubbling" => true,
         ]);
     }
 

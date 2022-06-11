@@ -49,7 +49,7 @@ class ProductController extends AbstractController
         $this->denyAccessUnlessGranted(UserInterface::ROLE_ADMIN);
         $product = new Product();
         //@todo: only for testing (remove important)
-        $product->addMaterial($em->getRepository(Material::class)->findOneBy([]));
+//        $product->addMaterial($em->getRepository(Material::class)->findOneBy([]));
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
@@ -250,7 +250,7 @@ class ProductController extends AbstractController
         $search = new \stdClass;
         $search->deleted = 0;
         $search->string = $request->get('q');
-        $entities = $materialRepository->filter($search, false, true, 10, $request);
+        $entities = $materialRepository->filter($search);
 
         $returnArray = [
             'results' => [],
