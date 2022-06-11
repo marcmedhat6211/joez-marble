@@ -107,6 +107,39 @@ class CartService
         $cart->setTotalPrice($cart->getTotalPrice() - $itemTotalPrice);
 
         $this->em->remove($cartItem);
+        if ($cart->getTotalQuantity() == 0) {
+            $this->em->remove($cart);
+        } else {
+            $this->em->persist($cart);
+        }
+
+        $this->em->flush();
+    }
+
+    /**
+     * This method removes only one item from the cart
+     * @param CartItem $cartItem
+     */
+    public function removeOneItemFromCart(CartItem $cartItem)
+    {
+        $cart = $cartItem->getCart();
+        $cartTotalPrice = $cart->getTotalPrice();
+        $cartTotalQty = $cart->getTotalQuantity();
+        $itemQty = $cartItem->getQuantity();
+        $itemTotalPrice = $cartItem->getItemTotalPrice();
+        $product = $cartItem->getProduct();
+        $productPrice = $product->getPrice();
+
+        $cart->setTotalPrice($cartTotalPrice - $productPrice);
+        $cart->setTotalQuantity($cartTotalQty - 1);
+        $cartItem->setQuantity($itemQty - 1);
+        $cartItem->setItemTotalPrice($itemTotalPrice - $productPrice);
+
+        if ($cartItem->getQuantity() == 0) {
+            $this->em->remove($cartItem);
+        } else {
+            $this->em->persist($cartItem);
+        }
 
         if ($cart->getTotalQuantity() == 0) {
             $this->em->remove($cart);
@@ -130,7 +163,6 @@ class CartService
             $productImageUrl = $this->request->getSchemeAndHttpHost() . $this->assets->getUrl($product->getMainImage()->getAbsolutePath());
         }
         $removeWholeItemUrl = $this->urlGenerator->generate("fe_remove_whole_item_from_cart_ajax", ["id" => $cartItem->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
-
 
         return [
             "itemId" => $cartItem->getId(),

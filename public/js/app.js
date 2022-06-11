@@ -233,9 +233,32 @@ $(document).ready(function () {
                 if (itemsCount === 0) {
                     const cartEmptyMsg = $("<p>", {
                         class: "desktop-cart-empty-txt",
-                        text: "You cart is empty" //@todo: translate text
+                        text: "Your Cart is Empty" //@todo: translate text
                     });
                     cartEmptyMsg.appendTo(desktopCartDropDown.find(".items-container"));
+                }
+
+                if ($("#cart_page").length > 0) {
+                    console.log("heree");
+                    const cartPage = $("#cart_page");
+                    adjustSummaryBox(json.newCartTotalQuantity, json.cartTotal, json.cartGrandTotal);
+                    cartPage.find("#cart_form .cart-item-container").each(function () {
+                        const cartItemContainer = $(this);
+                        const cartItem = cartItemContainer.find(".cart-item");
+                        console.log(json.cartItemId);
+                        console.log(json);
+                        if (cartItem.data("item-id") === json.cartItemId) {
+                            cartItemContainer.remove();
+                            if (cartPage.find("#cart_form .cart-item-container").length === 0) {
+                                $("#cart_summary").remove();
+                                const cartEmptyMsgInPage = $("<h5>", {
+                                    class: "text-center py-5 mb-0",
+                                    text: "Your Cart is Empty" //@todo: translate text
+                                });
+                                cartEmptyMsgInPage.appendTo("#cart_page .container");
+                            }
+                        }
+                    })
                 }
                 showAlert("success", json.message);
             } else {

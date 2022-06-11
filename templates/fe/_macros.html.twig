@@ -60,7 +60,7 @@
         {% set image = absolute_url(asset(product.mainImage.absolutePath)) %}
     {% endif %}
     <div class="cart-item-container">
-        <div class="cart-item">
+        <div class="cart-item" data-item-id="{{ entity.id }}">
             <div class="item-img">
                 <img
                     class="lazy"
@@ -77,7 +77,7 @@
                     <p class="item-price mb-0">{{ product.price }} EGP</p>
                 </div>
                 <div class="item-btns">
-                    <a href="#" class="btn btn-style-1">{{ 'remove_txt'|trans }}</a>
+                    <a href="#" class="btn btn-style-1 remove-item-btn" data-link="{{ path('fe_remove_whole_item_from_cart_ajax', {"id": entity.id}) }}">{{ 'remove_txt'|trans }}</a>
                     {# @todo: add wishlist logic #}
                     <a href="#" class="btn btn-style-1 bg-black">{{ 'move_to_wishlist_txt'|trans }}</a>
                 </div>
@@ -86,7 +86,7 @@
         <div class="incrementor incrementor-style-1">
             <p class="incrementor-title">{{ 'quantity_txt'|trans }}</p>
             <div class="incrementor-container">
-                <button type="button" class="btn minus" data-link="#">
+                <button type="button" class="btn minus" data-link="{{ path('fe_remove_one_item_from_cart_ajax', {"id": entity.id}) }}">
                     <i class="convert-svg" data-src="{{ asset('images/icons/caret-circle-left.svg') }}"></i>
                 </button>
                 {# @todo: add readonly in frontend #}

@@ -20,7 +20,7 @@ class CartItem implements DateTimeInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(name="quantity", type="integer")

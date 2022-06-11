@@ -91,12 +91,16 @@ class CartController extends AbstractController
         }
 
         $cartItem = $cartService->addItem($product, $user);
+        $cart = $cartItem->getCart();
         $cartItemObj = $cartService->getCartItemInArray($cartItem);
+        $cartGrandTotal = $cartService->getCartTotal($cart);
 
         return $this->json([
             "error" => false,
             "message" => $translator->trans("item_added_to_cart_success_msg"),
             "totalCartQuantity" => $cartItem->getCart()->getTotalQuantity(),
+            "cartGrandTotal" => $cartGrandTotal,
+            "cartTotalPrice" => $cart->getTotalPrice(),
             "cartItem" => $cartItemObj,
         ]);
     }
@@ -128,14 +132,60 @@ class CartController extends AbstractController
 
         $cartItem = $cartItemRepository->findOneBy(["id" => $id]);
         $cart = $cartItem->getCart();
+        $cartItemId = $cartItem->getId();
         $cartService->removeTheWholeItem($cartItem);
+        $cartGrandTotal = $cartService->getCartTotal($cart);
 
         $newCartTotalQuantity = $cart->getTotalQuantity();
 
         return $this->json([
             "error" => false,
             "message" => $translator->trans("item_removed_from_cart_successfully"),
-            "newCartTotalQuantity" => $newCartTotalQuantity
+            "newCartTotalQuantity" => $newCartTotalQuantity,
+            "cartGrandTotal" => $cartGrandTotal,
+            "cartTotal" => $cart->getTotalPrice(),
+            "cartItemId" => $cartItemId,
+        ]);
+    }
+
+    /**
+     * @Route("/remove-one-item-ajax/{id}", name="fe_remove_one_item_from_cart_ajax", methods={"GET", "POST"})
+     */
+    public function removeOneItem(
+        CartItemRepository  $cartItemRepository,
+        TranslatorInterface $translator,
+        CartService         $cartService,
+                            $id = null
+    ): JsonResponse
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->json([
+                "error" => true,
+                "message" => $translator->trans("login_before_removing_from_cart_msg")
+            ]);
+        }
+
+        if (!$id) {
+            return $this->json([
+                "error" => true,
+                "message" => $translator->trans("item_not_available_anymore")
+            ]);
+        }
+
+        $cartItem = $cartItemRepository->findOneBy(["id" => $id]);
+        $cart = $cartItem->getCart();
+        $cartService->removeOneItemFromCart($cartItem);
+        $cartGrandTotal = $cartService->getCartTotal($cart);
+
+        return $this->json([
+            "error" => false,
+            "message" => $translator->trans("item_removed_from_cart_successfully"),
+            "cartTotalQty" => $cart->getTotalQuantity(),
+            "cartTotalPrice" => $cart->getTotalPrice(),
+            "itemQty" => $cartItem->getQuantity(),
+            "itemId" => $cartItem->getId(),
+            "cartGrandTotal" => $cartGrandTotal
         ]);
     }
 }
