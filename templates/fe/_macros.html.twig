@@ -15,8 +15,7 @@
                 {{ 'add_to_cart_txt'|trans }}
             </button>
         </div>
-        {# @todo: add link #}
-        <a href="#" class="card-title text-center">{{ entity.title }}</a>
+        <a href="{{ path('fe_product_show', {"slug": entity.seo.slug}) }}" class="card-title text-center">{{ entity.title }}</a>
         {# @todo: adjust currency and value #}
         <p class="card-price text-center mb-0">{{ entity.price }} EGP</p>
     </div>
@@ -38,8 +37,7 @@
         </div>
         <div class="item-details-container">
             <div class="item-text-container">
-                {# @todo: add link #}
-                <a href="#" class="item-title">{{ product.title }}</a>
+                <a href="{{ path('fe_product_show', {"slug": product.seo.slug}) }}" class="item-title">{{ product.title }}</a>
                 <p class="item-quantity mb-0">{{ 'quantity_txt'|trans }} {{ entity.quantity }}</p>
             </div>
             <div class="price-btn-container">
@@ -72,7 +70,7 @@
                 <div class="item-text">
                     <h5 class="item-main-category">{{ product.subcategory.title }}</h5>
                     {# @todo: add link #}
-                    <a class="item-title" href="#">{{ product.title }}</a>
+                    <a class="item-title" href="{{ path('fe_product_show', {"slug": product.seo.slug}) }}">{{ product.title }}</a>
                     {# @todo: add right currency #}
                     <p class="item-price mb-0">{{ product.price }} EGP</p>
                 </div>

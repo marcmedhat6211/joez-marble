@@ -3,6 +3,7 @@
 namespace App\ECommerceBundle\Controller\FrontEnd;
 
 use App\ECommerceBundle\Entity\Category;
+use App\ECommerceBundle\Entity\Product;
 use App\ECommerceBundle\Entity\Subcategory;
 use App\ECommerceBundle\Repository\CategoryRepository;
 use App\ECommerceBundle\Repository\ProductRepository;
@@ -121,11 +122,11 @@ class ProductController extends AbstractController
      * @Route("joez-living/filter/{slug}", name="fe_filter_living_show", methods={"GET"})
      */
     public function showLiving(
-        Request $request,
-        SeoRepository $seoRepository,
+        Request               $request,
+        SeoRepository         $seoRepository,
         SubcategoryRepository $subcategoryRepository,
-        ProductRepository $productRepository,
-        $slug = null,
+        ProductRepository     $productRepository,
+                              $slug = null,
     ): Response
     {
         if ($slug) {
@@ -150,6 +151,38 @@ class ProductController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("product/{slug}/show", name="fe_product_show", methods={"GET"})
+     */
+    public function show(
+        SeoRepository     $seoRepository,
+        ProductRepository $productRepository,
+                          $slug = null
+    ): Response
+    {
+        if (!$slug) {
+            throw new NotFoundHttpException("Product Not Found");
+        }
+
+        $seo = $seoRepository->findOneBy(["slug" => $slug]);
+        if (!$seo) {
+            throw new NotFoundHttpException("Product Not Found");
+        }
+
+        $product = $productRepository->findOneBy(["seo" => $seo]);
+        if (!$product) {
+            throw new NotFoundHttpException("Product Not Found");
+        }
+
+        $relatedProducts = $this->getRelatedProducts($product, $productRepository);
+
+        return $this->render('ecommerce/frontEnd/product/show.html.twig', [
+            "product" => $product,
+            "pageTitle" => $seo->getTitle(),
+            "relatedProducts" => $relatedProducts,
+        ]);
+    }
+
     //=============================================PRIVATE METHODS====================================================
 
     private function getValidLivingCategories(CategoryRepository $categoryRepository, Request $request)
@@ -169,5 +202,15 @@ class ProductController extends AbstractController
         $search->subcategory = $subcategory->getId();
 
         return $productRepository->filter($search, false, true, 20, $request);
+    }
+
+    private function getRelatedProducts(Product $product, ProductRepository $productRepository)
+    {
+        $search = new \stdClass();
+        $search->publish = 1;
+        $search->deleted = 0;
+        $search->notId = $product->getId();
+
+        return $productRepository->filter($search, false, false, 8);
     }
 }

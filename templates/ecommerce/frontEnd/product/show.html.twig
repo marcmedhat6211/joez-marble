@@ -1,0 +1,268 @@
+{% extends 'fe/base.html.twig' %}
+{% block title %}{{ 'living_filter_page_txt'|trans }}{% endblock %}
+{% import 'fe/_macros.html.twig' as macros %}
+
+{% block stylesheet %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('vendors/swiper/swiper.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('vendors/fancybox/jquery.fancybox.min.css') }}"/>
+{% endblock %}
+
+{% block content %}
+
+    <div id="product_details_page" class="py-4">
+        <div class="container">
+            <div class="row">
+                <!-- product images section -->
+                <div class="col-12 col-md-6">
+                    <div class="product-images-section w-100">
+                        {% set galleryImages = product.galleryImages %}
+                        {% if galleryImages is empty %}
+                            <div class="swiper-container main-images-swiper w-100">
+                                <div class="swiper-wrapper w-100">
+                                    <div class="swiper-slide w-100">
+                                        <div
+                                                class="img-container w-100 fancybox"
+                                                data-fancybox="product-gallery"
+                                                href="{{ asset('images/placeholders/placeholder-md.jpg') }}"
+                                                title="{{ product.title }}'s gallery image"
+                                        >
+                                            <img
+                                                    class="swiper-lazy w-100"
+                                                    data-src="{{ asset('images/placeholders/placeholder-md.jpg') }}"
+                                                    alt="{{ product.title }}'s gallery image"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn fav-btn has-active-icon"></button>
+                            </div>
+                            <div class="swiper-container thumbs-swiper w-100">
+                                <div class="swiper-wrapper w-100">
+                                    <div class="swiper-slide">
+                                        <div class="thumb-img-container">
+                                            <img
+                                                    class="lazy"
+                                                    data-src="{{ asset('images/placeholders/placeholder-md.jpg') }}"
+                                                    alt="{{ product.title }}'s gallery image"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <!-- main images swiper -->
+                            <div class="swiper-container main-images-swiper w-100">
+                                <div class="swiper-wrapper w-100">
+                                    {% for image in galleryImages %}
+                                        <div class="swiper-slide w-100">
+                                            <div
+                                                    class="img-container w-100 fancybox"
+                                                    data-fancybox="product-gallery"
+                                                    href="{{ absolute_url(asset(image.absoluteUrl)) }}"
+                                                    title="{{ product.title }}'s gallery image {{ loop.index + 1 }}"
+                                            >
+                                                <img
+                                                        class="swiper-lazy w-100"
+                                                        data-src="{{ absolute_url(asset(image.absoluteUrl)) }}"
+                                                        alt="{{ product.title }}'s gallery image {{ loop.index + 1 }}"
+                                                />
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <button type="button" class="btn fav-btn has-active-icon"></button>
+                            </div>
+                            <!-- end main images swiper -->
+                            <!-- thumb images swiper -->
+                            <div class="swiper-container thumbs-swiper w-100">
+                                <div class="swiper-wrapper w-100">
+                                    {% for image in galleryImages %}
+                                        <div class="swiper-slide">
+                                            <div class="thumb-img-container">
+                                                <img
+                                                        class="lazy"
+                                                        data-src="{{ absolute_url(asset(image.absoluteUrl)) }}"
+                                                        alt="{{ product.title }}'s gallery image {{ loop.index + 1 }}"
+                                                />
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <!-- end thumb images swiper -->
+                        {% endif %}
+                    </div>
+                </div>
+                <!-- end product images section -->
+
+                <!-- product main info section -->
+                <div class="col-12 col-md-6">
+                    <div class="product-main-info-container">
+                        <div class="info-text">
+                            <h6 class="category">{{ product.subcategory.category.title }}</h6>
+                            <h5 class="product-title">{{ product.title }}</h5>
+                            {# @todo: add right currency #}
+                            <p class="product-price mb-0">{{ product.price|number_format }} EGP</p>
+                        </div>
+                        {% if product.materials is not empty %}
+                            <div class="colors-section">
+                                <p class="section-title">{{ 'materials_txt'|trans }}</p>
+                                <div class="colors-container">
+                                    {% for material in product.materials %}
+                                        {# @todo: add button with bg image and render material image #}
+                                        <button
+                                                type="button"
+                                                class="btn color"
+                                                data-color="#007bff"
+                                        ></button>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+                        {# @todo: add add to cart logic here #}
+                        <button type="button" class="btn btn-style-1 bg-black hover-effect w-75">
+                            {{ 'add_to_cart_caps_txt'|trans }}
+                        </button>
+                    </div>
+                </div>
+                <!-- end product main info section -->
+            </div>
+        </div>
+
+        <!-- section divider -->
+        <div class="d-flex justify-content-center">
+            <div class="section-divider"></div>
+        </div>
+        <!-- section divider -->
+
+        <!-- product details section -->
+        <div class="container">
+            <div class="product-details-section">
+                <ul
+                        class="nav nav-pills tab tab-style-1"
+                        id="pills-tab"
+                        role="tablist"
+                >
+                    <li class="nav-item">
+                        <a
+                                class="nav-link active"
+                                id="pills-home-tab"
+                                data-toggle="pill"
+                                href="#pills-home"
+                                role="tab"
+                                aria-controls="pills-home"
+                                aria-selected="true"
+                        >
+                            {{ 'description_txt'|trans }}
+                        </a>
+                    </li>
+                    {% if product.productSpecs is not empty %}
+                        <li class="nav-item">
+                            <a
+                                    class="nav-link"
+                                    id="pills-profile-tab"
+                                    data-toggle="pill"
+                                    href="#pills-profile"
+                                    role="tab"
+                                    aria-controls="pills-profile"
+                                    aria-selected="false"
+                            >
+                                {{ 'specifications_txt'|trans }}
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+                <div class="tab-content w-50" id="pills-tabContent">
+                    <!-- product description -->
+                    <div
+                            class="tab-pane fade show active"
+                            id="pills-home"
+                            role="tabpanel"
+                            aria-labelledby="pills-home-tab"
+                    >
+                        <div class="product-description-container w-100">
+                            <p class="mb-0 product-description">
+                                {{ product.description|raw }}
+                            </p>
+                        </div>
+                    </div>
+                    <!-- end product description -->
+                    {% if product.productSpecs is not empty %}
+                        <!-- product specs -->
+                        <div
+                                class="tab-pane fade"
+                                id="pills-profile"
+                                role="tabpanel"
+                                aria-labelledby="pills-profile-tab"
+                        >
+
+                            <div class="product-specifications w-100">
+                                {% for spec in product.productSpecs %}
+                                    <div class="product-spec">
+                                        <span class="spec-title">{{ spec.title }}</span>
+                                        <span class="spec-value">{{ spec.value }}</span>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <!-- end product specs -->
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <!-- end product details section -->
+
+        <!-- section divider -->
+        <div class="d-flex justify-content-center">
+            <div class="section-divider"></div>
+        </div>
+        <!-- section divider -->
+
+        {% if relatedProducts is not empty %}
+            <!-- related products section -->
+            <div class="container">
+                <div class="related-products-section-container">
+                    <h5 class="section-title text-center">{{ 'you_might_like_txt'|trans }}</h5>
+                    <div class="slider-section">
+                        <div class="swiper-container related-products-swiper">
+                            <div class="swiper-wrapper">
+                                {% for product in relatedProducts %}
+                                    {% set relatedProductImage = asset('images/placeholders/placeholder-md.jpg') %}
+                                    {% if product.mainImage %}
+                                        {% set relatedProductImage = absolute_url(asset(product.mainImage.absolutePath)) %}
+                                    {% endif %}
+                                    <div class="swiper-slide">
+                                        <a href="{{ path('fe_product_show', {"slug": product.seo.slug}) }}"
+                                           class="img-container">
+                                            <img
+                                                    class="swiper-lazy"
+                                                    data-src="{{ relatedProductImage }}"
+                                                    alt="{{ product.title }}"
+                                            />
+                                        </a>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <button type="button" class="products-navigation-btn swiper-btn-prev">
+                            <i class="convert-svg" data-src="{{ asset('images/icons/caret-left.svg') }}"></i>
+                        </button>
+                        <button type="button" class="products-navigation-btn swiper-btn-next">
+                            <i class="convert-svg" data-src="{{ asset('images/icons/caret-right.svg') }}"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- end related products section -->
+        {% endif %}
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('vendors/swiper/swiper.min.js') }}"></script>
+    <script src="{{ asset('vendors/fancybox/jquery.fancybox.min.js') }}"></script>
+    <script src="{{ asset('js/pages/product-details.js') }}"></script>
+{% endblock %}

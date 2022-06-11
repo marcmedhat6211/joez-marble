@@ -187,6 +187,10 @@ class ProductRepository extends ServiceEntityRepository
             return $this->paginator->paginate($statement->getQuery(), $request->query->getInt('page', 1), $pageLimit);
         }
 
+        if ($pageLimit !== null) {
+            $statement->setMaxResults($pageLimit);
+        }
+
         return $statement->getQuery()->execute();
     }
 }

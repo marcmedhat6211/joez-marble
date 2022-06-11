@@ -114,4 +114,9 @@ return [
     "sign_in_apple_txt" => "Sign In with Apple",
     "not_have_account_txt" => "Don’t have an account?",
     "sign_up_txt" => "Sign Up",
+    "materials_txt" => "Materials",
+    "add_to_cart_caps_txt" => "ADD TO CART",
+    "description_txt" => "Description",
+    "specifications_txt" => "Specifications",
+    "you_might_like_txt" => "You might also like",
 ];
