@@ -127,4 +127,9 @@ class Category implements DateTimeInterface, SeoInterface
 
         return $this;
     }
+
+    public function isLiving(): ?bool
+    {
+        return $this->living;
+    }
 }

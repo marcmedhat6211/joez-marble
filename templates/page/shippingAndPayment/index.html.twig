@@ -1,0 +1,14 @@
+{% extends 'fe/base.html.twig' %}
+{% block title %}{{ 'shipping_and_payment_page_txt'|trans }}{% endblock %}
+
+{% block content %}
+
+    <div id="address_and_payment_page" class="py-5">
+        <div class="container">
+            {% include "page/shippingAndPayment/_shipping-address.html.twig" %}
+
+
+        </div>
+    </div>
+
+{% endblock %}

@@ -49,7 +49,11 @@ class ProductController extends AbstractController
         $this->denyAccessUnlessGranted(UserInterface::ROLE_ADMIN);
         $product = new Product();
         //@todo: only for testing (remove important)
-//        $product->addMaterial($em->getRepository(Material::class)->findOneBy([]));
+        $materials = $em->getRepository(Material::class)->findAll();
+        foreach ($materials as $material) {
+            $product->addMaterial($material);
+        }
+        //@todo: end testing
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
@@ -179,7 +183,7 @@ class ProductController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $galleryImages = $form->get("galleryImages")->getData();
-            $validateUploadedImages = $uploadFileService->uploadGalleryImages($galleryImages, Product::class, $product);
+            $validateUploadedImages = $uploadFileService->uploadGalleryImages($galleryImages, Product::class, $product, 540, 360);
             if (!$validateUploadedImages["valid"]) {
                 foreach ($validateUploadedImages["errors"] as $error) {
                     $this->addFlash("error", $error);

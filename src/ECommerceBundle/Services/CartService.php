@@ -163,6 +163,7 @@ class CartService
             $productImageUrl = $this->request->getSchemeAndHttpHost() . $this->assets->getUrl($product->getMainImage()->getAbsolutePath());
         }
         $removeWholeItemUrl = $this->urlGenerator->generate("fe_remove_whole_item_from_cart_ajax", ["id" => $cartItem->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $productUrl = $this->urlGenerator->generate("fe_product_show", ["slug" => $product->getSeo()->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL);
 
         return [
             "itemId" => $cartItem->getId(),
@@ -170,7 +171,7 @@ class CartService
             "itemTitle" => $product->getTitle(),
             "itemQty" => $cartItem->getQuantity(),
             "itemPrice" => $product->getPrice(),
-            "itemLink" => "#", //@todo: add product absolute link
+            "itemLink" => $productUrl,
             "removeWholeItemUrl" => $removeWholeItemUrl,
         ];
     }

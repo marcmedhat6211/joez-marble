@@ -12,21 +12,21 @@
                 </div>
             </div>
             {% if cart %}
-                <form action="" id="cart_form">
-                <div class="row">
-                    <div class="col-12 col-md-8 mb-5">
-                        {% for item in cartItems %}
-                            {{ macros.cartItemInPage(item) }}
-                        {% endfor %}
-                    </div>
-                    <div class="col-12 col-md-4 mb-5 mb-md-0">
-                        {% include 'ecommerce/frontEnd/cart/_cart-summary-box.html.twig' %}
-                    </div>
-                    <div class="col-12 d-flex justify-content-center">
-                        {{ knp_pagination_render(cartItems) }}
+                <div action="" id="cart_form">
+                    <div class="row">
+                        <div class="col-12 col-md-8 mb-5">
+                            {% for item in cartItems %}
+                                {{ macros.cartItemInPage(item) }}
+                            {% endfor %}
+                        </div>
+                        <div class="col-12 col-md-4 mb-5 mb-md-0">
+                            {% include 'ecommerce/frontEnd/cart/_cart-summary-box.html.twig' %}
+                        </div>
+                        <div class="col-12 d-flex justify-content-center">
+                            {{ knp_pagination_render(cartItems) }}
+                        </div>
                     </div>
                 </div>
-            </form>
             {% else %}
                 <h5 class="text-center py-5 mb-0">{{ 'cart_empty_txt'|trans }}</h5>
             {% endif %}

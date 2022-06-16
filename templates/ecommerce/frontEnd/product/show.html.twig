@@ -59,12 +59,12 @@
                                             <div
                                                     class="img-container w-100 fancybox"
                                                     data-fancybox="product-gallery"
-                                                    href="{{ absolute_url(asset(image.absoluteUrl)) }}"
+                                                    href="{{ absolute_url(asset(image.absolutePath)) }}"
                                                     title="{{ product.title }}'s gallery image {{ loop.index + 1 }}"
                                             >
                                                 <img
                                                         class="swiper-lazy w-100"
-                                                        data-src="{{ absolute_url(asset(image.absoluteUrl)) }}"
+                                                        data-src="{{ absolute_url(asset(image.absolutePath)) }}"
                                                         alt="{{ product.title }}'s gallery image {{ loop.index + 1 }}"
                                                 />
                                             </div>
@@ -82,7 +82,7 @@
                                             <div class="thumb-img-container">
                                                 <img
                                                         class="lazy"
-                                                        data-src="{{ absolute_url(asset(image.absoluteUrl)) }}"
+                                                        data-src="{{ absolute_url(asset(image.absolutePath)) }}"
                                                         alt="{{ product.title }}'s gallery image {{ loop.index + 1 }}"
                                                 />
                                             </div>

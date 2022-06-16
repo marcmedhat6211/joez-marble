@@ -91,6 +91,11 @@ class Product implements DateTimeInterface, SeoInterface
     private ?CartItem $cartItem;
 
     /**
+     * @ORM\OneToOne(targetEntity="App\ECommerceBundle\Entity\OrderItem", mappedBy="product")
+     */
+    private ?OrderItem $orderItem;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Subcategory", inversedBy="products", cascade={"persist"})
      */
     private ?Subcategory $subcategory;
@@ -407,6 +412,53 @@ class Product implements DateTimeInterface, SeoInterface
         }
 
         $this->cartItem = $cartItem;
+
+        return $this;
+    }
+
+    public function isPublish(): ?bool
+    {
+        return $this->publish;
+    }
+
+    public function isFeatured(): ?bool
+    {
+        return $this->featured;
+    }
+
+    public function isNewArrival(): ?bool
+    {
+        return $this->newArrival;
+    }
+
+    public function isBestSeller(): ?bool
+    {
+        return $this->bestSeller;
+    }
+
+    public function isOnSale(): ?bool
+    {
+        return $this->onSale;
+    }
+
+    public function getOrderItem(): ?OrderItem
+    {
+        return $this->orderItem;
+    }
+
+    public function setOrderItem(?OrderItem $orderItem): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($orderItem === null && $this->orderItem !== null) {
+            $this->orderItem->setProduct(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($orderItem !== null && $orderItem->getProduct() !== $this) {
+            $orderItem->setProduct($this);
+        }
+
+        $this->orderItem = $orderItem;
 
         return $this;
     }

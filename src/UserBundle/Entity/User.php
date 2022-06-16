@@ -71,6 +71,11 @@ class User extends BaseUser
      */
     private mixed $feedbacks;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\UserBundle\Entity\ShippingInformation", mappedBy="user")
+     */
+    private ?ShippingInformation $shippingInformation;
+
     public function __construct()
     {
         $this->feedbacks = new ArrayCollection();
@@ -202,6 +207,28 @@ class User extends BaseUser
                 $feedback->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getShippingInformation(): ?ShippingInformation
+    {
+        return $this->shippingInformation;
+    }
+
+    public function setShippingInformation(?ShippingInformation $shippingInformation): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($shippingInformation === null && $this->shippingInformation !== null) {
+            $this->shippingInformation->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($shippingInformation !== null && $shippingInformation->getUser() !== $this) {
+            $shippingInformation->setUser($this);
+        }
+
+        $this->shippingInformation = $shippingInformation;
 
         return $this;
     }

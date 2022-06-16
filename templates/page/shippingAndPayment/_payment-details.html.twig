@@ -1,0 +1,76 @@
+<h2 class="section-title">{{ 'payment_details_txt'|trans }}</h2>
+<div class="section-box" id="payment_details_cotainer">
+    <div class="row">
+        <div class="col-12 col-md-3 mb-4 mb-md-0">
+            <div class="payment-details-section">
+                <p class="payment-detail date">
+                    <span class="detail-title">{{ 'order_date_txt'|trans }}</span>
+                    <span class="detail-description">18/12/2021</span>
+                </p>
+                <p class="payment-detail payment-method">
+                    <span class="detail-title">{{ 'payment_method_txt'|trans }}</span>
+                    <span class="detail-description">{{ 'cod_txt'|trans }}</span>
+                </p>
+                <p class="payment-detail shipping-amount">
+                    <span class="detail-title">{{ 'shipping_amount_txt'|trans }}</span>
+                    <span class="detail-description">30 EGP</span>
+                </p>
+                <form
+                        action="#"
+                        class="coupon-code-section"
+                        id="coupon_code_form"
+                >
+                    <p class="section-title">{{ 'coupon_code_txt'|trans }}</p>
+                    <div class="form-group input-style-3 w-100">
+                        <input
+                                type="text"
+                                class="form-control"
+                                name="coupon-code"
+                                id="coupon_input"
+                                placeholder="{{ 'enter_coupon_code_txt'|trans }}"
+                                autocomplete="off"
+                        />
+                        <button
+                                type="button"
+                                class="btn remove-coupon-btn"
+                                id="remove_coupon_btn"
+                        >
+                            <i
+                                    class="convert-svg"
+                                    data-src="images/icons/x.svg"
+                            ></i>
+                        </button>
+                    </div>
+                    <button type="submit" class="btn btn-style-1 hover-effect">
+                        {{ 'apply_code_txt'|trans }}
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 offset-md-3">
+            <form action="#" class="payment-amounts-section">
+                <div class="payment-amount subtotal">
+                    <span class="payment-amount-title">{{ 'subtotal_txt'|trans }}</span>
+                    <span class="payment-amount-value">1,000 EGP</span>
+                </div>
+                <div class="payment-amount coupon-discount">
+                    <span class="payment-amount-title">{{ 'coupon_discount_txt'|trans }}</span>
+                    <span class="payment-amount-value">-400 EGP</span>
+                </div>
+                <div class="payment-amount tax-and-shipping">
+                    <span class="payment-amount-title">{{ 'taxes_plus_shipping_txt'|trans }}</span>
+                    <span class="payment-amount-value">170 EGP</span>
+                </div>
+                <div class="payment-amount grand-total">
+                    <span class="payment-amount-title">{{ 'grand_total_txt'|trans }}</span>
+                    <span class="payment-amount-value">770 EGP</span>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-style-1 hover-effect">
+                        {{ 'place_order_txt'|trans }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

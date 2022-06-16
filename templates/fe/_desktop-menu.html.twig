@@ -87,8 +87,7 @@
                                 {# @todo: add link #}
                                 <a href="#" class="profile-dropdown-link">{{ 'my_orders_txt'|trans }}</a>
                                 {% if is_granted('ROLE_ADMIN') %}
-                                    <a href="{{ path('dashboard') }}"
-                                       class="profile-dropdown-link">{{ 'Manage Website'|trans }}</a>
+                                    <a href="{{ path('dashboard') }}" target="_blank" class="profile-dropdown-link">{{ 'manage_website_txt'|trans }}</a>
                                 {% endif %}
                                 <a href="{{ path('app_user_logout') }}"
                                    class="profile-dropdown-link">{{ 'sign_out_txt'|trans }}</a>
