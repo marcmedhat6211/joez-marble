@@ -143,4 +143,7 @@ return [
     "taxes_plus_shipping_txt" => "Taxes + Shipping:",
     "grand_total_txt" => "Grand Total:",
     "place_order_txt" => "Place Order",
+    "cart_is_empty_error_msg" => "You didn't add anything to your cart, start adding some products and then proceed to checkout",
+    "you_have_to_login_msg" => "You have to be logged in to perform that action",
+    "add_valid_phone_number_msg" => "Please enter a valid phone number",
 ];

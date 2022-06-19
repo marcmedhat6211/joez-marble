@@ -1,11 +1,13 @@
 $(document).ready(function() {
+    $("#address_form").validate();
     // address info
+    //@todo: add whole file to frontend
     var addressForm = $("#address_form");
     var shippingDetailsContainer = $("#shipping_details_container");
     let addressFormInputs = addressForm.find("input");
     addressFormInputs.each(function() {
-        let inputName = $(this).attr("name");
-        let detailContainer = shippingDetailsContainer.find(`.${inputName}`);
+        let inputId = $(this).attr("id");
+        let detailContainer = shippingDetailsContainer.find(`.${inputId}`);
         let oldValue = detailContainer.text();
         $(this).on("input", function() {
             detailContainer.text($(this).val());

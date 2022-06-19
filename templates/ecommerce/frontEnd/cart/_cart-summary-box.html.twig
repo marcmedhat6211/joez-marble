@@ -26,8 +26,8 @@
                 <p class="info-value cart-total mb-0">{{ cartTotal|number_format }} EGP</p>
             </div>
         </div>
-        <button type="button" class="btn btn-style-1 bg-black hover-effect w-100">
+        <a href="{{ path('fe_order_create') }}" class="btn btn-style-1 bg-black hover-effect w-100">
             {{ 'proceed_to_checkout_txt'|trans }}
-        </button>
+        </a>
     </div>
 {% endif %}

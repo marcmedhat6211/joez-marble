@@ -5,7 +5,7 @@
             <div class="payment-details-section">
                 <p class="payment-detail date">
                     <span class="detail-title">{{ 'order_date_txt'|trans }}</span>
-                    <span class="detail-description">18/12/2021</span>
+                    <span class="detail-description">{{ "now"|date("d/m/Y") }}</span>
                 </p>
                 <p class="payment-detail payment-method">
                     <span class="detail-title">{{ 'payment_method_txt'|trans }}</span>
@@ -13,7 +13,7 @@
                 </p>
                 <p class="payment-detail shipping-amount">
                     <span class="detail-title">{{ 'shipping_amount_txt'|trans }}</span>
-                    <span class="detail-description">30 EGP</span>
+                    <span class="detail-description">{{ shippingFee }}</span>
                 </p>
                 <form
                         action="#"
@@ -51,19 +51,23 @@
             <form action="#" class="payment-amounts-section">
                 <div class="payment-amount subtotal">
                     <span class="payment-amount-title">{{ 'subtotal_txt'|trans }}</span>
-                    <span class="payment-amount-value">1,000 EGP</span>
+                    {# @todo: change currency #}
+                    <span class="payment-amount-value">{{ cart.totalPrice|number_format }} EGP</span>
                 </div>
                 <div class="payment-amount coupon-discount">
                     <span class="payment-amount-title">{{ 'coupon_discount_txt'|trans }}</span>
+                    {# @todo: change currency #}
                     <span class="payment-amount-value">-400 EGP</span>
                 </div>
                 <div class="payment-amount tax-and-shipping">
                     <span class="payment-amount-title">{{ 'taxes_plus_shipping_txt'|trans }}</span>
-                    <span class="payment-amount-value">170 EGP</span>
+                    {# @todo: change currency #}
+                    <span class="payment-amount-value">{{ (shippingFee + taxes)|number_format }} EGP</span>
                 </div>
                 <div class="payment-amount grand-total">
                     <span class="payment-amount-title">{{ 'grand_total_txt'|trans }}</span>
-                    <span class="payment-amount-value">770 EGP</span>
+                    {# @todo: change currency #}
+                    <span class="payment-amount-value">{{ orderGrandTotal|number_format }} EGP</span>
                 </div>
                 <div class="d-flex justify-content-end">
                     <button type="submit" class="btn btn-style-1 hover-effect">

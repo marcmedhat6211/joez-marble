@@ -1,0 +1,82 @@
+<h2 class="section-title">{{ 'add_shipping_address_txt'|trans }}</h2>
+{{ form_start(form, {'attr':{"class":"section-box", 'id':'address_form'}}) }}
+<div class="row">
+    <div class="col-12 col-md-4 mb-4 mb-md-0">
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group input-style-3 w-100">
+                    {{ form_widget(form.companyName) }}
+                    {{ form_errors(form.companyName) }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group input-style-3 w-100">
+                    {{ form_widget(form.firstName) }}
+                    {{ form_errors(form.firstName) }}
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group input-style-3 w-100">
+                    {{ form_widget(form.lastName) }}
+                    {{ form_errors(form.lastName) }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group input-style-3 w-100">
+                    {{ form_widget(form.phone) }}
+                    {{ form_errors(form.phone) }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group input-style-3 w-100">
+                    {{ form_widget(form.address) }}
+                    {{ form_errors(form.address) }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group input-style-3 w-100">
+                    {{ form_widget(form.district) }}
+                    {{ form_errors(form.district) }}
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group input-style-3 w-100">
+                    {{ form_widget(form.addressName) }}
+                    {{ form_errors(form.addressName) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6 offset-md-2">
+        <div id="shipping_details_container">
+            {# @todo: add new classes to frontend #}
+            <h6 class="shipping-details-title">{{ 'ship_to_txt'|trans }}</h6>
+            <p class="shipping_information_companyName detail-info">{{ 'company_name_txt'|trans }}</p>
+            <p class="name detail-info">
+                <span class="shipping_information_firstName">{{ 'first_name_txt'|trans }}</span>
+                <span class="shipping_information_lastName">{{ 'last_name_txt'|trans }}</span>
+            </p>
+            <p class="shipping_information_addressName detail-info">{{ 'address_name_txt'|trans }}</p>
+            <p class="shipping_information_phone detail-info">{{ 'mobile_number_txt'|trans }}</p>
+            <p class="shipping_information_address detail-info">{{ 'address_txt'|trans }}</p>
+            <p class="shipping_information_district detail-info">{{ 'district_txt'|trans }}</p>
+            <div class="btns-container">
+                <button type="submit" class="btn btn-style-1 thick-border w-25">
+                    {{ 'save_txt'|trans }}
+                </button>
+                <button type="button" class="btn btn-style-1 thick-border w-25">
+                    {{ 'schedule_delivery_txt'|trans }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{{ form_end(form) }}

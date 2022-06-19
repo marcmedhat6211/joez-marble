@@ -56,7 +56,7 @@ class ShippingInformation
     private ?string $addressName;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\UserBundle\Entity\User", inversedBy="shippingInfomation", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="App\UserBundle\Entity\User", inversedBy="shippingInformation", cascade={"persist"})
      */
     private ?User $user;
 

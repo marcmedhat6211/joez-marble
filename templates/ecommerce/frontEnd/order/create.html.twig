@@ -1,0 +1,18 @@
+{% extends 'fe/base.html.twig' %}
+{% block title %}{{ 'shipping_and_payment_page_txt'|trans }}{% endblock %}
+
+{% block content %}
+
+    <div id="address_and_payment_page" class="py-5">
+        <div class="container">
+            {% include "ecommerce/frontEnd/order/_shipping-address.html.twig" %}
+            {% include "ecommerce/frontEnd/order/_payment-details.html.twig" %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/pages/address-and-payment.js') }}"></script>
+{% endblock %}

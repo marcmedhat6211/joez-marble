@@ -9,6 +9,7 @@ use App\UserBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 
 /**
  * @ORM\Table(name="order")
@@ -17,6 +18,18 @@ use Doctrine\ORM\Mapping as ORM;
 class Order implements DateTimeInterface
 {
     use DateTimeTrait, VirtualDeleteTrait;
+
+    const STATUS_PENDING = "pending";
+    const STATUS_SHIPPED = "shipped";
+    const STATUS_DELIVERED = "delivered";
+    const STATUS_CANCELLED = "cancelled";
+
+    public static array $orderStatuses = [
+        "Pending" => self::STATUS_PENDING,
+        "Shipped" => self::STATUS_SHIPPED,
+        "Delivered" => self::STATUS_DELIVERED,
+        "Cancelled" => self::STATUS_CANCELLED
+    ];
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -29,6 +42,11 @@ class Order implements DateTimeInterface
      * @ORM\Column(name="total_price", type="float")
      */
     private float $totalPrice = 0;
+
+    /**
+     * @ORM\Column(name="status", type="string")
+     */
+    private string $status = self::STATUS_PENDING;
 
     /**
      * @ORM\Column(name="total_quantity", type="integer")
@@ -45,7 +63,7 @@ class Order implements DateTimeInterface
      */
     private mixed $orderItems;
 
-    public function __construct()
+    #[Pure] public function __construct()
     {
         $this->orderItems = new ArrayCollection();
     }
@@ -117,6 +135,18 @@ class Order implements DateTimeInterface
                 $orderItem->setOrder(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

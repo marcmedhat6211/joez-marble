@@ -10,6 +10,7 @@ use App\ECommerceBundle\Repository\CartRepository;
 use App\UserBundle\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use JetBrains\PhpStorm\ArrayShape;
+use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -30,7 +31,7 @@ class OrderService
         CartItemRepository     $cartItemRepository,
         Packages               $assets,
         RequestStack           $requestStack,
-        UrlGeneratorInterface $urlGenerator
+        UrlGeneratorInterface  $urlGenerator
     )
     {
         $this->em = $em;
@@ -39,5 +40,15 @@ class OrderService
         $this->assets = $assets;
         $this->request = $requestStack->getCurrentRequest();
         $this->urlGenerator = $urlGenerator;
+    }
+
+    #[Pure] public function getOrderGrandTotal(Cart $cart): float
+    {
+        $shippingFee = 30;
+        $taxes = 140;
+        $cartTotal = $cart->getTotalPrice();
+        $couponDiscount = 50;
+
+        return (($shippingFee + $taxes + $cartTotal) - $couponDiscount);
     }
 }
