@@ -189,4 +189,18 @@ class CartService
 
         return $cart->getTotalPrice() + $taxes + $shipping;
     }
+
+    /**
+     * This method clears the user's cart
+     * @param Cart $cart
+     */
+    public function clearCart(Cart $cart): void
+    {
+        foreach ($cart->getCartItems() as $cartItem) {
+            $this->em->remove($cartItem);
+        }
+
+        $this->em->remove($cart);
+        $this->em->flush();
+    }
 }

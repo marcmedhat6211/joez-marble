@@ -1,0 +1,10 @@
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="alert alert-1 {{ label }} show">
+            <span class="alert__message">{{ message }}</span>
+            <button type="button" class="alert__btn btn">
+                <i class="convert-svg" data-src="{{ asset('images/icons/x.svg') }}"></i>
+            </button>
+        </div>
+    {% endfor %}
+{% endfor %}

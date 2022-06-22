@@ -6,16 +6,18 @@
     <div class="card card-style-1">
         <div class="card-img-container">
             <img
-                class="lazy"
-                data-src="{{ image }}"
-                alt="{{ entity.title }}"
+                    class="lazy"
+                    data-src="{{ image }}"
+                    alt="{{ entity.title }}"
             />
             <button type="button" class="btn fav-btn has-active-icon"></button>
-            <button type="button" class="btn cart-btn btn-style-1 hover-effect" data-link="{{ path('fe_add_item_to_cart_ajax', {"slug": entity.seo.slug}) }}">
+            <button type="button" class="btn cart-btn btn-style-1 hover-effect"
+                    data-link="{{ path('fe_add_item_to_cart_ajax', {"slug": entity.seo.slug}) }}">
                 {{ 'add_to_cart_txt'|trans }}
             </button>
         </div>
-        <a href="{{ path('fe_product_show', {"slug": entity.seo.slug}) }}" class="card-title text-center">{{ entity.title }}</a>
+        <a href="{{ path('fe_product_show', {"slug": entity.seo.slug}) }}"
+           class="card-title text-center">{{ entity.title }}</a>
         {# @todo: adjust currency and value #}
         <p class="card-price text-center mb-0">{{ entity.price }} EGP</p>
     </div>
@@ -37,13 +39,15 @@
         </div>
         <div class="item-details-container">
             <div class="item-text-container">
-                <a href="{{ path('fe_product_show', {"slug": product.seo.slug}) }}" class="item-title">{{ product.title }}</a>
+                <a href="{{ path('fe_product_show', {"slug": product.seo.slug}) }}"
+                   class="item-title">{{ product.title }}</a>
                 <p class="item-quantity mb-0">{{ 'quantity_txt'|trans }} {{ entity.quantity }}</p>
             </div>
             <div class="price-btn-container">
                 {# adjust currency and value #}
                 <p class="item-price mb-0">{{ product.price }} <span>EGP</span></p>
-                <button type="button" class="btn btn-style-1 hover-effect" data-link="{{ path('fe_remove_whole_item_from_cart_ajax', {"id": entity.id}) }}">
+                <button type="button" class="btn btn-style-1 hover-effect"
+                        data-link="{{ path('fe_remove_whole_item_from_cart_ajax', {"id": entity.id}) }}">
                     {{ 'remove_txt'|trans }}
                 </button>
             </div>
@@ -61,21 +65,23 @@
         <div class="cart-item" data-item-id="{{ entity.id }}">
             <div class="item-img">
                 <img
-                    class="lazy"
-                    data-src="{{ image }}"
-                    alt="{{ product.title }}"
+                        class="lazy"
+                        data-src="{{ image }}"
+                        alt="{{ product.title }}"
                 />
             </div>
             <div class="item-details">
                 <div class="item-text">
                     <h5 class="item-main-category">{{ product.subcategory.title }}</h5>
                     {# @todo: add link #}
-                    <a class="item-title" href="{{ path('fe_product_show', {"slug": product.seo.slug}) }}">{{ product.title }}</a>
+                    <a class="item-title"
+                       href="{{ path('fe_product_show', {"slug": product.seo.slug}) }}">{{ product.title }}</a>
                     {# @todo: add right currency #}
                     <p class="item-price mb-0">{{ product.price }} EGP</p>
                 </div>
                 <div class="item-btns">
-                    <a href="#" class="btn btn-style-1 remove-item-btn" data-link="{{ path('fe_remove_whole_item_from_cart_ajax', {"id": entity.id}) }}">{{ 'remove_txt'|trans }}</a>
+                    <a href="#" class="btn btn-style-1 remove-item-btn"
+                       data-link="{{ path('fe_remove_whole_item_from_cart_ajax', {"id": entity.id}) }}">{{ 'remove_txt'|trans }}</a>
                     {# @todo: add wishlist logic #}
                     <a href="#" class="btn btn-style-1 bg-black">{{ 'move_to_wishlist_txt'|trans }}</a>
                 </div>
@@ -84,14 +90,64 @@
         <div class="incrementor incrementor-style-1">
             <p class="incrementor-title">{{ 'quantity_txt'|trans }}</p>
             <div class="incrementor-container">
-                <button type="button" class="btn minus" data-link="{{ path('fe_remove_one_item_from_cart_ajax', {"id": entity.id}) }}">
+                <button type="button" class="btn minus"
+                        data-link="{{ path('fe_remove_one_item_from_cart_ajax', {"id": entity.id}) }}">
                     <i class="convert-svg" data-src="{{ asset('images/icons/caret-circle-left.svg') }}"></i>
                 </button>
                 {# @todo: add readonly in frontend #}
                 <input type="number" readonly name="qty" min="0" value="{{ entity.quantity }}"/>
-                <button type="button" class="btn plus" data-link="{{ path('fe_add_item_to_cart_ajax', {"slug": product.seo.slug}) }}">
+                <button type="button" class="btn plus"
+                        data-link="{{ path('fe_add_item_to_cart_ajax', {"slug": product.seo.slug}) }}">
                     <i class="convert-svg" data-src="{{ asset('images/icons/caret-circle-right.svg') }}"></i>
                 </button>
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro order(entity) %}
+    {% set orderItems = entity.orderItems %}
+    {% set itemImage = absolute_url(asset('images/placeholders/placeholder-md.jpg')) %}
+    {% if orderItems is not empty %}
+        {% set orderItemMainImage = orderItems[0].product.mainImage %}
+        {% if orderItemMainImage %}
+            {% set itemImage = absolute_url(asset(orderItemMainImage.absolutePath)) %}
+        {% endif %}
+    {% endif %}
+    <div class="item-main-container">
+        <div class="item-specs">
+            <a href="#" class="img-container">
+                <img
+                    class="lazy"
+                    data-src="{{ itemImage }}"
+                    alt="Order-{{ entity.id }}"
+                />
+            </a>
+            <div class="item-details-container">
+                <div class="item-main-details">
+                    <a href="#" class="item-title">{{ 'order_number_txt'|trans }} {{ entity.id }}</a>
+                    {# @todo: change currency #}
+                    <p class="item-subtitle">{{ entity.totalQuantity }} {{ 'products_totalling_txt'|trans }} {{ entity.totalPrice|number_format }} EGP</p>
+                </div>
+                <div class="item-specific-details">
+                    <div class="item-created item-info">
+                        <p class="info-title">{{ 'order_placed_txt'|trans }}</p>
+                        <p class="info-description">{{ entity.created|date("m/d/Y") }}</p>
+                    </div>
+                    <div class="item-updated item-info">
+                        <p class="info-title">{{ 'last_update_txt'|trans }}</p>
+                        <p class="info-description">{{ entity.modified|date("m/d/Y") }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="item-status-container">
+            <div class="badge badge-style-1">
+                <span>{{ entity.status|capitalize }}</span>
+            </div>
+            {# @todo: handle track order logic #}
+            <div class="status-btn-container d-flex justify-content-end">
+                <a href="#" class="btn btn-style-2">{{ 'track_order_txt'|trans }}</a>
             </div>
         </div>
     </div>

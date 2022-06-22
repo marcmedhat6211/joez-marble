@@ -34,7 +34,7 @@ class OrderItem implements DateTimeInterface
     private ?float $itemTotalPrice;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\ECommerceBundle\Entity\Product", inversedBy="orderItem", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\ECommerceBundle\Entity\Product", inversedBy="orderItems", cascade={"persist"})
      */
     private ?Product $product;
 
@@ -72,18 +72,6 @@ class OrderItem implements DateTimeInterface
         return $this;
     }
 
-    public function getProduct(): ?Product
-    {
-        return $this->product;
-    }
-
-    public function setProduct(?Product $product): self
-    {
-        $this->product = $product;
-
-        return $this;
-    }
-
     public function getOrder(): ?Order
     {
         return $this->order;
@@ -92,6 +80,18 @@ class OrderItem implements DateTimeInterface
     public function setOrder(?Order $order): self
     {
         $this->order = $order;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
 
         return $this;
     }

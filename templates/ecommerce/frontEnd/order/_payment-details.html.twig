@@ -15,7 +15,7 @@
                     <span class="detail-title">{{ 'shipping_amount_txt'|trans }}</span>
                     <span class="detail-description">{{ shippingFee }}</span>
                 </p>
-                <form
+                <div
                         action="#"
                         class="coupon-code-section"
                         id="coupon_code_form"
@@ -44,11 +44,11 @@
                     <button type="submit" class="btn btn-style-1 hover-effect">
                         {{ 'apply_code_txt'|trans }}
                     </button>
-                </form>
+                </div>
             </div>
         </div>
         <div class="col-12 col-md-6 offset-md-3">
-            <form action="#" class="payment-amounts-section">
+            <div action="#" class="payment-amounts-section">
                 <div class="payment-amount subtotal">
                     <span class="payment-amount-title">{{ 'subtotal_txt'|trans }}</span>
                     {# @todo: change currency #}
@@ -74,7 +74,7 @@
                         {{ 'place_order_txt'|trans }}
                     </button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>

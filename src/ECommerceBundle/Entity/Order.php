@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 
 /**
- * @ORM\Table(name="order")
+ * @ORM\Table(name="ordr")
  * @ORM\Entity(repositoryClass="App\ECommerceBundle\Repository\OrderRepository")
  */
 class Order implements DateTimeInterface
@@ -54,7 +54,7 @@ class Order implements DateTimeInterface
     private int $totalQuantity = 0;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\UserBundle\Entity\User", inversedBy="cart", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\UserBundle\Entity\User", inversedBy="orders", cascade={"persist"})
      */
     private ?User $user;
 
@@ -97,18 +97,6 @@ class Order implements DateTimeInterface
         return $this;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, OrderItem>
      */
@@ -147,6 +135,18 @@ class Order implements DateTimeInterface
     public function setStatus(string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

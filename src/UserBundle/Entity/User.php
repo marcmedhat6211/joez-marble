@@ -4,6 +4,7 @@ namespace App\UserBundle\Entity;
 
 use App\CMSBundle\Entity\UserFeedback;
 use App\ECommerceBundle\Entity\Cart;
+use App\ECommerceBundle\Entity\Order;
 use App\UserBundle\Model\BaseUser;
 use App\UserBundle\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -67,6 +68,11 @@ class User extends BaseUser
     private ?Cart $cart;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\ECommerceBundle\Entity\Order", mappedBy="user")
+     */
+    private mixed $orders;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\CMSBundle\Entity\UserFeedback", mappedBy="user")
      */
     private mixed $feedbacks;
@@ -79,6 +85,7 @@ class User extends BaseUser
     public function __construct()
     {
         $this->feedbacks = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -229,6 +236,36 @@ class User extends BaseUser
         }
 
         $this->shippingInformation = $shippingInformation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Order>
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Order $order): self
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders[] = $order;
+            $order->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Order $order): self
+    {
+        if ($this->orders->removeElement($order)) {
+            // set the owning side to null (unless already changed)
+            if ($order->getUser() === $this) {
+                $order->setUser(null);
+            }
+        }
 
         return $this;
     }

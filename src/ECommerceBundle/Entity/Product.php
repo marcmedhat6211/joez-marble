@@ -91,9 +91,9 @@ class Product implements DateTimeInterface, SeoInterface
     private ?CartItem $cartItem;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\ECommerceBundle\Entity\OrderItem", mappedBy="product")
+     * @ORM\OneToMany(targetEntity="App\ECommerceBundle\Entity\OrderItem", mappedBy="product")
      */
-    private ?OrderItem $orderItem;
+    private mixed $orderItems;
 
     /**
      * @ORM\ManyToOne(targetEntity="Subcategory", inversedBy="products", cascade={"persist"})
@@ -130,6 +130,7 @@ class Product implements DateTimeInterface, SeoInterface
         $this->materials = new ArrayCollection();
         $this->productMaterialImages = new ArrayCollection();
         $this->galleryImages = new ArrayCollection();
+        $this->orderItems = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -441,24 +442,32 @@ class Product implements DateTimeInterface, SeoInterface
         return $this->onSale;
     }
 
-    public function getOrderItem(): ?OrderItem
+    /**
+     * @return Collection<int, OrderItem>
+     */
+    public function getOrderItems(): Collection
     {
-        return $this->orderItem;
+        return $this->orderItems;
     }
 
-    public function setOrderItem(?OrderItem $orderItem): self
+    public function addOrderItem(OrderItem $orderItem): self
     {
-        // unset the owning side of the relation if necessary
-        if ($orderItem === null && $this->orderItem !== null) {
-            $this->orderItem->setProduct(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($orderItem !== null && $orderItem->getProduct() !== $this) {
+        if (!$this->orderItems->contains($orderItem)) {
+            $this->orderItems[] = $orderItem;
             $orderItem->setProduct($this);
         }
 
-        $this->orderItem = $orderItem;
+        return $this;
+    }
+
+    public function removeOrderItem(OrderItem $orderItem): self
+    {
+        if ($this->orderItems->removeElement($orderItem)) {
+            // set the owning side to null (unless already changed)
+            if ($orderItem->getProduct() === $this) {
+                $orderItem->setProduct(null);
+            }
+        }
 
         return $this;
     }

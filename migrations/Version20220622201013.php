@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20220619184306 extends AbstractMigration
+final class Version20220622201013 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,12 +20,12 @@ final class Version20220619184306 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE `order` ADD status VARCHAR(255) NOT NULL');
+        $this->addSql('ALTER TABLE order_item DROP INDEX UNIQ_52EA1F094584665A, ADD INDEX IDX_52EA1F094584665A (product_id)');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE `order` DROP status');
+        $this->addSql('ALTER TABLE order_item DROP INDEX IDX_52EA1F094584665A, ADD UNIQUE INDEX UNIQ_52EA1F094584665A (product_id)');
     }
 }

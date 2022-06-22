@@ -84,8 +84,7 @@
                                         data-toggle="modal"
                                         data-target="#editProfileModal">{{ 'edit_profile_txt'|trans }}
                                 </a>
-                                {# @todo: add link #}
-                                <a href="#" class="profile-dropdown-link">{{ 'my_orders_txt'|trans }}</a>
+                                <a href="{{ path('fe_order_index') }}" class="profile-dropdown-link">{{ 'my_orders_txt'|trans }}</a>
                                 {% if is_granted('ROLE_ADMIN') %}
                                     <a href="{{ path('dashboard') }}" target="_blank" class="profile-dropdown-link">{{ 'manage_website_txt'|trans }}</a>
                                 {% endif %}

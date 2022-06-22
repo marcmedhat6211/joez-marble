@@ -2,6 +2,7 @@
 
 namespace App\UserBundle\Entity;
 
+use App\ServiceBundle\Model\DateTimeInterface;
 use App\ServiceBundle\Model\DateTimeTrait;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -9,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="`shipping_information`")
  * @ORM\Entity(repositoryClass="App\UserBundle\Repository\ShippingInformationRepository")
  */
-class ShippingInformation
+class ShippingInformation implements DateTimeInterface
 {
     use DateTimeTrait;
 

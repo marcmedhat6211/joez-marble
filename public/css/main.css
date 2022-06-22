@@ -12527,6 +12527,13 @@ header #mobile_header .mobile-cart .cart-total-container .amount {
   width: 16px;
   height: 16px;
 }
+.input-style-3 ul {
+  list-style: none;
+  padding: 0;
+}
+.input-style-3 ul li {
+  color: red;
+}
 
 .input-style-4 label {
   font-size: 15px;

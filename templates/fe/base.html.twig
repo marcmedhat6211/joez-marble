@@ -70,6 +70,7 @@
         {{ render(controller('App\\PageBundle\\Controller\\HomeController::mobileMenu', {"request": app.request})) }}
         {% include 'fe/_mobile-search-popup.html.twig' %}
         {% include 'fe/_alert.html.twig' %}
+        {% include 'fe/_flash-messages.html.twig' %}
     {% endblock %}
     {# END FIXED LAYOUTS #}
 {% endif %}
