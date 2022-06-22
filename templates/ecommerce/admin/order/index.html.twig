@@ -1,0 +1,73 @@
+{% extends 'adminTemplate/base.html.twig' %}
+{% set page_title %}Orders List{% endset %}
+{% block breadcrumb %}
+    <a href="{{ path('dashboard') }}" class="breadcrumb-item">
+        <i class="icon-home2 mr-2"></i>
+        Dashboard
+    </a>
+    <span class="breadcrumb-item active">Orders List</span>
+{% endblock %}
+{% block content %}
+    <div class="card">
+        <div class="px-2 pt-2">
+            {% include 'adminTemplate/_flash-messages.html.twig' %}
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>User</th>
+                    <th>Total Price</th>
+                    <th>Items Number</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                    <th>Modified</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if paginator is not empty %}
+                    {% for order in paginator %}
+                        <tr>
+                            <td>{{ order.id }}</td>
+                            <td>{{ order.user.fullName }}</td>
+                            <td>{{ order.totalPrice }}</td>
+                            <td>{{ order.totalQuantity }}</td>
+                            {% set badgeClass = 'badge-primary' %}
+                            {% if order.status == constant('\\App\\ECommerceBundle\\Entity\\Order::STATUS_PENDING') %}
+                                {% set badgeClass = 'badge-primary' %}
+                            {% elseif order.status == constant('\\App\\ECommerceBundle\\Entity\\Order::STATUS_SHIPPED') %}
+                                {% set badgeClass = 'badge-warning' %}
+                            {% elseif order.status == constant('\\App\\ECommerceBundle\\Entity\\Order::STATUS_DELIVERED') %}
+                                {% set badgeClass = 'badge-success' %}
+                            {% elseif order.status == constant('\\App\\ECommerceBundle\\Entity\\Order::STATUS_CANCELLED') %}
+                                {% set badgeClass = 'badge-danger' %}
+                            {% endif %}
+                            <td><span class="badge {{ badgeClass }}">{{ order.status|capitalize }}</span></td>
+                            <td>{{ order.created|date('d/m/Y') }}</td>
+                            <td>{{ order.modified|date('d/m/Y') }}</td>
+                            <td class="text-center">
+                                <div class="list-icons">
+                                    <div class="dropdown">
+                                        <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                            <i class="icon-menu9"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a href="{{ path('order_edit', {"id": order.id}) }}"
+                                               class="dropdown-item"><i class="mi-mode-edit"></i>Edit</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex justify-content-center py-3">
+            {{ knp_pagination_render(paginator) }}
+        </div>
+    </div>
+{% endblock %}

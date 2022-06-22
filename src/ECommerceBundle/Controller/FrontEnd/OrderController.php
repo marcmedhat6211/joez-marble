@@ -5,6 +5,7 @@ namespace App\ECommerceBundle\Controller\FrontEnd;
 use App\ECommerceBundle\Repository\OrderRepository;
 use App\ECommerceBundle\Services\OrderService;
 use App\UserBundle\Entity\ShippingInformation;
+use App\UserBundle\Entity\User;
 use App\UserBundle\Form\ShippingInformationType;
 use App\UserBundle\Repository\ShippingInformationRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,7 +26,6 @@ class OrderController extends AbstractController
      */
     public function index(
         TranslatorInterface $translator,
-        PaginatorInterface $paginator,
         OrderRepository $orderRepository,
         Request $request
     ):Response
@@ -36,9 +36,7 @@ class OrderController extends AbstractController
             return $this->redirectToRoute("fe_home");
         }
 
-        $ordersObjs = $orderRepository->findBy(["user" => $user, "deleted" => NULL]);
-
-        $orders = $paginator->paginate($ordersObjs, $request->query->getInt('page', 1), 5);
+        $orders = $this->getOrders($request, $user, $orderRepository);
 
         return $this->render('ecommerce/frontEnd/order/index.html.twig', [
             "orders" => $orders,
@@ -97,5 +95,16 @@ class OrderController extends AbstractController
             "taxes" => $taxes,
             "orderGrandTotal" => $orderGrandTotal,
         ]);
+    }
+
+    //=====================================================PRIVATE METHODS=======================================
+
+    private function getOrders(Request $request, User $user, OrderRepository $orderRepository)
+    {
+        $search = new \stdClass();
+        $search->user = $user->getId();
+        $search->deleted = 0;
+
+        return $orderRepository->filter($search, false, true, 10, $request);
     }
 }
