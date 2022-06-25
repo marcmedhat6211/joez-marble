@@ -56,7 +56,10 @@ class HomeController extends AbstractController
         $user = $this->getUser();
         $categories = $this->getCategories($categoryRepository);
         $cart = $cartRepository->findOneBy(["user" => $user]);
-        $wishlistCount = $productFavouriteRepository->getFavouriteProductsCountByUser($user);
+        $wishlistCount = 0;
+        if ($user) {
+            $wishlistCount = $productFavouriteRepository->getFavouriteProductsCountByUser($user);
+        }
 
         return $this->render('fe/_desktop-menu.html.twig', [
             "request" => $request,

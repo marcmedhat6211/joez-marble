@@ -101,22 +101,20 @@ class ProductController extends AbstractController
     /**
      * @Route("joez-living/filter", name="fe_filter_living_product", methods={"GET"})
      */
-    public function filterLiving(Request $request, CategoryRepository $categoryRepository): Response
+    public function filterLiving(
+        Request $request,
+        CategoryRepository $categoryRepository,
+        ProductRepository $productRepository
+    ): Response
     {
         $categories = $this->getValidLivingCategories($categoryRepository, $request);
         foreach ($categories as $category) {
-            $category->products = [];
             $subcategories = $category->getSubcategories();
+            $subcategoriesIds = [];
             foreach ($subcategories as $subcategory) {
-                $products = $subcategory->getProducts();
-                foreach ($products as $index => $product) {
-                    if ($index <= 10) {
-                        $category->products[] = $product;
-                    } else {
-                        break;
-                    }
-                }
+                $subcategoriesIds[] = $subcategory->getId();
             }
+            $category->products = $this->getProductsBySubcategoriesIds($productRepository, $subcategoriesIds);
         }
 
         return $this->render('ecommerce/frontEnd/product/joez-living/filter.html.twig', [
@@ -218,5 +216,15 @@ class ProductController extends AbstractController
         $search->notId = $product->getId();
 
         return $productRepository->filter($search, false, false, 8);
+    }
+
+    private function getProductsBySubcategoriesIds(ProductRepository $productRepository, array $subcategoriesIds): array
+    {
+        $search = new \stdClass();
+        $search->deleted = 0;
+        $search->publish = 1;
+        $search->subcategories = $subcategoriesIds;
+
+        return $productRepository->filter($search, false, false, 10);
     }
 }

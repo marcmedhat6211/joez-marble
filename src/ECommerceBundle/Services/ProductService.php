@@ -3,15 +3,25 @@
 namespace App\ECommerceBundle\Services;
 
 use App\ECommerceBundle\Entity\Product;
+use App\ECommerceBundle\Repository\ProductFavouriteRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\Security;
 
 class ProductService
 {
     private EntityManagerInterface $em;
+    private Security $security;
+    private ProductFavouriteRepository $productFavouriteRepository;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(
+        EntityManagerInterface $em,
+        Security $security,
+        ProductFavouriteRepository $productFavouriteRepository
+    )
     {
         $this->em = $em;
+        $this->security = $security;
+        $this->productFavouriteRepository = $productFavouriteRepository;
     }
 
     //@TODO: make sure this works well
@@ -30,5 +40,20 @@ class ProductService
         }
 
         return true;
+    }
+
+    public function addFavouriteStatusToProductsObjects(array $products): void
+    {
+        $user = $this->security->getUser();
+        if ($user) {
+            foreach ($products as $product) {
+                $productFavourite = $this->productFavouriteRepository->findOneBy(["user" => $user, "product" => $product]);
+                if ($productFavourite) {
+                    $product->hasFavourite = true;
+                } else {
+                    $product->hasFavourite = false;
+                }
+            }
+        }
     }
 }

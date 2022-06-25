@@ -3,6 +3,7 @@
 namespace App\ECommerceBundle\Repository;
 
 use App\ECommerceBundle\Entity\Product;
+use App\ECommerceBundle\Services\ProductService;
 use App\ServiceBundle\Utils\Validate;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
@@ -11,6 +12,7 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @method Product|null find($id, $lockMode = null, $lockVersion = null)
@@ -21,11 +23,17 @@ use Symfony\Component\HttpFoundation\Request;
 class ProductRepository extends ServiceEntityRepository
 {
     private PaginatorInterface $paginator;
+    private ProductService $productService;
 
-    public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
+    public function __construct(
+        ManagerRegistry $registry,
+        PaginatorInterface $paginator,
+        ProductService $productService
+    )
     {
         parent::__construct($registry, Product::class);
         $this->paginator = $paginator;
+        $this->productService = $productService;
     }
 
     /**
@@ -92,6 +100,11 @@ class ProductRepository extends ServiceEntityRepository
         if (isset($search->subcategory) and $search->subcategory != "") {
             $statement->andWhere('p.subcategory = :subcategory');
             $statement->setParameter('subcategory', $search->subcategory);
+        }
+
+        if (isset($search->subcategories) and $search->subcategories != "") {
+            $statement->andWhere('p.subcategory IN (:subcategories)');
+            $statement->setParameter('subcategories', $search->subcategories);
         }
 
         if (isset($search->publish) and $search->publish != "") {
@@ -184,13 +197,17 @@ class ProductRepository extends ServiceEntityRepository
         $this->filterOrder($statement, $search);
 
         if ($isPagination) {
-            return $this->paginator->paginate($statement->getQuery(), $request->query->getInt('page', 1), $pageLimit);
+            $paginationResults = $this->paginator->paginate($statement->getQuery(), $request->query->getInt('page', 1), $pageLimit);
+            $this->productService->addFavouriteStatusToProductsObjects((array)$paginationResults->getItems());
+            return $paginationResults;
         }
 
         if ($pageLimit !== null) {
             $statement->setMaxResults($pageLimit);
         }
 
-        return $statement->getQuery()->execute();
+        $rows = $statement->getQuery()->execute();
+        $this->productService->addFavouriteStatusToProductsObjects($rows);
+        return $rows;
     }
 }
