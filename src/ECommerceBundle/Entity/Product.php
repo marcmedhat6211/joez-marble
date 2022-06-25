@@ -8,6 +8,7 @@ use App\SeoBundle\Model\SeoInterface;
 use App\ServiceBundle\Model\DateTimeInterface;
 use App\ServiceBundle\Model\DateTimeTrait;
 use App\ServiceBundle\Model\VirtualDeleteTrait;
+use App\UserBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -111,6 +112,11 @@ class Product implements DateTimeInterface, SeoInterface
     private mixed $productMaterialImages;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\ECommerceBundle\Entity\ProductFavourite", mappedBy="product")
+     */
+    private mixed $favourites;
+
+    /**
      * @ORM\ManyToMany(targetEntity="App\MediaBundle\Entity\Image", inversedBy="products", cascade={"persist", "remove" })
      */
     private mixed $galleryImages;
@@ -131,6 +137,8 @@ class Product implements DateTimeInterface, SeoInterface
         $this->productMaterialImages = new ArrayCollection();
         $this->galleryImages = new ArrayCollection();
         $this->orderItems = new ArrayCollection();
+        $this->users = new ArrayCollection();
+        $this->favourites = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -466,6 +474,36 @@ class Product implements DateTimeInterface, SeoInterface
             // set the owning side to null (unless already changed)
             if ($orderItem->getProduct() === $this) {
                 $orderItem->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProductFavourite>
+     */
+    public function getFavourites(): Collection
+    {
+        return $this->favourites;
+    }
+
+    public function addFavourite(ProductFavourite $favourite): self
+    {
+        if (!$this->favourites->contains($favourite)) {
+            $this->favourites[] = $favourite;
+            $favourite->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavourite(ProductFavourite $favourite): self
+    {
+        if ($this->favourites->removeElement($favourite)) {
+            // set the owning side to null (unless already changed)
+            if ($favourite->getProduct() === $this) {
+                $favourite->setProduct(null);
             }
         }
 

@@ -10,6 +10,7 @@ use App\CMSBundle\Repository\UserFeedbackRepository;
 use App\ECommerceBundle\Repository\CartRepository;
 use App\ECommerceBundle\Repository\CategoryRepository;
 use App\ECommerceBundle\Repository\CurrencyRepository;
+use App\ECommerceBundle\Repository\ProductFavouriteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -48,17 +49,20 @@ class HomeController extends AbstractController
     public function menu(
         Request $request,
         CategoryRepository $categoryRepository,
-        CartRepository $cartRepository
+        CartRepository $cartRepository,
+        ProductFavouriteRepository $productFavouriteRepository,
     ): Response
     {
         $user = $this->getUser();
         $categories = $this->getCategories($categoryRepository);
         $cart = $cartRepository->findOneBy(["user" => $user]);
+        $wishlistCount = $productFavouriteRepository->getFavouriteProductsCountByUser($user);
 
         return $this->render('fe/_desktop-menu.html.twig', [
             "request" => $request,
             "categories" => $categories,
-            "cart" => $cart ?: null
+            "cart" => $cart ?: null,
+            "wishlistCount" => $wishlistCount,
         ]);
     }
 

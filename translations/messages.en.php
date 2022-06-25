@@ -153,4 +153,9 @@ return [
     "last_update_txt" => "LAST UPDATE",
     "orders_txt" => "Orders",
     "login_to_access_orders_history_msg" => "Please login to access your orders history page",
+    "login_to_add_to_fav_msg" => "Please login before adding any products to your wishlist",
+    "product_added_to_wishlist_msg" => "Product added to your wishlist successfully",
+    "product_removed_from_wishlist_msg" => "Product removed from your wishlist successfully",
+    "login_to_access_wishlist_msg" => "Please login to access your wishlist page",
+    "add_to_cart_txt_caps" => "Add To Cart",
 ];

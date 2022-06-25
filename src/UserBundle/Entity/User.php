@@ -5,11 +5,13 @@ namespace App\UserBundle\Entity;
 use App\CMSBundle\Entity\UserFeedback;
 use App\ECommerceBundle\Entity\Cart;
 use App\ECommerceBundle\Entity\Order;
+use App\ECommerceBundle\Entity\ProductFavourite;
 use App\UserBundle\Model\BaseUser;
 use App\UserBundle\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -78,14 +80,20 @@ class User extends BaseUser
     private mixed $feedbacks;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\ECommerceBundle\Entity\ProductFavourite", mappedBy="user")
+     */
+    private mixed $productFavourites;
+
+    /**
      * @ORM\OneToOne(targetEntity="App\UserBundle\Entity\ShippingInformation", mappedBy="user")
      */
     private ?ShippingInformation $shippingInformation;
 
-    public function __construct()
+    #[Pure] public function __construct()
     {
         $this->feedbacks = new ArrayCollection();
         $this->orders = new ArrayCollection();
+        $this->productFavourites = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -270,5 +278,33 @@ class User extends BaseUser
         return $this;
     }
 
+    /**
+     * @return Collection<int, ProductFavourite>
+     */
+    public function getProductFavourites(): Collection
+    {
+        return $this->productFavourites;
+    }
 
+    public function addProductFavourite(ProductFavourite $productFavourite): self
+    {
+        if (!$this->productFavourites->contains($productFavourite)) {
+            $this->productFavourites[] = $productFavourite;
+            $productFavourite->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductFavourite(ProductFavourite $productFavourite): self
+    {
+        if ($this->productFavourites->removeElement($productFavourite)) {
+            // set the owning side to null (unless already changed)
+            if ($productFavourite->getUser() === $this) {
+                $productFavourite->setUser(null);
+            }
+        }
+
+        return $this;
+    }
 }

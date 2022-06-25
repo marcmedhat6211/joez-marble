@@ -7,6 +7,7 @@ const productCard = $(".card.card-style-1");
 const mobileMenuWrapper = $("#mobile_menu_wrapper");
 const mobileMenu = $("#mobile_menu");
 const searchPopup = $("#search_popup");
+const body = $("body");
 $(document).ready(function () {
     //lazy loading
     if ($("img.lazy").length > 0) {
@@ -88,21 +89,28 @@ $(document).ready(function () {
 
     // fav icon on product card
     if (productCard.length > 0) {
-        if (productCard.length > 1) {
-            productCard.each(function () {
-                $(this)
-                    .find(".fav-btn")
-                    .on("click", function (e) {
-                        e.preventDefault();
-                        $(this).toggleClass("active");
-                    });
+        $("body").on("click", ".card.card-style-1 .fav-btn", function () {
+            startPageLoading();
+            const favBtn = $(this);
+            const wishlistLink = favBtn.closest(".card.card-style-1").data("wishlist-link");
+            console.log(wishlistLink);
+            $.post(wishlistLink, function (json) {
+                endPageLoading();
+                if (!json.error) {
+                    console.log(json);
+                    const action = json.action;
+                    if (action === "PRODUCT_ADDED") {
+                        favBtn.addClass("active");
+                    } else if (action === "PRODUCT_REMOVED") {
+                        favBtn.removeClass("active");
+                    }
+                    updateWishlistNumber(json.productsFavouritesCount);
+                    showAlert("success", json.message);
+                } else {
+                    showAlert("error", json.message);
+                }
             });
-        } else {
-            productCard.find(".fav-btn").on("click", function (e) {
-                e.preventDefault();
-                $(this).toggleClass("active");
-            });
-        }
+        });
     }
 
     // svg icons
@@ -266,6 +274,8 @@ $(document).ready(function () {
             }
         });
     });
+
+
 });
 
 const drawCartItem = (cartItem, itemsContainer) => {
@@ -401,3 +411,15 @@ const showAlert = (type, message) => {
     alert.find(".alert__message").text(message);
     alert.addClass("show");
 };
+
+const updateWishlistNumber = (newCount) => {
+    $("#desktop_wishlist_items_count").text(newCount);
+}
+
+const startPageLoading = () => {
+    body.addClass("loading");
+}
+
+const endPageLoading = () => {
+    body.removeClass("loading");
+}

@@ -13,8 +13,7 @@
                     <a href="{{ path('fe_home') }}" class="link">{{ 'home_txt'|trans }}</a>
                 </li>
                 <li class="mobile-menu-link">
-                    {# @todo: add link #}
-                    <a href="#" class="link">{{ 'wishlist_txt'|trans }}</a>
+                    <a href="{{ path('fe_wishlist') }}" class="link">{{ 'wishlist_txt'|trans }}</a>
                 </li>
                 <div id="mobile_menu_accordion">
                     <div class="card">
@@ -40,7 +39,8 @@
                                 <ul class="mobile-menu-dropdown-links">
                                     <li class="mobile-menu-dropdown-group">
                                         {% if app.user %}
-                                            {# @todo: add links #}
+                                            {# @todo: handle edit profile #}
+                                            {# @todo: add admin visit website btn #}
                                             <a
                                                     href="#"
                                                     data-toggle="modal"
@@ -52,8 +52,7 @@
                                             <a href="{{ path('app_user_logout') }}"
                                                class="link-text">{{ 'logout_txt'|trans }}</a>
                                         {% else %}
-                                            {# @todo: add link #}
-                                            <a href="#" class="link-text">{{ 'sign_in_txt'|trans }}</a>
+                                            <a href="{{ path('app_user_login') }}" class="link-text">{{ 'sign_in_txt'|trans }}</a>
                                         {% endif %}
                                     </li>
                                 </ul>
@@ -97,7 +96,7 @@
                 </div>
                 <li class="mobile-menu-link">
                     {# @todo: add link #}
-                    <a href="#" class="link">{{ 'faqs_txt'|trans }}</a>
+                    <a href="{{ path('fe_faqs') }}" class="link">{{ 'faqs_txt'|trans }}</a>
                 </li>
                 <li class="mobile-menu-link">
                     <a

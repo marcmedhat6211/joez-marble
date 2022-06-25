@@ -1,0 +1,25 @@
+{% extends 'fe/base.html.twig' %}
+{% block title %}{{ 'wishlist_txt'|trans }}{% endblock %}
+{% import 'fe/_macros.html.twig' as macros %}
+
+{% block content %}
+
+    <div id="wishlist_page" class="pt-4 pb-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 mb-4 mb-md-5">
+                    <h1 class="page-title text-center">{{ 'wishlist_txt'|trans }}</h1>
+                </div>
+                <div class="col-12 mb-4 mb-md-5">
+                    {% for productFavourite in productFavourites %}
+                        {{ macros.wishlistItem(productFavourite) }}
+                    {% endfor %}
+                </div>
+                <div class="col-12 d-flex justify-content-center">
+                    {{ knp_pagination_render(productFavourites) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

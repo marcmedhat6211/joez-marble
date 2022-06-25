@@ -98,9 +98,8 @@
                         </div>
                     </div>
                     <div class="icon-container">
-                        {# @todo: add link #}
                         <a
-                                href="#"
+                                href="{{ path('fe_wishlist') }}"
                                 class="icon-btn"
                                 id="desktop_wishlist_button"
                         >
@@ -110,8 +109,7 @@
                                         data-src="{{ asset('images/icons/heart.svg') }}"
                                 ></i>
                             </div>
-                            {# @todo: add count #}
-                            <span class="items-count" id="desktop_wishlist_items_count">0</span>
+                            <span class="items-count" id="desktop_wishlist_items_count">{{ wishlistCount }}</span>
                         </a>
                     </div>
                     <div class="icon-container">

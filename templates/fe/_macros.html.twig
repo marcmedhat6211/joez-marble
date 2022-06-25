@@ -3,7 +3,7 @@
     {% if entity.mainImage %}
         {% set image = absolute_url(asset(entity.mainImage.absolutePath)) %}
     {% endif %}
-    <div class="card card-style-1">
+    <div class="card card-style-1" data-wishlist-link="{{ path('fe_product_toggle_wishlist_ajax', {"id": entity.id}) }}">
         <div class="card-img-container">
             <img
                     class="lazy"
@@ -148,6 +148,42 @@
             {# @todo: handle track order logic #}
             <div class="status-btn-container d-flex justify-content-end">
                 <a href="#" class="btn btn-style-2">{{ 'track_order_txt'|trans }}</a>
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro wishlistItem(entity) %}
+    {% set product = entity.product %}
+    {% set image = asset('images/placeholders/placeholder-md.jpg') %}
+    {% if product.mainImage %}
+        {% set image = absolute_url(asset(product.mainImage.absolutePath)) %}
+    {% endif %}
+    <div class="item-main-container">
+        <div class="item-container">
+            <a href="{{ path('fe_product_show', {"slug": product.seo.slug}) }}" class="img-container">
+                <img
+                    class="lazy"
+                    data-src="{{ image }}"
+                    alt="{{ product.title }}"
+                />
+            </a>
+            <div class="item-details">
+                <div class="item-text">
+                    <h2 href="filter.html" class="item-category">{{ product.subcategory.title }}</h2>
+                    <a href="{{ path('fe_product_show', {"slug": product.seo.slug}) }}" class="item-title">{{ product.title }}</a>
+                    {# @todo: add right currency #}
+                    <p class="item-price mb-0">{{ product.price }} EGP</p>
+                </div>
+                <div class="item-btns">
+                    {# @todo: handle those btns logic #}
+                    <button type="button" class="btn btn-style-1 bg-black">
+                        {{ 'add_to_cart_txt_caps'|trans }}
+                    </button>
+                    <button type="button" class="btn btn-style-1">
+                        {{ 'remove_txt'|trans }}
+                    </button>
+                </div>
             </div>
         </div>
     </div>
