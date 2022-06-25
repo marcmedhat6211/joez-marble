@@ -102,9 +102,9 @@ class ProductController extends AbstractController
      * @Route("joez-living/filter", name="fe_filter_living_product", methods={"GET"})
      */
     public function filterLiving(
-        Request $request,
+        Request            $request,
         CategoryRepository $categoryRepository,
-        ProductRepository $productRepository
+        ProductRepository  $productRepository
     ): Response
     {
         $categories = $this->getValidLivingCategories($categoryRepository, $request);
@@ -159,9 +159,10 @@ class ProductController extends AbstractController
      * @Route("product/{slug}/show", name="fe_product_show", methods={"GET"})
      */
     public function show(
-        SeoRepository     $seoRepository,
-        ProductRepository $productRepository,
-                          $slug = null
+        SeoRepository              $seoRepository,
+        ProductRepository          $productRepository,
+        ProductFavouriteRepository $productFavouriteRepository,
+                                   $slug = null
     ): Response
     {
         if (!$slug) {
@@ -176,6 +177,16 @@ class ProductController extends AbstractController
         $product = $productRepository->findOneBy(["seo" => $seo]);
         if (!$product) {
             throw new NotFoundHttpException("Product Not Found");
+        }
+
+        $user = $this->getUser();
+        if ($user) {
+            $productFavourite = $productFavouriteRepository->findOneBy(["user" => $user, "product" => $product]);
+            if ($productFavourite) {
+                $product->hasFavourite = true;
+            } else {
+                $product->hasFavourite = false;
+            }
         }
 
         $relatedProducts = $this->getRelatedProducts($product, $productRepository);

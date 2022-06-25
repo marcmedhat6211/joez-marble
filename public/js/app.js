@@ -247,14 +247,11 @@ $(document).ready(function () {
                 }
 
                 if ($("#cart_page").length > 0) {
-                    console.log("heree");
                     const cartPage = $("#cart_page");
                     adjustSummaryBox(json.newCartTotalQuantity, json.cartTotal, json.cartGrandTotal);
                     cartPage.find("#cart_form .cart-item-container").each(function () {
                         const cartItemContainer = $(this);
                         const cartItem = cartItemContainer.find(".cart-item");
-                        console.log(json.cartItemId);
-                        console.log(json);
                         if (cartItem.data("item-id") === json.cartItemId) {
                             cartItemContainer.remove();
                             if (cartPage.find("#cart_form .cart-item-container").length === 0) {

@@ -158,4 +158,8 @@ return [
     "product_removed_from_wishlist_msg" => "Product removed from your wishlist successfully",
     "login_to_access_wishlist_msg" => "Please login to access your wishlist page",
     "add_to_cart_txt_caps" => "Add To Cart",
+    "login_to_manage_wishlist_msg" => "Please Login to manage a wishlist of your own",
+    "item_removed_from_wishlist_successfully" => "Item removed from your wishlist successfully",
+    "wishlist_is_empty_txt" => "Your wishlist is empty",
+    "item_moved_to_wishlist_msg" => "Item moved to wishlist successfully",
 ];

@@ -35,7 +35,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button type="button" class="btn fav-btn has-active-icon"></button>
+                                <button type="button" class="btn fav-btn has-active-icon {% if product.hasFavourite is defined %}{{ product.hasFavourite ? 'active' }}{% endif %}" data-link="{{ path('fe_product_toggle_wishlist_ajax', {"id": product.id}) }}"></button>
                             </div>
                             <div class="swiper-container thumbs-swiper w-100">
                                 <div class="swiper-wrapper w-100">
@@ -71,7 +71,7 @@
                                         </div>
                                     {% endfor %}
                                 </div>
-                                <button type="button" class="btn fav-btn has-active-icon"></button>
+                                <button type="button" class="btn fav-btn has-active-icon {% if product.hasFavourite is defined %}{{ product.hasFavourite ? 'active' }}{% endif %}" data-link="{{ path('fe_product_toggle_wishlist_ajax', {"id": product.id}) }}"></button>
                             </div>
                             <!-- end main images swiper -->
                             <!-- thumb images swiper -->
@@ -121,7 +121,7 @@
                             </div>
                         {% endif %}
                         {# @todo: add add to cart logic here #}
-                        <button type="button" class="btn btn-style-1 bg-black hover-effect w-75">
+                        <button type="button" class="btn btn-style-1 bg-black hover-effect w-75 add-to-cart-btn" data-link="{{ path('fe_add_item_to_cart_ajax', {"slug": product.seo.slug}) }}">
                             {{ 'add_to_cart_caps_txt'|trans }}
                         </button>
                     </div>

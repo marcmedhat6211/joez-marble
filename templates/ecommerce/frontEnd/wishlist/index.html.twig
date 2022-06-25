@@ -11,9 +11,13 @@
                     <h1 class="page-title text-center">{{ 'wishlist_txt'|trans }}</h1>
                 </div>
                 <div class="col-12 mb-4 mb-md-5">
-                    {% for productFavourite in productFavourites %}
-                        {{ macros.wishlistItem(productFavourite) }}
-                    {% endfor %}
+                    {% if productFavourites is not empty %}
+                        {% for productFavourite in productFavourites %}
+                            {{ macros.wishlistItem(productFavourite) }}
+                        {% endfor %}
+                    {% else %}
+                        <h5 class="wishlist-empty-txt text-center my-4">{{ 'wishlist_is_empty_txt'|trans }}</h5>
+                    {% endif %}
                 </div>
                 <div class="col-12 d-flex justify-content-center">
                     {{ knp_pagination_render(productFavourites) }}
@@ -22,4 +26,9 @@
         </div>
     </div>
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/pages/wishlist.js') }}"></script>
 {% endblock %}

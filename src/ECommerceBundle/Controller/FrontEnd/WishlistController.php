@@ -2,6 +2,8 @@
 
 namespace App\ECommerceBundle\Controller\FrontEnd;
 
+use App\ECommerceBundle\Entity\Cart;
+use App\ECommerceBundle\Entity\CartItem;
 use App\ECommerceBundle\Entity\Product;
 use App\ECommerceBundle\Entity\ProductFavourite;
 use App\ECommerceBundle\Repository\CartRepository;
@@ -98,6 +100,82 @@ class WishlistController extends AbstractController
             "action" => "PRODUCT_ADDED",
         ]);
     }
+
+    /**
+     * @Route("product/{id}/remove-from-wishlist-ajax", name="fe_product_remove_from_wishlist_ajax", methods={"POST"})
+     */
+    public function remove(
+        TranslatorInterface $translator,
+        ProductFavouriteRepository $productFavouriteRepository,
+        Product $product
+    ):JsonResponse
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->json([
+                "error" => true,
+                "message" => $translator->trans("login_to_manage_wishlist_msg"),
+            ]);
+        }
+
+        if (!$product) {
+            return $this->json([
+                "error" => true,
+                "message" => $translator->trans("product_not_available_anymore_msg"),
+            ]);
+        }
+
+        $productFavouriteRepository->removeProductFavouriteByUserAndProduct($user, $product);
+
+        return $this->json([
+            "error" => false,
+            "message" => $translator->trans("item_removed_from_wishlist_successfully"),
+        ]);
+    }
+
+    /**
+     * @Route("cart-item/{id}/move-to-wishlist-ajax", name="fe_cart_item_move_to_wishlist_ajax", methods={"POST"})
+     */
+    public function moveToWishlist(
+        TranslatorInterface $translator,
+        CartService $cartService,
+        CartItem $cartItem
+    ):JsonResponse
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->json([
+                "error" => true,
+                "message" => $translator->trans("login_to_manage_wishlist_msg"),
+            ]);
+        }
+
+        if (!$cartItem->getProduct()) {
+            return $this->json([
+                "error" => true,
+                "message" => $translator->trans("product_not_available_anymore_msg"),
+            ]);
+        }
+
+        $product = $cartItem->getProduct();
+
+        $cart = $cartItem->getCart();
+        $cartItemId = $cartItem->getId();
+        $cartService->removeTheWholeItem($cartItem);
+        $cartGrandTotal = $cartService->getCartTotal($cart);
+        $newCartTotalQuantity = $cart->getTotalQuantity();
+
+        return $this->json([
+            "error" => false,
+            "message" => $translator->trans("item_moved_to_wishlist_msg"),
+            "newCartTotalQuantity" => $newCartTotalQuantity,
+            "cartGrandTotal" => $cartGrandTotal,
+            "cartTotal" => $cart->getTotalPrice(),
+            "cartItemId" => $cartItemId,
+        ]);
+    }
+
+    //========================================================================PRIVATE METHODS=========================================================================
 
     private function getProductFavourites(Request $request, User $user, ProductFavouriteRepository $productFavouriteRepository)
     {

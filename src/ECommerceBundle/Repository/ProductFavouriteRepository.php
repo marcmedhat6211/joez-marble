@@ -2,6 +2,7 @@
 
 namespace App\ECommerceBundle\Repository;
 
+use App\ECommerceBundle\Entity\Product;
 use App\ECommerceBundle\Entity\ProductFavourite;
 use App\ServiceBundle\Utils\Validate;
 use App\UserBundle\Entity\User;
@@ -57,6 +58,19 @@ class ProductFavouriteRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
 
         return $result["productFavouritesCount"];
+    }
+
+    public function removeProductFavouriteByUserAndProduct(User $user, Product $product): void
+    {
+        $this->createQueryBuilder("pf")
+            ->delete()
+            ->andWhere("pf.user = :userId")
+            ->andWhere("pf.product = :productId")
+            ->setParameter("userId", $user->getId())
+            ->setParameter("productId", $product->getId())
+            ->getQuery()
+            ->execute()
+        ;
     }
 
     private function getStatement()

@@ -177,10 +177,10 @@
                 </div>
                 <div class="item-btns">
                     {# @todo: handle those btns logic #}
-                    <button type="button" class="btn btn-style-1 bg-black">
+                    <button type="button" class="btn btn-style-1 bg-black add-to-cart-btn" data-link="{{ path('fe_add_item_to_cart_ajax', {"slug": product.seo.slug}) }}">
                         {{ 'add_to_cart_txt_caps'|trans }}
                     </button>
-                    <button type="button" class="btn btn-style-1">
+                    <button type="button" class="btn btn-style-1 remove-from-wishlist-btn" data-link="{{ path('fe_product_remove_from_wishlist_ajax', {"id": product.id}) }}">
                         {{ 'remove_txt'|trans }}
                     </button>
                 </div>
