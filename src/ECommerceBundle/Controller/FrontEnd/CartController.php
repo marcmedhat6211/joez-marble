@@ -134,9 +134,15 @@ class CartController extends AbstractController
         $cart = $cartItem->getCart();
         $cartItemId = $cartItem->getId();
         $cartService->removeTheWholeItem($cartItem);
-        $cartGrandTotal = $cartService->getCartTotal($cart);
 
-        $newCartTotalQuantity = $cart->getTotalQuantity();
+        $newCart = $user->getCart();
+        if ($newCart) {
+            $cartGrandTotal = $cartService->getCartTotal($cart);
+            $newCartTotalQuantity = $cart->getTotalQuantity();
+        } else {
+            $cartGrandTotal = 0;
+            $newCartTotalQuantity = 0;
+        }
 
         return $this->json([
             "error" => false,

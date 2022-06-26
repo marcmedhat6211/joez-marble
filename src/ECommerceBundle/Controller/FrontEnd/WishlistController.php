@@ -139,6 +139,8 @@ class WishlistController extends AbstractController
     public function moveToWishlist(
         TranslatorInterface $translator,
         CartService $cartService,
+        ProductFavouriteRepository $productFavouriteRepository,
+        EntityManagerInterface $em,
         CartItem $cartItem
     ):JsonResponse
     {
@@ -157,22 +159,40 @@ class WishlistController extends AbstractController
             ]);
         }
 
-        $product = $cartItem->getProduct();
-
         $cart = $cartItem->getCart();
-        $cartItemId = $cartItem->getId();
         $cartService->removeTheWholeItem($cartItem);
-        $cartGrandTotal = $cartService->getCartTotal($cart);
-        $newCartTotalQuantity = $cart->getTotalQuantity();
 
-        return $this->json([
+        $newCart = $user->getCart();
+        if ($newCart) {
+            $cartGrandTotal = $cartService->getCartTotal($cart);
+            $newCartTotalQuantity = $cart->getTotalQuantity();
+        } else { // the last item in the cart was removed
+            $cartGrandTotal = 0;
+            $newCartTotalQuantity = 0;
+        }
+
+        $product = $cartItem->getProduct();
+        $productFavourite = $productFavouriteRepository->findOneBy(["user" => $user, "product" => $product]);
+
+        $jsonObj = [
             "error" => false,
-            "message" => $translator->trans("item_moved_to_wishlist_msg"),
             "newCartTotalQuantity" => $newCartTotalQuantity,
             "cartGrandTotal" => $cartGrandTotal,
             "cartTotal" => $cart->getTotalPrice(),
-            "cartItemId" => $cartItemId,
-        ]);
+        ];
+
+        if ($productFavourite) {
+            $jsonObj["message"] = $translator->trans("item_already_in_wishlist_but_removed_from_cart_msg");
+        } else {
+            $productFavourite = new ProductFavourite();
+            $productFavourite->setUser($user);
+            $productFavourite->setProduct($product);
+            $em->persist($productFavourite);
+            $em->flush();
+            $jsonObj["message"] = $translator->trans("item_moved_to_wishlist_msg");
+        }
+
+        return $this->json($jsonObj);
     }
 
     //========================================================================PRIVATE METHODS=========================================================================

@@ -161,5 +161,6 @@ return [
     "login_to_manage_wishlist_msg" => "Please Login to manage a wishlist of your own",
     "item_removed_from_wishlist_successfully" => "Item removed from your wishlist successfully",
     "wishlist_is_empty_txt" => "Your wishlist is empty",
+    "item_already_in_wishlist_but_removed_from_cart_msg" => "Item already exists in your wishlist, and it has been removed from your cart",
     "item_moved_to_wishlist_msg" => "Item moved to wishlist successfully",
 ];

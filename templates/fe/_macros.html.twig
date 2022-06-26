@@ -73,17 +73,14 @@
             <div class="item-details">
                 <div class="item-text">
                     <h5 class="item-main-category">{{ product.subcategory.title }}</h5>
-                    {# @todo: add link #}
-                    <a class="item-title"
-                       href="{{ path('fe_product_show', {"slug": product.seo.slug}) }}">{{ product.title }}</a>
+                    <a class="item-title" href="{{ path('fe_product_show', {"slug": product.seo.slug}) }}">{{ product.title }}</a>
                     {# @todo: add right currency #}
                     <p class="item-price mb-0">{{ product.price }} EGP</p>
                 </div>
                 <div class="item-btns">
                     <a href="#" class="btn btn-style-1 remove-item-btn"
                        data-link="{{ path('fe_remove_whole_item_from_cart_ajax', {"id": entity.id}) }}">{{ 'remove_txt'|trans }}</a>
-                    {# @todo: add wishlist logic #}
-                    <a href="#" class="btn btn-style-1 bg-black">{{ 'move_to_wishlist_txt'|trans }}</a>
+                    <a href="#/" class="btn btn-style-1 bg-black move-to-wishlist-btn" data-link="{{ path('fe_cart_item_move_to_wishlist_ajax', {"id": entity.id}) }}">{{ 'move_to_wishlist_txt'|trans }}</a>
                 </div>
             </div>
         </div>

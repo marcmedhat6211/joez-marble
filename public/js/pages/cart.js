@@ -18,9 +18,8 @@ $(document).ready(function () {
         }
     });
 
-
-    // CART HANDLING
-    $("body").on("click", ".incrementor.incrementor-style-1 button.plus", function () {
+    // add item to cart
+    body.on("click", ".incrementor.incrementor-style-1 button.plus", function () {
         const plusBtn = $(this);
         const incrementorInput = plusBtn.closest(".incrementor-container").find("input[name='qty']")
         const addItemLink = plusBtn.data("link");
@@ -45,8 +44,8 @@ $(document).ready(function () {
         });
     });
 
-
-    $("body").on("click", ".incrementor.incrementor-style-1 button.minus", function () {
+    // remove item from cart
+    body.on("click", ".incrementor.incrementor-style-1 button.minus", function () {
         const minusBtn = $(this);
         const incrementorInput = minusBtn.closest(".incrementor-container").find("input[name='qty']")
         const removeOneItemUrl = minusBtn.data("link");
@@ -73,7 +72,8 @@ $(document).ready(function () {
         });
     });
 
-    $("body").on("click", "#cart_form .cart-item .remove-item-btn", function () {
+    // remove whole item from cart
+    body.on("click", "#cart_form .cart-item .remove-item-btn", function () {
         const btn = $(this);
         const url = btn.data("link");
         const clickedItem = btn.closest(".cart-item");
@@ -113,7 +113,44 @@ $(document).ready(function () {
             }
         });
     });
-    // END CART HANDLING
+
+    // move to wishlist
+    body.on("click", "#cart_page .cart-item .move-to-wishlist-btn", function () {
+        const moveToWishlistBtn = $(this);
+        const moveToWishlistLink = moveToWishlistBtn.data("link");
+        const cartItemInPage = moveToWishlistBtn.closest(".cart-item");
+        const cartItemInPageId = cartItemInPage.data("item-id");
+        moveToWishlistBtn.attr("disabled", true).text("loading..."); // @todo: translate text
+
+        $.post(moveToWishlistLink, function (json) {
+           if (!json.error) {
+               updateDropDownCartQty(json.newCartTotalQuantity);
+               const existingCartItems = $("#desktop_cart_dropdown .item");
+               existingCartItems.each(function() {
+                   const existingCartItem = $(this);
+                   const existingItemId = existingCartItem.data("item-id");
+                   if (cartItemInPageId === existingItemId) {
+                       existingCartItem.remove();
+                   }
+               });
+               cartItemInPage.closest(".cart-item-container").remove();
+               adjustSummaryBox(json.newCartTotalQuantity, json.cartTotal, json.cartGrandTotal);
+
+               if ($("#desktop_cart_dropdown .item").length === 0) {
+                   $("#cart_summary").remove();
+                   const cartEmptyMsg = $("<p>", {
+                       class: "desktop-cart-empty-txt",
+                       text: "Your Cart is Empty" //@todo: translate text
+                   });
+                   cartEmptyMsg.appendTo(desktopDropDownCart.find(".items-container"));
+               }
+
+               showAlert("success", json.message);
+           } else {
+               showAlert("error", json.message);
+           }
+        });
+    });
 });
 
 function increment(element) {
