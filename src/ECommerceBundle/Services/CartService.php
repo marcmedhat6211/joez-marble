@@ -7,6 +7,7 @@ use App\ECommerceBundle\Entity\CartItem;
 use App\ECommerceBundle\Entity\Product;
 use App\ECommerceBundle\Repository\CartItemRepository;
 use App\ECommerceBundle\Repository\CartRepository;
+use App\MediaBundle\Services\FileService;
 use App\UserBundle\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use JetBrains\PhpStorm\ArrayShape;
@@ -30,7 +31,8 @@ class CartService
         CartItemRepository     $cartItemRepository,
         Packages               $assets,
         RequestStack           $requestStack,
-        UrlGeneratorInterface $urlGenerator
+        UrlGeneratorInterface  $urlGenerator,
+        FileService            $fileService,
     )
     {
         $this->em = $em;
@@ -39,6 +41,7 @@ class CartService
         $this->assets = $assets;
         $this->request = $requestStack->getCurrentRequest();
         $this->urlGenerator = $urlGenerator;
+        $this->fileService = $fileService;
     }
 
     /**
@@ -160,7 +163,7 @@ class CartService
         $product = $cartItem->getProduct();
         $productImageUrl = $this->request->getSchemeAndHttpHost() . "/images/placeholders/placeholder-md.jpg";
         if ($product->getMainImage()) {
-            $productImageUrl = $this->request->getSchemeAndHttpHost() . $this->assets->getUrl($product->getMainImage()->getAbsolutePath());
+            $productImageUrl = $this->fileService->getFileFullAbsolutePath($product->getMainImage()->getAbsolutePath());
         }
         $removeWholeItemUrl = $this->urlGenerator->generate("fe_remove_whole_item_from_cart_ajax", ["id" => $cartItem->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
         $productUrl = $this->urlGenerator->generate("fe_product_show", ["slug" => $product->getSeo()->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL);

@@ -2,6 +2,8 @@
 
 namespace App\ECommerceBundle\Repository;
 
+use App\ECommerceBundle\Entity\Material;
+use App\ECommerceBundle\Entity\Product;
 use App\ECommerceBundle\Entity\ProductMaterialImage;
 use App\ServiceBundle\Utils\Validate;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -50,6 +52,19 @@ class ProductMaterialImageRepository extends ServiceEntityRepository
         if ($flush) {
             $this->_em->flush();
         }
+    }
+
+    public function getMaterialImagesByProductAndMaterial(Product $product, Material $material): array
+    {
+        return $this->createQueryBuilder("pmi")
+            ->select("IDENTITY(pmi.image)")
+            ->andWhere("pmi.product = :productId")
+            ->andWhere("pmi.material = :materialId")
+            ->setParameter("productId", $product->getId())
+            ->setParameter("materialId", $material->getId())
+            ->getQuery()
+            ->getArrayResult()
+            ;
     }
 
     private function getStatement()

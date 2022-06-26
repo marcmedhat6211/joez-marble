@@ -106,16 +106,22 @@
                             <p class="product-price mb-0">{{ product.price|number_format }} EGP</p>
                         </div>
                         {% if product.materials is not empty %}
-                            <div class="colors-section">
+                            <div class="materials-section">
                                 <p class="section-title">{{ 'materials_txt'|trans }}</p>
-                                <div class="colors-container">
+                                <div class="materials-container">
                                     {% for material in product.materials %}
                                         {# @todo: add button with bg image and render material image #}
-                                        <button
-                                                type="button"
-                                                class="btn color"
-                                                data-color="#007bff"
-                                        ></button>
+                                        {% set materialImage = asset('images/placeholders/placeholder-sm.jpg') %}
+                                        {% if material.mainImage %}
+                                            {% set materialImage = absolute_url((asset(material.mainImage.absolutePath))) %}
+                                        {% endif %}
+                                        <a href="#/" class="material" data-link="{{ path('fe_material_filter_ajax', {"id": material.id, "slug": product.seo.slug}) }}">
+                                            <img
+                                                    data-src="{{ materialImage }}"
+                                                    alt="{{ material.title }}"
+                                                    class="lazy"
+                                            />
+                                        </a>
                                     {% endfor %}
                                 </div>
                             </div>

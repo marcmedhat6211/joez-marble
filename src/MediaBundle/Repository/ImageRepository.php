@@ -44,4 +44,14 @@ class ImageRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
+
+    public function getImagesByIds(array $ids): array
+    {
+        return $this->createQueryBuilder("i")
+            ->andWhere("i.id IN (:ids)")
+            ->setParameter("ids", $ids)
+            ->getQuery()
+            ->getArrayResult()
+            ;
+    }
 }

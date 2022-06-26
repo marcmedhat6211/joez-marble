@@ -14861,25 +14861,36 @@ header #mobile_header .mobile-cart .cart-total-container .amount {
   font-weight: 400;
   color: #000000;
 }
-#product_details_page .product-main-info-container .colors-section .section-title {
+#product_details_page .product-main-info-container .materials-section .section-title {
   font-size: 30px;
   font-weight: 400;
   color: #000000;
   margin-bottom: 15px;
 }
-#product_details_page .product-main-info-container .colors-section .colors-container {
+#product_details_page .product-main-info-container .materials-section .materials-container {
   display: flex;
   align-items: center;
 }
-#product_details_page .product-main-info-container .colors-section .colors-container .color {
+#product_details_page .product-main-info-container .materials-section .materials-container .material {
   padding: 0;
-  width: 60px;
-  height: 60px;
+  width: 65px;
+  height: 65px;
   border-radius: 50%;
-  border: 1.5px solid #c4c4c4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-#product_details_page .product-main-info-container .colors-section .colors-container .color:not(:last-child) {
+#product_details_page .product-main-info-container .materials-section .materials-container .material:not(:last-child) {
   margin-right: 9px;
+}
+#product_details_page .product-main-info-container .materials-section .materials-container .material img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+#product_details_page .product-main-info-container .materials-section .materials-container .material.active {
+  border: 3px solid #000000;
 }
 #product_details_page .product-details-section {
   display: flex;
@@ -15020,14 +15031,14 @@ header #mobile_header .mobile-cart .cart-total-container .amount {
   #product_details_page .product-main-info-container .info-text .product-title {
     font-size: 16px;
   }
-  #product_details_page .product-main-info-container .colors-section {
+  #product_details_page .product-main-info-container .materials-section {
     margin-bottom: 30px;
   }
-  #product_details_page .product-main-info-container .colors-section .section-title {
+  #product_details_page .product-main-info-container .materials-section .section-title {
     font-size: 22px;
     margin-bottom: 12px;
   }
-  #product_details_page .product-main-info-container .colors-section .colors-container .color {
+  #product_details_page .product-main-info-container .materials-section .materials-container .material {
     width: 40px;
     height: 40px;
   }
