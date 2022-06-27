@@ -9,15 +9,13 @@
 {% endblock %}
 
 {% block content %}
-
     <div id="product_details_page" class="py-4">
         <div class="container">
             <div class="row">
                 <!-- product images section -->
                 <div class="col-12 col-md-6">
                     <div class="product-images-section w-100">
-                        {% set galleryImages = product.galleryImages %}
-                        {% if galleryImages is empty %}
+                        {% if imagesPaths is empty %}
                             <div class="swiper-container main-images-swiper w-100">
                                 <div class="swiper-wrapper w-100">
                                     <div class="swiper-slide w-100">
@@ -54,17 +52,17 @@
                             <!-- main images swiper -->
                             <div class="swiper-container main-images-swiper w-100">
                                 <div class="swiper-wrapper w-100">
-                                    {% for image in galleryImages %}
+                                    {% for imagePath in imagesPaths %}
                                         <div class="swiper-slide w-100">
                                             <div
                                                     class="img-container w-100 fancybox"
                                                     data-fancybox="product-gallery"
-                                                    href="{{ absolute_url(asset(image.absolutePath)) }}"
+                                                    href="{{ imagePath }}"
                                                     title="{{ product.title }}'s gallery image {{ loop.index + 1 }}"
                                             >
                                                 <img
                                                         class="swiper-lazy w-100"
-                                                        data-src="{{ absolute_url(asset(image.absolutePath)) }}"
+                                                        data-src="{{ imagePath }}"
                                                         alt="{{ product.title }}'s gallery image {{ loop.index + 1 }}"
                                                 />
                                             </div>
@@ -77,12 +75,12 @@
                             <!-- thumb images swiper -->
                             <div class="swiper-container thumbs-swiper w-100">
                                 <div class="swiper-wrapper w-100">
-                                    {% for image in galleryImages %}
+                                    {% for imagePath in imagesPaths %}
                                         <div class="swiper-slide">
                                             <div class="thumb-img-container">
                                                 <img
                                                         class="lazy"
-                                                        data-src="{{ absolute_url(asset(image.absolutePath)) }}"
+                                                        data-src="{{ imagePath }}"
                                                         alt="{{ product.title }}'s gallery image {{ loop.index + 1 }}"
                                                 />
                                             </div>
@@ -115,7 +113,7 @@
                                         {% if material.mainImage %}
                                             {% set materialImage = absolute_url((asset(material.mainImage.absolutePath))) %}
                                         {% endif %}
-                                        <a href="#/" class="material" data-link="{{ path('fe_material_filter_ajax', {"id": material.id, "slug": product.seo.slug}) }}">
+                                        <a href="{{ path('fe_product_show', {"slug": product.seo.slug, "id": material.id}) }}" class="material {{ app.request.get("id") == material.id ? 'active' }}">
                                             <img
                                                     data-src="{{ materialImage }}"
                                                     alt="{{ material.title }}"

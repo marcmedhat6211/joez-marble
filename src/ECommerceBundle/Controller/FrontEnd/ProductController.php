@@ -7,9 +7,11 @@ use App\ECommerceBundle\Entity\Product;
 use App\ECommerceBundle\Entity\ProductFavourite;
 use App\ECommerceBundle\Entity\Subcategory;
 use App\ECommerceBundle\Repository\CategoryRepository;
+use App\ECommerceBundle\Repository\MaterialRepository;
 use App\ECommerceBundle\Repository\ProductFavouriteRepository;
 use App\ECommerceBundle\Repository\ProductRepository;
 use App\ECommerceBundle\Repository\SubcategoryRepository;
+use App\ECommerceBundle\Services\ProductService;
 use App\SeoBundle\Repository\SeoRepository;
 use App\UserBundle\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -156,13 +158,16 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("product/{slug}/show", name="fe_product_show", methods={"GET"})
+     * @Route("product/{slug}/material/{id}", name="fe_product_show", methods={"GET"})
      */
     public function show(
         SeoRepository              $seoRepository,
         ProductRepository          $productRepository,
         ProductFavouriteRepository $productFavouriteRepository,
-                                   $slug = null
+        ProductService             $productService,
+        MaterialRepository         $materialRepository,
+                                   $slug = null,
+                                   $id = null,
     ): Response
     {
         if (!$slug) {
@@ -181,20 +186,23 @@ class ProductController extends AbstractController
 
         $user = $this->getUser();
         if ($user) {
-            $productFavourite = $productFavouriteRepository->findOneBy(["user" => $user, "product" => $product]);
-            if ($productFavourite) {
-                $product->hasFavourite = true;
-            } else {
-                $product->hasFavourite = false;
-            }
+            $productService->addFavouriteStatusToProductObject($product, $user);
         }
 
         $relatedProducts = $this->getRelatedProducts($product, $productRepository);
+
+        $imagesPaths = $productService->getProductImagesPathsByProductAndMaterial($product);
+
+        if ($id != null) {
+            $material = $materialRepository->find($id);
+            $imagesPaths = $productService->getProductImagesPathsByProductAndMaterial($product, $material);
+        }
 
         return $this->render('ecommerce/frontEnd/product/show.html.twig', [
             "product" => $product,
             "pageTitle" => $seo->getTitle(),
             "relatedProducts" => $relatedProducts,
+            "imagesPaths" => $imagesPaths
         ]);
     }
 
