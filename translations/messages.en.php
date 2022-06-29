@@ -165,4 +165,6 @@ return [
     "item_already_in_wishlist_but_removed_from_cart_msg" => "Item already exists in your wishlist, and it has been removed from your cart",
     "material_not_available_anymore_msg" => "This material is not available anymore",
     "material_has_no_images_msg" => "This material has no images",
+    "choose_currency_msg" => "Please Choose a currency",
+    "currency_saved_success_msg" => "Currency Saved Successfully",
 ];

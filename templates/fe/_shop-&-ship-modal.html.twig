@@ -8,7 +8,7 @@
 >
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <form action="{{ path('fe_shop_and_ship') }}" class="modal-body" id="region_and_currency_form">
+            <form method="post" action="{{ path('fe_shop_and_ship') }}" class="modal-body" id="region_and_currency_form">
                 <div class="d-flex justify-content-end">
                     <button
                             type="button"
@@ -19,18 +19,18 @@
                     </button>
                 </div>
                 <h6 class="form-title mb-3">{{ 'shop_and_ship_txt'|trans }}</h6>
-                <div class="form-group input-style-3 w-75 has-icon">
-                    <select class="form-control" name="region">
-                        <option>{{ 'choose_region_txt'|trans }}</option>
-                        {# @todo: add regions #}
-                        <option value="egypt">Egypt</option>
-                        <option value="usa">USA</option>
-                    </select>
-                    <i class="convert-svg" data-src="{{ asset('images/icons/caret-down.svg') }}"></i>
-                </div>
+{#                <div class="form-group input-style-3 w-75 has-icon">#}
+{#                    <select class="form-control" name="region">#}
+{#                        <option>{{ 'choose_region_txt'|trans }}</option>#}
+{#                        #}{# @todo: add regions #}
+{#                        <option value="egypt">Egypt</option>#}
+{#                        <option value="usa">USA</option>#}
+{#                    </select>#}
+{#                    <i class="convert-svg" data-src="{{ asset('images/icons/caret-down.svg') }}"></i>#}
+{#                </div>#}
                 <div class="form-group input-style-3 w-50 has-icon">
                     <select class="form-control" name="currency">
-                        <option>{{ 'currency_txt'|trans }}</option>
+                        <option value="">{{ 'currency_txt'|trans }}</option>
                         {% for currency in currencies %}
                             <option value="{{ currency.id }}">{{ currency.code }}</option>
                         {% endfor %}

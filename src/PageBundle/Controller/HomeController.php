@@ -11,6 +11,7 @@ use App\ECommerceBundle\Repository\CartRepository;
 use App\ECommerceBundle\Repository\CategoryRepository;
 use App\ECommerceBundle\Repository\CurrencyRepository;
 use App\ECommerceBundle\Repository\ProductFavouriteRepository;
+use App\ServiceBundle\Utils\Validate;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -100,9 +101,32 @@ class HomeController extends AbstractController
     /**
      * @Route("/shop-and-ship", name="fe_shop_and_ship", methods={"GET", "POST"})
      */
-    public function shopAndShip(Request $request, CurrencyRepository $currencyRepository): Response
+    public function shopAndShip(
+        Request $request,
+        CurrencyRepository $currencyRepository,
+        TranslatorInterface $translator
+    ): Response
     {
         $currencies = $currencyRepository->findAll();
+
+        if ($request->getMethod() == "POST") {
+            $backRoute = $request->headers->get("referer");
+            $currencyId = $request->get("currency");
+            if (!$currencyId || $currencyId == "" || !Validate::not_null($currencyId)) {
+                $this->addFlash("error", $translator->trans("choose_currency_msg"));
+                return $this->redirect($backRoute);
+            }
+
+            $currency = $currencyRepository->find($currencyId);
+            $currencyInfo = [
+                "code" => $currency->getCode(),
+                "egpEquivalence" => $currency->getEgpEquivalence()
+            ];
+            setcookie("currencyInfo", $currencyInfo);
+
+            $this->addFlash("success", $translator->trans("currency_saved_success_msg"));
+            return $this->redirect($backRoute);
+        }
 
         return $this->render('fe/_shop-&-ship-modal.html.twig', [
             "request" => $request,
