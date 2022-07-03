@@ -6,6 +6,7 @@ use App\ECommerceBundle\Repository\CartItemRepository;
 use App\ECommerceBundle\Repository\CartRepository;
 use App\ECommerceBundle\Repository\ProductRepository;
 use App\ECommerceBundle\Services\CartService;
+use App\ECommerceBundle\Services\CurrencyService;
 use App\SeoBundle\Repository\SeoRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Knp\Component\Pager\PaginatorInterface;
@@ -64,6 +65,7 @@ class CartController extends AbstractController
         SeoRepository       $seoRepository,
         ProductRepository   $productRepository,
         CartService         $cartService,
+        CurrencyService     $currencyService,
                             $slug = null
     ): JsonResponse
     {
@@ -99,8 +101,8 @@ class CartController extends AbstractController
             "error" => false,
             "message" => $translator->trans("item_added_to_cart_success_msg"),
             "totalCartQuantity" => $cartItem->getCart()->getTotalQuantity(),
-            "cartGrandTotal" => $cartGrandTotal,
-            "cartTotalPrice" => $cart->getTotalPrice(),
+            "cartGrandTotal" => $currencyService->getPriceWithCurrentCurrency($cartGrandTotal),
+            "cartTotalPrice" => $currencyService->getPriceWithCurrentCurrency($cart->getTotalPrice()),
             "cartItem" => $cartItemObj,
         ]);
     }
@@ -112,6 +114,7 @@ class CartController extends AbstractController
         CartItemRepository  $cartItemRepository,
         TranslatorInterface $translator,
         CartService         $cartService,
+        CurrencyService     $currencyService,
                             $id = null
     ): JsonResponse
     {
@@ -148,8 +151,8 @@ class CartController extends AbstractController
             "error" => false,
             "message" => $translator->trans("item_removed_from_cart_successfully"),
             "newCartTotalQuantity" => $newCartTotalQuantity,
-            "cartGrandTotal" => $cartGrandTotal,
-            "cartTotal" => $cart->getTotalPrice(),
+            "cartGrandTotal" => $currencyService->getPriceWithCurrentCurrency($cartGrandTotal),
+            "cartTotal" => $currencyService->getPriceWithCurrentCurrency($cart->getTotalPrice()),
             "cartItemId" => $cartItemId,
         ]);
     }
@@ -161,6 +164,7 @@ class CartController extends AbstractController
         CartItemRepository  $cartItemRepository,
         TranslatorInterface $translator,
         CartService         $cartService,
+        CurrencyService     $currencyService,
                             $id = null
     ): JsonResponse
     {
@@ -188,10 +192,10 @@ class CartController extends AbstractController
             "error" => false,
             "message" => $translator->trans("item_removed_from_cart_successfully"),
             "cartTotalQty" => $cart->getTotalQuantity(),
-            "cartTotalPrice" => $cart->getTotalPrice(),
+            "cartTotalPrice" => $currencyService->getPriceWithCurrentCurrency($cart->getTotalPrice()),
             "itemQty" => $cartItem->getQuantity(),
             "itemId" => $cartItem->getId(),
-            "cartGrandTotal" => $cartGrandTotal
+            "cartGrandTotal" => $currencyService->getPriceWithCurrentCurrency($cartGrandTotal),
         ]);
     }
 }

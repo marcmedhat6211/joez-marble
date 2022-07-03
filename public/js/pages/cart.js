@@ -20,10 +20,12 @@ $(document).ready(function () {
 
     // add item to cart
     body.on("click", ".incrementor.incrementor-style-1 button.plus", function () {
+        startPageLoading();
         const plusBtn = $(this);
         const incrementorInput = plusBtn.closest(".incrementor-container").find("input[name='qty']")
         const addItemLink = plusBtn.data("link");
         $.post(addItemLink, function (json) {
+            endPageLoading();
             if (!json.error) {
                 updateDropDownCartQty(json.totalCartQuantity);
                 const existingCartItems =  desktopDropDownCart.find(".items-container .item");
@@ -46,11 +48,13 @@ $(document).ready(function () {
 
     // remove item from cart
     body.on("click", ".incrementor.incrementor-style-1 button.minus", function () {
+        startPageLoading();
         const minusBtn = $(this);
         const incrementorInput = minusBtn.closest(".incrementor-container").find("input[name='qty']")
         const removeOneItemUrl = minusBtn.data("link");
 
         $.post(removeOneItemUrl, function (json) {
+            endPageLoading();
             if (!json.error) {
                 updateDropDownCartQty(json.cartTotalQty);
                 $("#desktop_cart_dropdown").find(".item").each(function() {
@@ -169,8 +173,8 @@ function decrement(element) {
 const adjustSummaryBox = (cartTotalQty, cartTotalPrice, CartGrandTotalPrice) => {
     const summaryBox = $("#cart_summary");
     summaryBox.find(".items-number").text(cartTotalQty);
-    summaryBox.find(".subtotal-amount").text(`${formatNumber(cartTotalPrice)} EGP`); //@todo: change currency
-    summaryBox.find(".cart-total").text(`${formatNumber(CartGrandTotalPrice)} EGP`);
+    summaryBox.find(".subtotal-amount").text(cartTotalPrice);
+    summaryBox.find(".cart-total").text(CartGrandTotalPrice);
 };
 
 const formatNumber = (number) => {

@@ -119,8 +119,7 @@
                                                     <p style="margin-bottom: 0;"><strong>Item Total Price: </strong>{{ item.itemTotalPrice|number_format }}</p><br />
                                                 {% endfor %}
                                             </li>
-                                            {# @todo: add order edit link to the admin panel #}
-                                            <li>Click <a href="#" target="_blank"><strong>here</strong></a> to check the order in the admin panel</li>
+                                            <li>Click <a href="{{ absolute_url(path('order_edit', {"id": order.id})) }}" target="_blank"><strong>here</strong></a> to check the order in the admin panel</li>
                                         </ul>
                                     </td>
                                 </tr>

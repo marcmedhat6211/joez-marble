@@ -311,7 +311,7 @@ const drawCartItem = (cartItem, itemsContainer) => {
     });
     const itemPrice = $("<p>", {
         class: "item-price mb-0",
-        text: `${cartItem.itemPrice} EGP` //@todo: change the egp to be dynamic
+        text: cartItem.itemPrice
     });
     const removeBtn = $("<button>", {text: "Remove"}).attr({ // @todo: translate text
         type: "button",

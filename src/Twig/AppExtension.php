@@ -2,21 +2,31 @@
 
 namespace App\Twig;
 
+use App\ECommerceBundle\Services\CurrencyService;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 class AppExtension extends AbstractExtension
 {
-    public function getFilters(): array
+    private CurrencyService $currencyService;
+
+    public function __construct(CurrencyService $currencyService)
+    {
+        $this->currencyService = $currencyService;
+    }
+
+    public function getFunctions(): array
     {
         return [
-            new TwigFilter('calculateCurrency', [$this, 'calculateCurrency']),
+            new TwigFunction('getPriceWithCurrentCurrency', [$this, 'getPriceWithCurrentCurrency']),
         ];
     }
 
-    public function calculateCurrency($priceInEgp, $egpEquivalence): float
+    public function getPriceWithCurrentCurrency($priceInEgp): string
     {
-        return $priceInEgp * $egpEquivalence;
+        return $this->currencyService->getPriceWithCurrentCurrency($priceInEgp);
     }
 }

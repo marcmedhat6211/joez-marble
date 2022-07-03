@@ -44,7 +44,7 @@ class OrderController extends AbstractController
             $em->flush();
             $this->addFlash("success", "Order updated successfully");
 
-            return $this->redirectToRoute("order_index");
+            return $this->redirectToRoute("order_edit", ["id" => $order->getId()]);
         }
 
         return $this->render('ecommerce/admin/order/edit.html.twig', [

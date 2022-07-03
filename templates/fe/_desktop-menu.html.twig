@@ -20,7 +20,6 @@
             <!-- quick access links section -->
             <div class="quick-access-links-container">
                 <div class="pages-links">
-                    {# @todo: add links #}
                     <a href="{{ path('fe_filter_designs_product') }}"
                        class="quick-access-link active">{{ 'joez_designs_txt'|trans }}</a>
                     <a href="{{ path('fe_filter_living_product') }}"
@@ -32,6 +31,7 @@
                         data-toggle="modal"
                         data-target="#shopAndShipModal"
                 >
+                    {# @todo: add right flag #}
                     <img
                             class="lazy"
                             data-src="{{ asset('images/placeholders/flag-1.jpg') }}"
@@ -125,7 +125,6 @@
                             <div class="icon">
                                 <i class="convert-svg" data-src="{{ asset('images/icons/cart.svg') }}"></i>
                             </div>
-                            {# @todo: add count by js #}
                             <span class="items-count" id="desktop_cart_items_count">{{ cartTotalQuantity }}</span>
                         </button>
                         <div
@@ -238,7 +237,6 @@
             </div>
             <!-- cart items -->
             <div class="items-container">
-                {# @todo: add cart items #}
                 <p>{{ 'cart_empty_txt'|trans }}</p>
             </div>
             <!-- end cart items -->

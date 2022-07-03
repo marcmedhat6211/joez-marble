@@ -51,23 +51,20 @@
             <div action="#" class="payment-amounts-section">
                 <div class="payment-amount subtotal">
                     <span class="payment-amount-title">{{ 'subtotal_txt'|trans }}</span>
-                    {# @todo: change currency #}
-                    <span class="payment-amount-value">{{ cart.totalPrice|number_format }} EGP</span>
+                    <span class="payment-amount-value">{{ getPriceWithCurrentCurrency(cart.totalPrice) }}</span>
                 </div>
                 <div class="payment-amount coupon-discount">
                     <span class="payment-amount-title">{{ 'coupon_discount_txt'|trans }}</span>
-                    {# @todo: change currency #}
-                    <span class="payment-amount-value">-400 EGP</span>
+                    {# @todo: get the right coupon number if there is any #}
+                    <span class="payment-amount-value">-{{ getPriceWithCurrentCurrency(400) }}</span>
                 </div>
                 <div class="payment-amount tax-and-shipping">
                     <span class="payment-amount-title">{{ 'taxes_plus_shipping_txt'|trans }}</span>
-                    {# @todo: change currency #}
-                    <span class="payment-amount-value">{{ (shippingFee + taxes)|number_format }} EGP</span>
+                    <span class="payment-amount-value">{{ getPriceWithCurrentCurrency(shippingFee + taxes) }}</span>
                 </div>
                 <div class="payment-amount grand-total">
                     <span class="payment-amount-title">{{ 'grand_total_txt'|trans }}</span>
-                    {# @todo: change currency #}
-                    <span class="payment-amount-value">{{ orderGrandTotal|number_format }} EGP</span>
+                    <span class="payment-amount-value">{{ getPriceWithCurrentCurrency(orderGrandTotal) }}</span>
                 </div>
                 <div class="d-flex justify-content-end">
                     <button type="submit" class="btn btn-style-1 hover-effect">

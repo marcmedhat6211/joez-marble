@@ -18,8 +18,7 @@
         </div>
         <a href="{{ path('fe_product_show', {"slug": entity.seo.slug}) }}"
            class="card-title text-center">{{ entity.title }}</a>
-        {# @todo: adjust currency and value #}
-        <p class="card-price text-center mb-0">{{ entity.price }} EGP</p>
+        <p class="card-price text-center mb-0">{{ getPriceWithCurrentCurrency(entity.price) }}</p>
     </div>
 {% endmacro %}
 
@@ -45,7 +44,7 @@
             </div>
             <div class="price-btn-container">
                 {# adjust currency and value #}
-                <p class="item-price mb-0">{{ product.price }} <span>EGP</span></p>
+                <p class="item-price mb-0">{{ getPriceWithCurrentCurrency(product.price) }}</p>
                 <button type="button" class="btn btn-style-1 hover-effect"
                         data-link="{{ path('fe_remove_whole_item_from_cart_ajax', {"id": entity.id}) }}">
                     {{ 'remove_txt'|trans }}
@@ -74,8 +73,7 @@
                 <div class="item-text">
                     <h5 class="item-main-category">{{ product.subcategory.title }}</h5>
                     <a class="item-title" href="{{ path('fe_product_show', {"slug": product.seo.slug}) }}">{{ product.title }}</a>
-                    {# @todo: add right currency #}
-                    <p class="item-price mb-0">{{ product.price }} EGP</p>
+                    <p class="item-price mb-0">{{ getPriceWithCurrentCurrency(product.price) }}</p>
                 </div>
                 <div class="item-btns">
                     <a href="#" class="btn btn-style-1 remove-item-btn"
@@ -123,8 +121,7 @@
             <div class="item-details-container">
                 <div class="item-main-details">
                     <a href="#" class="item-title">{{ 'order_number_txt'|trans }} {{ entity.id }}</a>
-                    {# @todo: change currency #}
-                    <p class="item-subtitle">{{ entity.totalQuantity }} {{ 'products_totalling_txt'|trans }} {{ entity.totalPrice|number_format }} EGP</p>
+                    <p class="item-subtitle">{{ entity.totalQuantity }} {{ 'products_totalling_txt'|trans }} {{ getPriceWithCurrentCurrency(entity.totalPrice) }}</p>
                 </div>
                 <div class="item-specific-details">
                     <div class="item-created item-info">
@@ -169,11 +166,9 @@
                 <div class="item-text">
                     <h2 href="filter.html" class="item-category">{{ product.subcategory.title }}</h2>
                     <a href="{{ path('fe_product_show', {"slug": product.seo.slug}) }}" class="item-title">{{ product.title }}</a>
-                    {# @todo: add right currency #}
-                    <p class="item-price mb-0">{{ product.price }} EGP</p>
+                    <p class="item-price mb-0">{{ getPriceWithCurrentCurrency(product.price) }}</p>
                 </div>
                 <div class="item-btns">
-                    {# @todo: handle those btns logic #}
                     <button type="button" class="btn btn-style-1 bg-black add-to-cart-btn" data-link="{{ path('fe_add_item_to_cart_ajax', {"slug": product.seo.slug}) }}">
                         {{ 'add_to_cart_txt_caps'|trans }}
                     </button>

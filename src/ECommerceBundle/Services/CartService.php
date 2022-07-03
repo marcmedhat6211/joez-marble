@@ -21,27 +21,27 @@ class CartService
     private EntityManagerInterface $em;
     private CartRepository $cartRepository;
     private CartItemRepository $cartItemRepository;
-    private Packages $assets;
     private Request $request;
     private UrlGeneratorInterface $urlGenerator;
+    private CurrencyService $currencyService;
 
     public function __construct(
         EntityManagerInterface $em,
         CartRepository         $cartRepository,
         CartItemRepository     $cartItemRepository,
-        Packages               $assets,
         RequestStack           $requestStack,
         UrlGeneratorInterface  $urlGenerator,
         FileService            $fileService,
+        CurrencyService $currencyService
     )
     {
         $this->em = $em;
         $this->cartRepository = $cartRepository;
         $this->cartItemRepository = $cartItemRepository;
-        $this->assets = $assets;
         $this->request = $requestStack->getCurrentRequest();
         $this->urlGenerator = $urlGenerator;
         $this->fileService = $fileService;
+        $this->currencyService = $currencyService;
     }
 
     /**
@@ -173,7 +173,7 @@ class CartService
             "itemImageUrl" => $productImageUrl,
             "itemTitle" => $product->getTitle(),
             "itemQty" => $cartItem->getQuantity(),
-            "itemPrice" => $product->getPrice(),
+            "itemPrice" => $this->currencyService->getPriceWithCurrentCurrency($product->getPrice()),
             "itemLink" => $productUrl,
             "removeWholeItemUrl" => $removeWholeItemUrl,
         ];

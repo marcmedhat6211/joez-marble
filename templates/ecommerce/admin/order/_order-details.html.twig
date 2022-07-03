@@ -1,0 +1,96 @@
+{% set orderMaker = order.user %}
+{% set shippingInformation = orderMaker.shippingInformation %}
+{% set badgeClass = 'badge-primary' %}
+{% if order.status == constant('\\App\\ECommerceBundle\\Entity\\Order::STATUS_PENDING') %}
+    {% set badgeClass = 'badge-primary' %}
+{% elseif order.status == constant('\\App\\ECommerceBundle\\Entity\\Order::STATUS_SHIPPED') %}
+    {% set badgeClass = 'badge-warning' %}
+{% elseif order.status == constant('\\App\\ECommerceBundle\\Entity\\Order::STATUS_DELIVERED') %}
+    {% set badgeClass = 'badge-success' %}
+{% elseif order.status == constant('\\App\\ECommerceBundle\\Entity\\Order::STATUS_CANCELLED') %}
+    {% set badgeClass = 'badge-danger' %}
+{% endif %}
+<div class="card">
+    <div class="card-header bg-transparent header-elements-inline py-0">
+        <h6 class="card-title py-3">Order Details</h6>
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="mb-4">
+                    <h4 class="text-primary mb-2 mt-lg-2">Shipping Information</h4>
+                    <ul class="list list-unstyled mb-0">
+                        {% if shippingInformation.companyName %}
+                            <li>
+                                <span class="font-weight-bold">Company Name: </span>{{ shippingInformation.companyName }}
+                            </li>
+                        {% endif %}
+                        <li><span class="font-weight-bold">First Name: </span>{{ shippingInformation.firstName }}</li>
+                        <li><span class="font-weight-bold">Last Name: </span>{{ shippingInformation.lastName }}</li>
+                        <li><span class="font-weight-bold">Address Name: </span>{{ shippingInformation.addressName }}
+                        </li>
+                        <li><span class="font-weight-bold">Mobile Number: </span>{{ shippingInformation.phone }}</li>
+                        <li><span class="font-weight-bold">Address: </span>{{ shippingInformation.address }}</li>
+                        <li><span class="font-weight-bold">District: </span>{{ shippingInformation.district }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="mb-4">
+                    <div class="text-sm-right">
+                        <h4 class="text-primary mb-2 mt-lg-2">Order #{{ order.id }}</h4>
+                        <ul class="list list-unstyled mb-0">
+                            <li><span class="font-weight-bold">Create At: </span>{{ order.created|date("d/m/Y") }}</li>
+                            <li><span class="font-weight-bold">Products Quantity: </span>{{ order.totalQuantity }}</li>
+                            <li><span class="font-weight-bold">Status: </span><span
+                                        class="badge {{ badgeClass }}">{{ order.status|capitalize }}</span></li>
+                            <li><span class="font-weight-bold">Total Price (Including taxes and shipping): </span>{{ order.totalPrice }} EGP</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <h4 class="text-primary mb-2 mt-lg-2">Order Items</h4>
+        <div class="table-responsive">
+            <table class="table table-lg">
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Price (EGP)</th>
+                    <th>Category</th>
+                    <th>Subcategory</th>
+                    <th>Ordered Quantity</th>
+                    <th>Image</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in order.orderItems %}
+                    {% set product = item.product %}
+                    {% set productImage = asset('images/placeholders/placeholder-md.jpg') %}
+                    {% if product.mainImage %}
+                        {% set productImage = absolute_url(asset(product.mainImage.absolutePath)) %}
+                    {% endif %}
+                    <tr>
+                        <td><a href="{{ path('fe_product_show', {"slug": product.seo.slug}) }}" target="_blank">{{ product.title }}</a></td>
+                        <td>{{ product.price }} EGP</td>
+                        <td>{{ product.subcategory.category.title }}</td>
+                        <td>{{ product.subcategory.title }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td><img width="100" height="100" src="{{ productImage }}"></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card-footer">
+        <span class="text-muted">Use the below dropdown list to set the order status</span>
+    </div>
+</div>
+<!-- /invoice template -->

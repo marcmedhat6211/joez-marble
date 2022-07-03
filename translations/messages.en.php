@@ -166,5 +166,6 @@ return [
     "material_not_available_anymore_msg" => "This material is not available anymore",
     "material_has_no_images_msg" => "This material has no images",
     "choose_currency_msg" => "Please Choose a currency",
-    "currency_saved_success_msg" => "Currency Saved Successfully",
+    "currency_changed_success_msg" => "Currency Changed Successfully",
+    "egp" => "EGP",
 ];

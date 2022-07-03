@@ -27,7 +27,7 @@ class HomeController extends AbstractController
      */
     public function index(BannerRepository $bannerRepository, TestimonialRepository $testimonialRepository): Response
     {
-        
+
         return $this->render('page/home/index.html.twig', [
             "mainBanners" => $this->getMainBanners($bannerRepository),
             "collectionBannerOne" => $this->getSingleBanner($bannerRepository, 2),
@@ -48,9 +48,9 @@ class HomeController extends AbstractController
     }
 
     public function menu(
-        Request $request,
-        CategoryRepository $categoryRepository,
-        CartRepository $cartRepository,
+        Request                    $request,
+        CategoryRepository         $categoryRepository,
+        CartRepository             $cartRepository,
         ProductFavouriteRepository $productFavouriteRepository,
     ): Response
     {
@@ -102,8 +102,8 @@ class HomeController extends AbstractController
      * @Route("/shop-and-ship", name="fe_shop_and_ship", methods={"GET", "POST"})
      */
     public function shopAndShip(
-        Request $request,
-        CurrencyRepository $currencyRepository,
+        Request             $request,
+        CurrencyRepository  $currencyRepository,
         TranslatorInterface $translator
     ): Response
     {
@@ -118,13 +118,10 @@ class HomeController extends AbstractController
             }
 
             $currency = $currencyRepository->find($currencyId);
-            $currencyInfo = [
-                "code" => $currency->getCode(),
-                "egpEquivalence" => $currency->getEgpEquivalence()
-            ];
-            setcookie("currencyInfo", $currencyInfo);
+            setcookie("currencyCode", (string)$currency->getCode());
+            setcookie("egpEquivalence", (float)$currency->getEgpEquivalence());
 
-            $this->addFlash("success", $translator->trans("currency_saved_success_msg"));
+            $this->addFlash("success", $translator->trans("currency_changed_success_msg"));
             return $this->redirect($backRoute);
         }
 
@@ -145,8 +142,8 @@ class HomeController extends AbstractController
      * @Route("/user-feedback-ajax", name="fe_user_feedback_ajax", methods={"POST"})
      */
     public function userFeedback(
-        Request $request,
-        TranslatorInterface $translator,
+        Request                $request,
+        TranslatorInterface    $translator,
         EntityManagerInterface $em,
         UserFeedbackRepository $userFeedbackRepository
     ): JsonResponse
@@ -156,7 +153,7 @@ class HomeController extends AbstractController
         if (!$user) {
             return $this->json([
                 "error" => true,
-                "message" =>  $translator->trans("login_to_feedback_msg"),
+                "message" => $translator->trans("login_to_feedback_msg"),
             ]);
         }
 
@@ -166,7 +163,7 @@ class HomeController extends AbstractController
         if (!$rating || !$category) {
             return $this->json([
                 "error" => true,
-                "message" =>  $translator->trans("all_fields_required_error_msg"),
+                "message" => $translator->trans("all_fields_required_error_msg"),
             ]);
         }
 
@@ -178,7 +175,7 @@ class HomeController extends AbstractController
             if ($diffInHrs < 1) {
                 return $this->json([
                     "error" => true,
-                    "message" =>  $translator->trans("just_added_feedback_msg"),
+                    "message" => $translator->trans("just_added_feedback_msg"),
                 ]);
             }
         }
@@ -191,8 +188,8 @@ class HomeController extends AbstractController
         $em->flush();
 
         return $this->json([
-           "error" => false,
-           "message" =>  $translator->trans("thanks_for_feedback_msg"),
+            "error" => false,
+            "message" => $translator->trans("thanks_for_feedback_msg"),
         ]);
     }
 
@@ -235,3 +232,5 @@ class HomeController extends AbstractController
         return $testimonialRepository->filter($search);
     }
 }
+
+;

@@ -8,7 +8,6 @@
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
             <input type="hidden" name="_target_path" value="{{ targetPath }}"/>
 
-            {# @todo to be adjusted #}
             {% if error is defined and error %}
                 <div class="alert bg-danger alert-styled-left">
                     <span class="text-semibold">Oh snap!</span> {{ error.message }}.
