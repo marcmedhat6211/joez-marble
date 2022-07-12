@@ -33,7 +33,7 @@ class CartItem implements DateTimeInterface
     private ?float $itemTotalPrice;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\ECommerceBundle\Entity\Product", inversedBy="cartItem", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\ECommerceBundle\Entity\Product", inversedBy="cartItems", cascade={"persist"})
      */
     private ?Product $product;
 
@@ -59,18 +59,6 @@ class CartItem implements DateTimeInterface
         return $this;
     }
 
-    public function getProduct(): ?Product
-    {
-        return $this->product;
-    }
-
-    public function setProduct(?Product $product): self
-    {
-        $this->product = $product;
-
-        return $this;
-    }
-
     public function getCart(): ?Cart
     {
         return $this->cart;
@@ -91,6 +79,18 @@ class CartItem implements DateTimeInterface
     public function setItemTotalPrice(float $itemTotalPrice): self
     {
         $this->itemTotalPrice = $itemTotalPrice;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
 
         return $this;
     }

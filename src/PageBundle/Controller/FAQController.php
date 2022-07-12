@@ -21,8 +21,6 @@ class FAQController extends AbstractController
             $faqCategory->publishedFAQs = $this->getFaqsByCategory($FAQRepository, $faqCategory);
         }
 
-        dump($faqCategories);
-
         return $this->render('page/faq/index.html.twig', [
             "faqCategories" => $faqCategories
         ]);

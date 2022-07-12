@@ -44,6 +44,11 @@ class Order implements DateTimeInterface
     private float $totalPrice = 0;
 
     /**
+     * @ORM\Column(name="grand_total", type="float")
+     */
+    private float $grandTotal = 0;
+
+    /**
      * @ORM\Column(name="status", type="string")
      */
     private string $status = self::STATUS_PENDING;
@@ -52,6 +57,11 @@ class Order implements DateTimeInterface
      * @ORM\Column(name="total_quantity", type="integer")
      */
     private int $totalQuantity = 0;
+
+    /**
+     * @ORM\Column(name="coupon_discount", type="float")
+     */
+    private float $couponDiscount = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\UserBundle\Entity\User", inversedBy="orders", cascade={"persist"})
@@ -147,6 +157,30 @@ class Order implements DateTimeInterface
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getGrandTotal(): ?float
+    {
+        return $this->grandTotal;
+    }
+
+    public function setGrandTotal(float $grandTotal): self
+    {
+        $this->grandTotal = $grandTotal;
+
+        return $this;
+    }
+
+    public function getCouponDiscount(): ?float
+    {
+        return $this->couponDiscount;
+    }
+
+    public function setCouponDiscount(float $couponDiscount): self
+    {
+        $this->couponDiscount = $couponDiscount;
 
         return $this;
     }

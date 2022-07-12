@@ -3,7 +3,7 @@
 <head>
     <meta name="viewport" content="width=device-width">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Order email</title>
+    <title>Coupon email</title>
     <style>
         /* -------------------------------------
             INLINED WITH htmlemail.io/inline
@@ -101,44 +101,14 @@
                             <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
                                 <tr>
                                     <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">
-                                        <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Hi Admin,</p>
-                                        <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">{{ order.user.fullName }} has just created a new order with an order number of {{ order.id }}</p>
-                                        <p><strong>Shipping Information:</strong></p>
-                                        <ul style="list-style: none;font-size: 12px;padding-left: 0px;line-height: 20px;">
-                                            {% if shippingInformation.companyName %}
-                                                <li><strong>Company Name: </strong>{{ shippingInformation.companyName }}</li>
-                                            {% endif %}
-                                            <li><strong>First Name:: </strong>{{ shippingInformation.firstName }}</li>
-                                            <li><strong>Last Name: </strong>{{ shippingInformation.lastName }}</li>
-                                            <li><strong>Mobile Number: </strong>{{ shippingInformation.phone }}</li>
-                                            <li><strong>Address: </strong>{{ shippingInformation.address }}</li>
-                                            <li><strong>District: </strong>{{ shippingInformation.district }}</li>
-                                            <li><strong>Address Name: </strong>{{ shippingInformation.addressName }}</li>
-                                        </ul>
-
-
-
-                                        <p><strong>Order Details:</strong></p>
-                                        <ul style="list-style: none;font-size: 12px;padding-left: 0px;line-height: 20px;">
-                                            <li><strong>Order Number: </strong>{{ order.id }}</li>
-                                            <li><strong>Order Total Quantity: </strong>{{ order.totalQuantity }} Products</li>
-                                            {% if order.couponDiscount > 0 %}
-                                                <li><strong>Coupon Discount: </strong>{{ order.couponDiscount|number_format }}</li>
-                                            {% endif %}
-                                            <li><strong>Order Total Price: </strong>{{ order.grandTotal|number_format }}</li>
-                                            <li><strong>Order Create At: </strong>{{ order.created|date('d/m/Y') }}</li>
-                                            <li><strong>Order Items: </strong>
-                                                {% for item in order.orderItems %}
-                                                    <p style="margin-bottom: 0;"><strong>Item {{ loop.index }}</strong></p>
-                                                    <p style="margin-bottom: 0;"><strong>Item Number: </strong>{{ item.product.id }}</p>
-                                                    <p style="margin-bottom: 0;"><strong>Item Title: </strong>{{ item.product.title }}</p>
-                                                    <p style="margin-bottom: 0;"><strong>Item Price: </strong>{{ item.product.price|number_format }}</p>
-                                                    <p style="margin-bottom: 0;"><strong>Item Quantity: </strong>{{ item.quantity }}</p>
-                                                    <p style="margin-bottom: 0;"><strong>Item Total Price: </strong>{{ item.itemTotalPrice|number_format }}</p><br />
-                                                {% endfor %}
-                                            </li>
-                                            <li>Click <a href="{{ absolute_url(path('order_edit', {"id": order.id})) }}" target="_blank"><strong>here</strong></a> to check the order in the admin panel</li>
-                                        </ul>
+                                        <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Hi {{ user.fullName }},</p>
+                                        <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Thank you for being a valuable user at
+                                            <a href="#">Joez Marble Website</a>
+                                            Kindly accept the following coupon code that will give you a discount of <strong>50 EGP</strong> on any item you buy on Joez Marble website
+                                        </p>
+                                        <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Coupon Code: <strong>{{ coupon.couponCode }}</strong></p>
+                                        <br>
+                                        <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Coupon Code: Kindly note that this coupon code will be expired at <strong>{{ coupon.expirationDate|date("d/m/Y") }}</strong></p>
                                     </td>
                                 </tr>
                             </table>

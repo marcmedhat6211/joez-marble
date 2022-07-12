@@ -7,17 +7,30 @@ use App\CMSBundle\Entity\UserFeedback;
 use App\CMSBundle\Repository\BannerRepository;
 use App\CMSBundle\Repository\TestimonialRepository;
 use App\CMSBundle\Repository\UserFeedbackRepository;
+use App\ECommerceBundle\Entity\Coupon;
 use App\ECommerceBundle\Repository\CartRepository;
 use App\ECommerceBundle\Repository\CategoryRepository;
+use App\ECommerceBundle\Repository\CouponRepository;
 use App\ECommerceBundle\Repository\CurrencyRepository;
 use App\ECommerceBundle\Repository\ProductFavouriteRepository;
+use App\ECommerceBundle\Repository\ProductRepository;
+use App\Kernel;
+use App\MediaBundle\Services\FileService;
+use App\ServiceBundle\Service\SendEmailService;
 use App\ServiceBundle\Utils\Validate;
+use App\UserBundle\Entity\User;
+use App\UserBundle\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class HomeController extends AbstractController
@@ -27,7 +40,6 @@ class HomeController extends AbstractController
      */
     public function index(BannerRepository $bannerRepository, TestimonialRepository $testimonialRepository): Response
     {
-
         return $this->render('page/home/index.html.twig', [
             "mainBanners" => $this->getMainBanners($bannerRepository),
             "collectionBannerOne" => $this->getSingleBanner($bannerRepository, 2),
@@ -193,6 +205,47 @@ class HomeController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/search-ajax", name="fe_search_ajax", methods={"GET", "POST"})
+     */
+    public function search(
+        Request               $request,
+        ProductRepository     $productRepository,
+        FileService           $fileService,
+        UrlGeneratorInterface $urlGenerator
+    ): JsonResponse
+    {
+        $searchKeyword = $request->get("searchKeyword");
+
+        $search = new \stdClass();
+        $search->deleted = 0;
+        $search->publish = 1;
+        $search->string = $searchKeyword;
+        $search->ordr = ["column" => 0, "dir" => "DESC"];
+
+        $products = $productRepository->filter($search);
+        $resultsObj = [];
+        foreach ($products as $product) {
+            $title = $product->getTitle();
+            $imageUrl = $fileService->getFileFullAbsolutePath("images/placeholders/placeholder-md.jpg");
+            if ($product->getMainImage()) {
+                $imageUrl = $fileService->getFileFullAbsolutePath($product->getMainImage()->getAbsolutePath());
+            }
+            $productUrl = $urlGenerator->generate("fe_product_show", ["slug" => $product->getSeo()->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL);
+
+            $resultsObj[] = [
+                "title" => $title,
+                "imageUrl" => $imageUrl,
+                "productUrl" => $productUrl
+            ];
+        }
+
+        return $this->json([
+            "error" => false,
+            "results" => $resultsObj
+        ]);
+    }
+
     //====================================================================================PRIVATE METHODS============================================================================
 
     private function getCategories(CategoryRepository $categoryRepository): array
@@ -232,5 +285,3 @@ class HomeController extends AbstractController
         return $testimonialRepository->filter($search);
     }
 }
-
-;

@@ -70,6 +70,16 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $statement->getQuery()->getResult();
     }
 
+    public function getMostInteractiveUsers(int $limit): array
+    {
+        return $this->createQueryBuilder("u")
+            ->andWhere('u.deleted IS NULL')
+            ->andWhere('u.enabled = 1')
+            ->orderBy('u.lastLogin', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 
     private function getStatement()
     {

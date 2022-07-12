@@ -1,0 +1,36 @@
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12 col-md-6">
+            {% for category in faqCategories %}
+                <div class="questions-collection-container">
+                    <h5 class="collection-title">{{ category.title }}</h5>
+                    <div id="accordion_{{ category.id }}" class="faqs-accordion">
+                        {% for faq in category.publishedFAQs %}
+                            <div class="card faq-card" id="{{ faq.id }}">
+                                <div class="card-header" id="question-{{ faq.id }}-heading">
+                                    <button
+                                            class="btn btn-link question-btn collapsed"
+                                            data-toggle="collapse"
+                                            data-target="#question-{{ faq.id }}"
+                                            aria-expanded="true"
+                                            aria-controls="question-{{ faq.id }}"
+                                    >
+                                        <span class="question-text">{{ faq.question }}</span>
+                                        <i class="convert-svg" data-src="{{ asset('images/icons/caret-circle-right.svg') }}"></i>
+                                    </button>
+                                </div>
+                                <div id="question-{{ faq.id }}" class="collapse" aria-labelledby="question-{{ faq.id }}-heading" data-parent="#accordion_{{ category.id }}">
+                                    <div class="card-body">
+                                        <p class="answer-text mb-0">
+                                            {{ faq.answer }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

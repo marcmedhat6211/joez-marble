@@ -73,6 +73,8 @@ class ProductRepository extends ServiceEntityRepository
         if (isset($search->string) and Validate::not_null($search->string)) {
             $statement->andWhere('p.id LIKE :searchTerm '
                 . 'OR p.title LIKE :searchTerm '
+                . 'OR sc.title LIKE :searchTerm '
+                . 'OR c.title LIKE :searchTerm '
             );
             $statement->setParameter('searchTerm', '%' . trim($search->string) . '%');
         }

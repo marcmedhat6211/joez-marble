@@ -15,11 +15,7 @@
                     <span class="detail-title">{{ 'shipping_amount_txt'|trans }}</span>
                     <span class="detail-description">{{ shippingFee }}</span>
                 </p>
-                <div
-                        action="#"
-                        class="coupon-code-section"
-                        id="coupon_code_form"
-                >
+                <div class="coupon-code-section" id="coupon_code_form">
                     <p class="section-title">{{ 'coupon_code_txt'|trans }}</p>
                     <div class="form-group input-style-3 w-100">
                         <input
@@ -30,33 +26,25 @@
                                 placeholder="{{ 'enter_coupon_code_txt'|trans }}"
                                 autocomplete="off"
                         />
-                        <button
-                                type="button"
-                                class="btn remove-coupon-btn"
-                                id="remove_coupon_btn"
-                        >
-                            <i
-                                    class="convert-svg"
-                                    data-src="images/icons/x.svg"
-                            ></i>
+                        <button type="button" class="btn remove-coupon-btn" id="remove_coupon_btn">
+                            <i class="convert-svg" data-src="{{ asset('images/icons/x.svg') }}"></i>
                         </button>
                     </div>
-                    <button type="submit" class="btn btn-style-1 hover-effect">
+                    <button type="button" class="btn btn-style-1 hover-effect apply-coupon-code-btn" data-link="{{ path('fe_order_add_coupon_ajax') }}">
                         {{ 'apply_code_txt'|trans }}
                     </button>
                 </div>
             </div>
         </div>
         <div class="col-12 col-md-6 offset-md-3">
-            <div action="#" class="payment-amounts-section">
+            <div class="payment-amounts-section">
                 <div class="payment-amount subtotal">
                     <span class="payment-amount-title">{{ 'subtotal_txt'|trans }}</span>
                     <span class="payment-amount-value">{{ getPriceWithCurrentCurrency(cart.totalPrice) }}</span>
                 </div>
                 <div class="payment-amount coupon-discount">
                     <span class="payment-amount-title">{{ 'coupon_discount_txt'|trans }}</span>
-                    {# @todo: get the right coupon number if there is any #}
-                    <span class="payment-amount-value">-{{ getPriceWithCurrentCurrency(400) }}</span>
+                    <span class="payment-amount-value">-{{ getPriceWithCurrentCurrency(cart.couponDiscount) }}</span>
                 </div>
                 <div class="payment-amount tax-and-shipping">
                     <span class="payment-amount-title">{{ 'taxes_plus_shipping_txt'|trans }}</span>

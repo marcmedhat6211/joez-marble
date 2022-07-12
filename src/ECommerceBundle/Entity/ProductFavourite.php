@@ -23,12 +23,12 @@ class ProductFavourite
     private int $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\UserBundle\Entity\User", inversedBy="productFavourites")
+     * @ORM\ManyToOne(targetEntity="App\UserBundle\Entity\User", inversedBy="productFavourites", cascade={"persist"})
      */
     private ?User $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\ECommerceBundle\Entity\Product", inversedBy="favourites")
+     * @ORM\ManyToOne(targetEntity="App\ECommerceBundle\Entity\Product", inversedBy="favourites", cascade={"persist"})
      */
     private ?Product $product;
 

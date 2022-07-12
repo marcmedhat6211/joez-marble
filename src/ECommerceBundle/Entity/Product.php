@@ -84,12 +84,12 @@ class Product implements DateTimeInterface, SeoInterface
     /**
      * @ORM\OneToOne(targetEntity="App\SeoBundle\Entity\Seo", inversedBy="product", cascade={"persist", "remove" })
      */
-    private ? Seo $seo;
+    private ?Seo $seo;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\ECommerceBundle\Entity\CartItem", mappedBy="product")
+     * @ORM\OneToMany(targetEntity="App\ECommerceBundle\Entity\CartItem", mappedBy="product")
      */
-    private ?CartItem $cartItem;
+    private mixed $cartItems;
 
     /**
      * @ORM\OneToMany(targetEntity="App\ECommerceBundle\Entity\OrderItem", mappedBy="product")
@@ -139,6 +139,8 @@ class Product implements DateTimeInterface, SeoInterface
         $this->orderItems = new ArrayCollection();
         $this->users = new ArrayCollection();
         $this->favourites = new ArrayCollection();
+        $this->cartItem = new ArrayCollection();
+        $this->cartItems = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -403,28 +405,6 @@ class Product implements DateTimeInterface, SeoInterface
         return $this;
     }
 
-    public function getCartItem(): ?CartItem
-    {
-        return $this->cartItem;
-    }
-
-    public function setCartItem(?CartItem $cartItem): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($cartItem === null && $this->cartItem !== null) {
-            $this->cartItem->setProduct(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($cartItem !== null && $cartItem->getProduct() !== $this) {
-            $cartItem->setProduct($this);
-        }
-
-        $this->cartItem = $cartItem;
-
-        return $this;
-    }
-
     public function isPublish(): ?bool
     {
         return $this->publish;
@@ -504,6 +484,36 @@ class Product implements DateTimeInterface, SeoInterface
             // set the owning side to null (unless already changed)
             if ($favourite->getProduct() === $this) {
                 $favourite->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CartItem>
+     */
+    public function getCartItems(): Collection
+    {
+        return $this->cartItems;
+    }
+
+    public function addCartItem(CartItem $cartItem): self
+    {
+        if (!$this->cartItems->contains($cartItem)) {
+            $this->cartItems[] = $cartItem;
+            $cartItem->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCartItem(CartItem $cartItem): self
+    {
+        if ($this->cartItems->removeElement($cartItem)) {
+            // set the owning side to null (unless already changed)
+            if ($cartItem->getProduct() === $this) {
+                $cartItem->setProduct(null);
             }
         }
 

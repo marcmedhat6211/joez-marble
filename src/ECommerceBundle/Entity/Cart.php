@@ -35,6 +35,11 @@ class Cart implements DateTimeInterface
     private int $totalQuantity = 0;
 
     /**
+     * @ORM\Column(name="coupon_discount", type="float")
+     */
+    private float $couponDiscount = 0;
+
+    /**
      * @ORM\OneToOne(targetEntity="App\UserBundle\Entity\User", inversedBy="cart", cascade={"persist"})
      */
     private ?User $user;
@@ -47,6 +52,11 @@ class Cart implements DateTimeInterface
     public function __construct()
     {
         $this->cartItems = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return "This Cart belongs to " . $this->getUser()->getFullName();
     }
 
     public function getId(): ?int
@@ -116,6 +126,18 @@ class Cart implements DateTimeInterface
     public function setTotalQuantity(int $totalQuantity): self
     {
         $this->totalQuantity = $totalQuantity;
+
+        return $this;
+    }
+
+    public function getCouponDiscount(): ?float
+    {
+        return $this->couponDiscount;
+    }
+
+    public function setCouponDiscount(float $couponDiscount): self
+    {
+        $this->couponDiscount = $couponDiscount;
 
         return $this;
     }

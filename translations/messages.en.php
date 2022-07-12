@@ -168,4 +168,8 @@ return [
     "choose_currency_msg" => "Please Choose a currency",
     "currency_changed_success_msg" => "Currency Changed Successfully",
     "egp" => "EGP",
+    "enter_coupon_code_msg" => "Please enter a coupon code to validate",
+    "login_to_continue_order_msg" => "Please login to continue the process of creating your order",
+    "coupon_applied_success_msg" => "Coupon applied successfully",
+    "coupon_not_valid_msg" => "Coupon not valid",
 ];

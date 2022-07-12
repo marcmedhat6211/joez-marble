@@ -4,70 +4,13 @@
 {% block content %}
 
     <div id="faqs_page">
-        <div class="hero-header hero-header-2">
-            <div class="header-content">
-                <h1 class="header-title">{{ 'faqs_header_txt'|trans }}</h1>
-                <div class="form-group w-100">
-                    <input
-                            type="text"
-                            class="form-control"
-                            name="faq-search"
-                            placeholder="Search Question.."
-                            required
-                    />
-                    <i
-                            class="convert-svg"
-                            data-src="{{ asset('images/icons/magnifying-glass.svg') }}"
-                    ></i>
-                </div>
-                <div class="header-message">
-                    <span>{{ 'did_not_find_txt'|trans }}</span>
-                    <a href="{{ path('fe_contact') }}">{{ 'email_us_txt'|trans }}</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="container py-5">
-            <div class="row">
-                <div class="col-12 col-md-6">
-                    {% for category in faqCategories %}
-                        <div class="questions-collection-container">
-                            <h5 class="collection-title">{{ category.title }}</h5>
-                            <div id="accordion_{{ category.id }}" class="faqs-accordion">
-                                {% for faq in category.publishedFAQs %}
-                                    <div class="card">
-                                        <div class="card-header" id="question-{{ faq.id }}-heading">
-                                            <button
-                                                    class="btn btn-link question-btn collapsed"
-                                                    data-toggle="collapse"
-                                                    data-target="#question-{{ faq.id }}"
-                                                    aria-expanded="true"
-                                                    aria-controls="question-{{ faq.id }}"
-                                            >
-                                                <span>{{ faq.question }}</span>
-                                                <i class="convert-svg" data-src="{{ asset('images/icons/caret-circle-right.svg') }}"></i>
-                                            </button>
-                                        </div>
-                                        <div
-                                            id="question-{{ faq.id }}"
-                                            class="collapse"
-                                            aria-labelledby="question-{{ faq.id }}-heading"
-                                            data-parent="#accordion_{{ category.id }}"
-                                        >
-                                            <div class="card-body">
-                                                <p class="answer-text mb-0">
-                                                    {{ faq.answer }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
+        {% include "page/faq/_page-header.html.twig" %}
+        {% include "page/faq/_faqs-list.html.twig" %}
     </div>
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/pages/faqs.js') }}"></script>
 {% endblock %}

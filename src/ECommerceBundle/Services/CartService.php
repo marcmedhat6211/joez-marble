@@ -190,7 +190,7 @@ class CartService
         $taxes = 140;
         $shipping = 30;
 
-        return $cart->getTotalPrice() + $taxes + $shipping;
+        return ($cart->getTotalPrice() - $cart->getCouponDiscount()) + $taxes + $shipping;
     }
 
     /**

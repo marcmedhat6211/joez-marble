@@ -65,7 +65,7 @@ class User extends BaseUser
     private ?string $googleId;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\ECommerceBundle\Entity\Cart", mappedBy="user")
+     * @ORM\OneToOne(targetEntity="App\ECommerceBundle\Entity\Cart", mappedBy="user", cascade={"persist"})
      */
     private ?Cart $cart;
 

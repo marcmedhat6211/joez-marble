@@ -42,7 +42,7 @@
             <!-- end quick access links section -->
             <!-- main header -->
             <div class="main-header">
-                <form action="#" id="desktop_search_form">
+                <form action="#" id="desktop_search_form" data-link="{{ path('fe_search_ajax') }}">
                     <div class="input-container">
                         <input
                                 class="form-control"
@@ -51,6 +51,23 @@
                         />
                         <i class="convert-svg search-icon"
                            data-src="{{ asset('images/icons/magnifying-glass.svg') }}"></i>
+                    </div>
+                    <div
+                            id="website_search_dropdown"
+                            class="website-sreach-dropdown"
+                    >
+                        <ul class="m-0 p-0">
+                            <!-- search result item -->
+                            <li>
+                                <a href="#" class="search-result__link">
+                                    <div class="img-container">
+                                        <img src="https://via.placeholder.com/100x100" alt="" loading="lazy"/>
+                                    </div>
+                                    <span class="result__title">Product One</span>
+                                </a>
+                            </li>
+                            <!-- end search result item -->
+                        </ul>
                     </div>
                 </form>
                 <a href="{{ path('fe_home') }}" class="desktop-logo-container">

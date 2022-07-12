@@ -29,16 +29,19 @@ class OrderService
     private EntityManagerInterface $em;
     private CartService $cartService;
     private SendEmailService $sendEmailService;
+    private ShippingInformationRepository $shippingInformationRepository;
 
     public function __construct(
         EntityManagerInterface $em,
         CartService            $cartService,
-        SendEmailService       $sendEmailService
+        SendEmailService       $sendEmailService,
+        ShippingInformationRepository $shippingInformationRepository
     )
     {
         $this->em = $em;
         $this->cartService = $cartService;
         $this->sendEmailService = $sendEmailService;
+        $this->shippingInformationRepository = $shippingInformationRepository;
     }
 
     public function createOrder(Cart $cart): void
@@ -48,6 +51,8 @@ class OrderService
         $order->setUser($cart->getUser());
         $order->setTotalPrice($cart->getTotalPrice());
         $order->setTotalQuantity($cart->getTotalQuantity());
+        $order->setCouponDiscount($cart->getCouponDiscount());
+        $order->setGrandTotal($this->getOrderGrandTotal($cart));
         foreach ($cart->getCartItems() as $cartItem) {
             $orderItem = new OrderItem();
             $orderItem->setProduct($cartItem->getProduct());
@@ -66,16 +71,20 @@ class OrderService
 
     public function getOrderGrandTotal(Cart $cart): float
     {
+        //@todo: add right taxes and shipping fees
         $shippingFee = 30;
         $taxes = 140;
         $cartTotal = $cart->getTotalPrice();
-        $couponDiscount = 50;
+        $couponDiscount = $cart->getCouponDiscount();
 
         return (($shippingFee + $taxes + $cartTotal) - $couponDiscount);
     }
 
     private function sendOrderEmail(Order $order)
     {
+        $user = $order->getUser();
+        $shippingInformation = $this->shippingInformationRepository->findOneBy(["user" => $user]);
+
         $email = (new TemplatedEmail())
             ->from(new Address(Kernel::FROM_EMAIL, Kernel::WEBSITE_TITLE))
             ->to(new Address(Kernel::ADMIN_EMAIL))
@@ -83,6 +92,7 @@ class OrderService
             ->htmlTemplate('ecommerce/frontEnd/order/_admin-email.html.twig')
             ->context([
                 'order' => $order,
+                'shippingInformation' => $shippingInformation,
             ]);
         $this->sendEmailService->send($email);
     }

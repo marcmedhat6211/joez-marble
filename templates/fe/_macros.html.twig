@@ -121,7 +121,7 @@
             <div class="item-details-container">
                 <div class="item-main-details">
                     <a href="#" class="item-title">{{ 'order_number_txt'|trans }} {{ entity.id }}</a>
-                    <p class="item-subtitle">{{ entity.totalQuantity }} {{ 'products_totalling_txt'|trans }} {{ getPriceWithCurrentCurrency(entity.totalPrice) }}</p>
+                    <p class="item-subtitle">{{ entity.totalQuantity }} {{ 'products_totalling_txt'|trans }} {{ getPriceWithCurrentCurrency(entity.grandTotal) }}</p>
                 </div>
                 <div class="item-specific-details">
                     <div class="item-created item-info">

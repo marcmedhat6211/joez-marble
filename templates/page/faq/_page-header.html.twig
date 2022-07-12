@@ -1,0 +1,26 @@
+<div class="hero-header hero-header-2">
+    <div class="header-content">
+        <h1 class="header-title">{{ 'faqs_header_txt'|trans }}</h1>
+        <div class="form-group w-100">
+            <input
+                    type="text"
+                    class="form-control"
+                    name="faq-search"
+                    placeholder="Search Question.."
+                    id="faqs_search_input"
+                    required
+            />
+            <i class="convert-svg" data-src="{{ asset('images/icons/magnifying-glass.svg') }}"></i>
+
+            <div id="faqs_search_dropdown" class="search-dropdown">
+                <ul class="m-0 p-0">
+                    {# CONTENT ADDED BY JS #}
+                </ul>
+            </div>
+        </div>
+        <div class="header-message">
+            <span>{{ 'did_not_find_txt'|trans }}</span>
+            <a href="{{ path('fe_contact') }}">{{ 'email_us_txt'|trans }}</a>
+        </div>
+    </div>
+</div>

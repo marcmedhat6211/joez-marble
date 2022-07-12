@@ -44,6 +44,9 @@
                         <ul class="list list-unstyled mb-0">
                             <li><span class="font-weight-bold">Create At: </span>{{ order.created|date("d/m/Y") }}</li>
                             <li><span class="font-weight-bold">Products Quantity: </span>{{ order.totalQuantity }}</li>
+                            {% if order.couponDiscount > 0 %}
+                                <li><span class="font-weight-bold">Coupon Discount: </span>{{ order.couponDiscount|number_format }}</li>
+                            {% endif %}
                             <li><span class="font-weight-bold">Status: </span><span
                                         class="badge {{ badgeClass }}">{{ order.status|capitalize }}</span></li>
                             <li><span class="font-weight-bold">Total Price (Including taxes and shipping): </span>{{ order.totalPrice }} EGP</li>

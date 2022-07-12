@@ -18,7 +18,7 @@
                 <tr>
                     <th>#</th>
                     <th>User</th>
-                    <th>Total Price</th>
+                    <th>Total Price (EGP)</th>
                     <th>Items Number</th>
                     <th>Status</th>
                     <th>Created</th>
@@ -32,7 +32,7 @@
                         <tr>
                             <td>{{ order.id }}</td>
                             <td>{{ order.user.fullName }}</td>
-                            <td>{{ order.totalPrice }}</td>
+                            <td>{{ order.totalPrice|number_format }}</td>
                             <td>{{ order.totalQuantity }}</td>
                             {% set badgeClass = 'badge-primary' %}
                             {% if order.status == constant('\\App\\ECommerceBundle\\Entity\\Order::STATUS_PENDING') %}

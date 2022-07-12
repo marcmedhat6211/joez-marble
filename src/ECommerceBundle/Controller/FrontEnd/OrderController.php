@@ -2,8 +2,11 @@
 
 namespace App\ECommerceBundle\Controller\FrontEnd;
 
+use App\ECommerceBundle\Repository\CouponRepository;
 use App\ECommerceBundle\Repository\OrderRepository;
+use App\ECommerceBundle\Services\CurrencyService;
 use App\ECommerceBundle\Services\OrderService;
+use App\ServiceBundle\Utils\Validate;
 use App\UserBundle\Entity\ShippingInformation;
 use App\UserBundle\Entity\User;
 use App\UserBundle\Form\ShippingInformationType;
@@ -11,6 +14,7 @@ use App\UserBundle\Repository\ShippingInformationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,9 +30,9 @@ class OrderController extends AbstractController
      */
     public function index(
         TranslatorInterface $translator,
-        OrderRepository $orderRepository,
-        Request $request
-    ):Response
+        OrderRepository     $orderRepository,
+        Request             $request
+    ): Response
     {
         $user = $this->getUser();
         if (!$user) {
@@ -47,11 +51,11 @@ class OrderController extends AbstractController
      * @Route("/create", name="fe_order_create", methods={"GET", "POST"})
      */
     public function create(
-        TranslatorInterface $translator,
-        OrderService $orderService,
+        TranslatorInterface           $translator,
+        OrderService                  $orderService,
         ShippingInformationRepository $shippingInformationRepository,
-        EntityManagerInterface $em,
-        Request $request
+        EntityManagerInterface        $em,
+        Request                       $request
     ): Response
     {
         $user = $this->getUser();
@@ -94,6 +98,60 @@ class OrderController extends AbstractController
             "shippingFee" => $shippingFee,
             "taxes" => $taxes,
             "orderGrandTotal" => $orderGrandTotal,
+        ]);
+    }
+
+    /**
+     * @Route("/add-coupon-ajax", name="fe_order_add_coupon_ajax", methods={"GET", "POST"})
+     */
+    public function addCoupon(
+        Request                $request,
+        TranslatorInterface    $translator,
+        CouponRepository       $couponRepository,
+        EntityManagerInterface $em,
+        OrderService           $orderService,
+        CurrencyService        $currencyService
+    ): JsonResponse
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->json([
+                "error" => true,
+                "message" => $translator->trans("login_to_continue_order_msg")
+            ]);
+        }
+
+        $couponCode = $request->get("couponCode");
+        if (!Validate::not_null($couponCode)) {
+            return $this->json([
+                "error" => true,
+                "message" => $translator->trans("enter_coupon_code_msg")
+            ]);
+        }
+
+        $couponObj = $couponRepository->findOneBy(["couponCode" => $couponCode]);
+        if (!$couponObj) {
+            return $this->json([
+                "error" => true,
+                "message" => $translator->trans("coupon_not_valid_msg")
+            ]);
+        }
+
+        //@todo: change this value and get the right one
+        $couponDiscount = 50;
+
+        $userCart = $user->getCart();
+        $userCart->setCouponDiscount($couponDiscount);
+        $em->persist($userCart);
+        $em->flush();
+
+        $newOrderTotal = $currencyService->getPriceWithCurrentCurrency($orderService->getOrderGrandTotal($userCart));
+
+        return $this->json([
+            "error" => false,
+            "message" => $translator->trans("coupon_applied_success_msg"),
+            "couponDiscount" => $currencyService->getPriceWithCurrentCurrency($couponDiscount),
+            "newOrderTotal" => $newOrderTotal
         ]);
     }
 

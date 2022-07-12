@@ -8,6 +8,7 @@ const mobileMenuWrapper = $("#mobile_menu_wrapper");
 const mobileMenu = $("#mobile_menu");
 const searchPopup = $("#search_popup");
 const body = $("body");
+let currentSearchRequest = null;
 $(document).ready(function () {
     //lazy loading
     if ($("img.lazy").length > 0) {
@@ -119,12 +120,12 @@ $(document).ready(function () {
         convertSvgToIcon($img);
     });
 
-    searchPopup.find(".close-search-btn").on("click", function () {
+    body.on("click", "#search_popup .close-search-btn", function() {
         searchPopup.removeClass("show");
         $("body").removeClass("modal-open");
     });
 
-    mobileHeader.find("#mobile_search_btn").on("click", function () {
+    body.on("click", "header #mobile_header #mobile_search_btn", function() {
         searchPopup.addClass("show");
         $("body").addClass("modal-open");
     });
@@ -140,6 +141,7 @@ $(document).ready(function () {
 
     // mobile menu
     mobileHeader.find("#mobile_menu_btn").on("click", function () {
+        console.log("heree");
         mobileMenuWrapper.addClass("show");
         mobileMenu.addClass("show");
         $("body").addClass("modal-open");
@@ -273,7 +275,95 @@ $(document).ready(function () {
     });
 
 
+    // DESKTOP SEARCH
+    body.on("submit", "#desktop_search_form", function (e) {
+        e.preventDefault();
+    });
+
+    body.on("click", document, function (e) {
+        if (
+            $(e.target).is("#website_search_dropdown")
+            ||
+            $(e.target).is("#website_search_dropdown *")
+        ) {
+            return;
+        }
+
+        $("#website_search_dropdown").removeClass("show");
+    });
+
+    body.on("keyup", "#desktop_search_form .input-container input", function () {
+        const input = $(this);
+        const inputValue = input.val();
+        const form = input.closest("#desktop_search_form");
+        const link = form.data("link");
+        const searchDropdown = form.find("#website_search_dropdown");
+        const ul = searchDropdown.find("ul");
+        ul.empty();
+        searchDropdown.addClass("show");
+        startLoadingComponent(searchDropdown);
+
+        if (inputValue.trim().length < 2) {
+            const atLeastTwoCharactersMessage = $("<p>", {
+                class: "text-center py-4 mb-0",
+                text: "Please Enter at least 2 characters"  //@todo: translate text
+            });
+            atLeastTwoCharactersMessage.appendTo(ul);
+            endLoadingComponent(searchDropdown);
+            return;
+        }
+
+        currentSearchRequest = $.ajax({
+            url: link,
+            data: {searchKeyword: inputValue},
+            dataType: "json",
+            method: "post",
+            beforeSend: function () {
+                if (currentSearchRequest != null) {
+                    currentSearchRequest.abort();
+                }
+            },
+            success: function (json) {
+                endLoadingComponent(searchDropdown);
+                const results = json.results;
+                if (results.length === 0) {
+                    const noResultsMessage = $("<p>", {
+                        class: "text-center py-4 mb-0",
+                        text: "No Results Found"  //@todo: translate text
+                    });
+                    noResultsMessage.appendTo(ul);
+                    return;
+                }
+
+                drawDesktopSearchResults(results, ul);
+            },
+        });
+    });
 });
+
+const drawDesktopSearchResults = (results, listContainer) => {
+    results.forEach(function (result) {
+        const li = $("<li>");
+        const searchResultLink = $("<a>").attr({
+            class: "search-result__link",
+            href: result.productUrl,
+        });
+        const imageContainer = $("<div>", {class: "img-container"});
+        const image = $("<img />", {
+            alt: result.title,
+            loading: "lazy"
+        }).attr({
+            src: result.imageUrl,
+        });
+        const resultTitle = $("<span>", {class: "result__title", text: result.title});
+
+        image.appendTo(imageContainer);
+        imageContainer.appendTo(searchResultLink);
+        resultTitle.appendTo(searchResultLink);
+        searchResultLink.appendTo(li);
+        li.appendTo(listContainer);
+    });
+};
 
 const drawCartItem = (cartItem, itemsContainer) => {
     const item = $("<div>", {
@@ -334,9 +424,6 @@ const drawCartItem = (cartItem, itemsContainer) => {
 const updateDropDownCartQty = (totalQty) => {
     $("#desktop_cart_items_count").text(totalQty);
 }
-
-
-// END CART HANDLING
 
 function convertSvgToIcon($img) {
     var imgID = $img.attr("id");
@@ -419,4 +506,12 @@ const startPageLoading = () => {
 
 const endPageLoading = () => {
     body.removeClass("loading");
+}
+
+const startLoadingComponent = (component) => {
+    component.addClass("component-loading");
+}
+
+const endLoadingComponent = (component) => {
+    component.removeClass("component-loading");
 }
