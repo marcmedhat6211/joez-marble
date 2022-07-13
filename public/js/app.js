@@ -120,12 +120,12 @@ $(document).ready(function () {
         convertSvgToIcon($img);
     });
 
-    body.on("click", "#search_popup .close-search-btn", function() {
+    body.on("click", "#search_popup .close-search-btn", function () {
         searchPopup.removeClass("show");
         $("body").removeClass("modal-open");
     });
 
-    body.on("click", "header #mobile_header #mobile_search_btn", function() {
+    body.on("click", "header #mobile_header #mobile_search_btn", function () {
         searchPopup.addClass("show");
         $("body").addClass("modal-open");
     });
@@ -337,6 +337,30 @@ $(document).ready(function () {
 
                 drawDesktopSearchResults(results, ul);
             },
+        });
+    });
+
+    body.on("submit", "#edit_profile_form", function (e) {
+        e.preventDefault();
+        startPageLoading();
+        const editProfileForm = $(this);
+        const link = editProfileForm.attr("action");
+        const data = {
+            name: editProfileForm.find("input[name='name']").val(),
+            email: editProfileForm.find("input[name='email']").val(),
+            phone: editProfileForm.find("input[name='phone']").val(),
+        }
+
+        $.post(link, data, function (json) {
+            endPageLoading();
+            if (!json.error) {
+                showAlert("success", json.message);
+            } else {
+                const errors = json.messages;
+                errors.forEach(function (errorMessage) {
+                    showAlert("error", errorMessage);
+                });
+            }
         });
     });
 });

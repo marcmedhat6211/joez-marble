@@ -100,13 +100,46 @@ class HomeController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/edit-profile", name="fe_edit_profile", methods={"GET", "POST"})
-     */
-    public function editProfile(Request $request): Response
+    public function editProfile(): Response
     {
+        $this->denyAccessUnlessGranted("IS_AUTHENTICATED_FULLY");
+        $user = $this->getUser();
+
         return $this->render('fe/_edit-profile-modal.html.twig', [
-            "request" => $request,
+            "user" => $user
+        ]);
+    }
+
+    /**
+     * @Route("/edit-profile-ajax", name="fe_edit_profile_ajax", methods={"GET", "POST"})
+     */
+    public function editProfileAjax(Request $request, TranslatorInterface $translator, EntityManagerInterface $em): JsonResponse
+    {
+        $this->denyAccessUnlessGranted("IS_AUTHENTICATED_FULLY");
+        $user = $this->getUser();
+
+        $data = $this->collectEditProfileData($request);
+        $errors = $this->validateEditProfileData($data, $translator);
+
+        if (count($errors) > 0) {
+            return $this->json([
+                "error" => true,
+                "messages" => $errors
+            ]);
+        }
+
+        $user->setFullName($data->name);
+        $user->setEmail($data->email);
+        if (Validate::not_null($data->phone)) {
+            $user->setPhone($data->phone);
+        }
+
+        $em->persist($user);
+        $em->flush();
+
+        return $this->json([
+            "error" => false,
+            "message" => $translator->trans("profile_data_updated_success_msg")
         ]);
     }
 
@@ -283,5 +316,41 @@ class HomeController extends AbstractController
         $search->publish = 1;
 
         return $testimonialRepository->filter($search);
+    }
+
+    private function collectEditProfileData(Request $request): \stdClass
+    {
+        $data = new \stdClass();
+
+        $data->name = $request->get("name");
+        $data->email = $request->get("email");
+        $data->phone = $request->get("phone");
+
+        return $data;
+    }
+
+    private function validateEditProfileData(\stdClass $data, TranslatorInterface $translator): array
+    {
+        $errors = [];
+
+        if (!Validate::not_null($data->name)) {
+            $errors[] = $translator->trans("enter_name_msg");
+        } elseif (strlen($data->name) < 2) {
+            $errors[] = $translator->trans("min_name_two_chars_msg");
+        }
+
+        if (!Validate::not_null($data->email)) {
+            $errors[] = $translator->trans("enter_email_msg");
+        } elseif (!Validate::email($data->email)) {
+            $errors[] = $translator->trans("enter_valid_email_msg");
+        }
+
+        if (Validate::not_null($data->phone)) {
+            if (!Validate::isPhoneNumber($data->phone)) {
+                $errors[] = $translator->trans("enter_valid_phone_number_msg");
+            }
+        }
+
+        return $errors;
     }
 }

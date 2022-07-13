@@ -29,11 +29,24 @@
         </div>
     </div>
     <div class="col-12 mb-3">
-        <div class="custom-file">
-            {{ form_widget(form.mainImage) }}
-            {{ form_label(form.mainImage) }}
-            {{ form_errors(form.mainImage) }}
-            <span class="form-text text-muted">Size: 225 px x 225 px</span>
+        <div class="form-group">
+            <div class="media mt-0">
+                {% if product.mainImage %}
+                    <div class="mr-3">
+                        <a href="{{ absolute_url(asset(product.mainImage.absolutePath)) }}" data-popup="lightbox">
+                            <img src="{{ absolute_url(asset(product.mainImage.absolutePath)) }}" width="60" height="60" class="rounded-pill" alt="{{ product.title }}">
+                        </a>
+                    </div>
+                {% endif %}
+                <div class="media-body">
+                    <div class="custom-file">
+                        {{ form_label(form.mainImage) }}
+                        {{ form_widget(form.mainImage) }}
+                        {{ form_errors(form.mainImage) }}
+                        <span class="form-text text-muted">Size: 225 px x 225 px</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-12">

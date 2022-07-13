@@ -43,10 +43,24 @@
         </div>
     </div>
     <div class="col-12 col-md-6 mb-3">
-        <div class="custom-file">
-            {{ form_widget(form.image) }}
-            {{ form_label(form.image) }}
-            {{ form_errors(form.image) }}
+        <div class="form-group">
+            <div class="media mt-0">
+                {% if banner.image %}
+                    <div class="mr-3">
+                        <a href="{{ absolute_url(asset(banner.image.absolutePath)) }}" data-popup="lightbox">
+                            <img src="{{ absolute_url(asset(banner.image.absolutePath)) }}" width="60" height="60" class="rounded-pill" alt="{{ banner.title }}">
+                        </a>
+                    </div>
+                {% endif %}
+
+                <div class="media-body">
+                    <div class="custom-file">
+                        {{ form_label(form.image) }}
+                        {{ form_widget(form.image) }}
+                        {{ form_errors(form.image) }}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-12 col-md-6">

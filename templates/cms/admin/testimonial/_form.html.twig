@@ -36,11 +36,25 @@
         </div>
     </div>
     <div class="col-12 col-md-6 mb-3">
-        <div class="custom-file">
-            {{ form_label(form.image) }}
-            {{ form_widget(form.image) }}
-            {{ form_errors(form.image) }}
-            <span class="form-text text-muted">Size: 165 px x 165 px</span>
+        <div class="form-group">
+            <div class="media mt-0">
+                {% if testimonial.image %}
+                    <div class="mr-3">
+                        <a href="{{ absolute_url(asset(testimonial.image.absolutePath)) }}" data-popup="lightbox">
+                            <img src="{{ absolute_url(asset(testimonial.image.absolutePath)) }}" width="60" height="60" class="rounded-pill" alt="{{ testimonial.client }}">
+                        </a>
+                    </div>
+                {% endif %}
+
+                <div class="media-body">
+                    <div class="custom-file">
+                        {{ form_label(form.image) }}
+                        {{ form_widget(form.image) }}
+                        {{ form_errors(form.image) }}
+                    </div>
+                    <span class="form-text text-muted">Size: 165 px x 165 px</span>
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-12 col-md-6">
