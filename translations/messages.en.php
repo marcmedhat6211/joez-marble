@@ -172,4 +172,5 @@ return [
     "login_to_continue_order_msg" => "Please login to continue the process of creating your order",
     "coupon_applied_success_msg" => "Coupon applied successfully",
     "coupon_not_valid_msg" => "Coupon not valid",
+    "logged_in_success_msg" => "Logged in successfully",
 ];

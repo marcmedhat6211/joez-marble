@@ -10,6 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\FirewallMapInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LoginController extends AbstractController
 {
@@ -22,7 +23,8 @@ class LoginController extends AbstractController
     public function login(
         Request $request,
         AuthenticationUtils $authenticationUtils,
-        FirewallMapInterface $firewallMap
+        FirewallMapInterface $firewallMap,
+        TranslatorInterface $translator,
     ): Response {
         if ($this->getUser() instanceof User) {
             $this->addFlash('warning', 'You are already logged in');
@@ -35,7 +37,7 @@ class LoginController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        $targetPath = $this->onAuthenticationSuccess($request, $firewallMap);
+        $targetPath = $this->onAuthenticationSuccess($request, $firewallMap, $translator);
 
         return $this->render('user/login/index.html.twig',
             ['last_username' => $lastUsername, 'error' => $error, 'targetPath' => $targetPath]);
@@ -49,13 +51,14 @@ class LoginController extends AbstractController
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
-    private function onAuthenticationSuccess(Request $request, FirewallMapInterface $firewallMap): string
+    private function onAuthenticationSuccess(Request $request, FirewallMapInterface $firewallMap, TranslatorInterface $translator): string
     {
         $firewallConfig = $firewallMap->getFirewallConfig($request);
 
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallConfig->getName())) {
             return $targetPath;
         }
+        $this->addFlash("success", $translator->trans("logged_in_success_msg"));
 
         return $this->generateUrl('fe_home');
     }
