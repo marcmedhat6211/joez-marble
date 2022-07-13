@@ -68,6 +68,7 @@ return [
     "testimonials_title_txt" => "What Our Customers Say",
     "review_from_txt" => "Review from",
     "facebook_txt" => "Facebook",
+    "instagram_txt" => "Instagram",
     "share_feedback_txt" => "Share your feedback",
     "share_txt" => "Share",
     "home_page_txt" => "Home Page",

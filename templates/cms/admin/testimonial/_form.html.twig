@@ -29,9 +29,16 @@
         </div>
     </div>
     <div class="col-12 col-md-6 mb-3">
+        <div class="form-group">
+            {{ form_label(form.socialMediaType) }}
+            {{ form_widget(form.socialMediaType) }}
+            {{ form_errors(form.socialMediaType) }}
+        </div>
+    </div>
+    <div class="col-12 col-md-6 mb-3">
         <div class="custom-file">
-            {{ form_widget(form.image) }}
             {{ form_label(form.image) }}
+            {{ form_widget(form.image) }}
             {{ form_errors(form.image) }}
             <span class="form-text text-muted">Size: 165 px x 165 px</span>
         </div>

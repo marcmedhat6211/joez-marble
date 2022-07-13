@@ -13,6 +13,14 @@ use App\CMSBundle\Model\Testimonial as BaseTestimonial;
  */
 class Testimonial extends BaseTestimonial
 {
+    const TYPE_FACEBOOK = "facebook";
+    const TYPE_INSTAGRAM = "instagram";
+
+    public static array $socialMediaTypes = [
+        "Facebook" => self::TYPE_FACEBOOK,
+        "Instagram" => self::TYPE_INSTAGRAM,
+    ];
+
     /**
      * @ORM\Column(name="url", type="string", length=255, nullable=true)
      */
@@ -22,6 +30,11 @@ class Testimonial extends BaseTestimonial
      * @ORM\Column(name="sort_no", type="integer", nullable=true)
      */
     protected ?int $sortNo;
+
+    /**
+     * @ORM\Column(name="social_media_type", type="string", length=50)
+     */
+    private ?string $socialMediaType = self::TYPE_FACEBOOK;
 
     /**
      * @ORM\OneToOne(targetEntity="App\MediaBundle\Entity\Image", inversedBy="testimonial", cascade={"persist", "remove" })
@@ -66,6 +79,18 @@ class Testimonial extends BaseTestimonial
     public function setSortNo(?int $sortNo): self
     {
         $this->sortNo = $sortNo;
+
+        return $this;
+    }
+
+    public function getSocialMediaType(): ?string
+    {
+        return $this->socialMediaType;
+    }
+
+    public function setSocialMediaType(string $socialMediaType): self
+    {
+        $this->socialMediaType = $socialMediaType;
 
         return $this;
     }

@@ -452,11 +452,16 @@
                                                 {{ testimonial.message }}
                                             </p>
                                             <a href="{{ testimonial.url ? testimonial.url : '#' }}" class="card-link" target="_blank" >
-                                                <i class="convert-svg"
-                                                   data-src="{{ asset('images/icons/facebook-logo.svg') }}"></i>
+                                                {% set iconPath = asset('images/icons/facebook-logo.svg') %}
+                                                {% set reviewFromText = 'facebook_txt'|trans %}
+                                                {% if testimonial.socialMediaType == constant("\\App\\CMSBundle\\Entity\\Testimonial::TYPE_INSTAGRAM") %}
+                                                    {% set iconPath = asset('images/icons/instagram.svg') %}
+                                                    {% set reviewFromText = 'instagram_txt'|trans %}
+                                                {% endif %}
+                                                <i class="convert-svg" data-src="{{ iconPath }}"></i>
                                                 <span class="link-text">
                                             {{ 'review_from_txt'|trans }}
-                                            <span class="vip-word">{{ 'facebook_txt'|trans }}</span>
+                                            <span class="vip-word">{{ reviewFromText }}</span>
                                         </span>
                                             </a>
                                         </div>

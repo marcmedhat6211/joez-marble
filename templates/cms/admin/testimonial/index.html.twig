@@ -23,6 +23,7 @@
                     <th>#</th>
                     <th>Sort No.</th>
                     <th>Client</th>
+                    <th>Social Media Type</th>
                     <th>Publish</th>
                     <th>Actions</th>
                 </tr>
@@ -34,6 +35,7 @@
                             <td>{{ testimonial.id }}</td>
                             <td>{{ testimonial.sortNo ? testimonial.sortNo : "n/a" }}</td>
                             <td>{{ testimonial.client ? testimonial.client : 'n/a' }}</td>
+                            <td>{{ testimonial.socialMediaType|capitalize }}</td>
                             <td>
                                 {% if testimonial.publish %}
                                     <span class="badge badge-flat border-success text-success">Published</span>
