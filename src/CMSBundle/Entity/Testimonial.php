@@ -40,7 +40,7 @@ class Testimonial extends BaseTestimonial
      * @ORM\OneToOne(targetEntity="App\MediaBundle\Entity\Image", inversedBy="testimonial", cascade={"persist", "remove" })
      * @JoinColumn(name="image_id", referencedColumnName="id", onDelete="SET NULL")
      */
-    private ?Image $image;
+    private ?Image $image = null;
 
     public function __toString(): string
     {

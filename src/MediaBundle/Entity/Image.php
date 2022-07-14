@@ -4,6 +4,7 @@ namespace App\MediaBundle\Entity;
 
 use App\CMSBundle\Entity\Banner;
 use App\CMSBundle\Entity\Testimonial;
+use App\ECommerceBundle\Entity\Category;
 use App\ECommerceBundle\Entity\Currency;
 use App\ECommerceBundle\Entity\Material;
 use App\ECommerceBundle\Entity\Product;
@@ -29,6 +30,21 @@ class Image extends BaseImage
      * @ORM\OneToOne(targetEntity="App\CMSBundle\Entity\Testimonial", mappedBy="image")
      */
     private ?Testimonial $testimonial;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\ECommerceBundle\Entity\Category", mappedBy="headerImageOne")
+     */
+    private ?Category $categoryHeaderImageOne;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\ECommerceBundle\Entity\Category", mappedBy="headerImageTwo")
+     */
+    private ?Category $categoryHeaderImageTwo;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\ECommerceBundle\Entity\Category", mappedBy="coverPhoto")
+     */
+    private ?Category $categoryCoverPhoto;
 
     /**
      * @ORM\OneToOne(targetEntity="App\ECommerceBundle\Entity\Product", mappedBy="mainImage")
@@ -224,6 +240,72 @@ class Image extends BaseImage
         }
 
         $this->product = $product;
+
+        return $this;
+    }
+
+    public function getCategoryHeaderImageOne(): ?Category
+    {
+        return $this->categoryHeaderImageOne;
+    }
+
+    public function setCategoryHeaderImageOne(?Category $categoryHeaderImageOne): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($categoryHeaderImageOne === null && $this->categoryHeaderImageOne !== null) {
+            $this->categoryHeaderImageOne->setHeaderImageOne(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($categoryHeaderImageOne !== null && $categoryHeaderImageOne->getHeaderImageOne() !== $this) {
+            $categoryHeaderImageOne->setHeaderImageOne($this);
+        }
+
+        $this->categoryHeaderImageOne = $categoryHeaderImageOne;
+
+        return $this;
+    }
+
+    public function getCategoryHeaderImageTwo(): ?Category
+    {
+        return $this->categoryHeaderImageTwo;
+    }
+
+    public function setCategoryHeaderImageTwo(?Category $categoryHeaderImageTwo): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($categoryHeaderImageTwo === null && $this->categoryHeaderImageTwo !== null) {
+            $this->categoryHeaderImageTwo->setHeaderImageTwo(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($categoryHeaderImageTwo !== null && $categoryHeaderImageTwo->getHeaderImageTwo() !== $this) {
+            $categoryHeaderImageTwo->setHeaderImageTwo($this);
+        }
+
+        $this->categoryHeaderImageTwo = $categoryHeaderImageTwo;
+
+        return $this;
+    }
+
+    public function getCategoryCoverPhoto(): ?Category
+    {
+        return $this->categoryCoverPhoto;
+    }
+
+    public function setCategoryCoverPhoto(?Category $categoryCoverPhoto): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($categoryCoverPhoto === null && $this->categoryCoverPhoto !== null) {
+            $this->categoryCoverPhoto->setCoverPhoto(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($categoryCoverPhoto !== null && $categoryCoverPhoto->getCoverPhoto() !== $this) {
+            $categoryCoverPhoto->setCoverPhoto($this);
+        }
+
+        $this->categoryCoverPhoto = $categoryCoverPhoto;
 
         return $this;
     }

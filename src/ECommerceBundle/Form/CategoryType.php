@@ -5,6 +5,7 @@ namespace App\ECommerceBundle\Form;
 use App\ECommerceBundle\Entity\Category;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -33,6 +34,33 @@ class CategoryType extends AbstractType
                     ])
                 ]
             ])
+            ->add('headerImageOne', FileType::class, [
+                'mapped' => false,
+                'label_attr' => [
+                    "class" => "custom-file-label"
+                ],
+                "attr" => [
+                    "class" => "custom-file-input"
+                ]
+            ])
+            ->add('headerImageTwo', FileType::class, [
+                'mapped' => false,
+                'label_attr' => [
+                    "class" => "custom-file-label"
+                ],
+                "attr" => [
+                    "class" => "custom-file-input"
+                ]
+            ])
+            ->add('coverPhoto', FileType::class, [
+                'mapped' => false,
+                'label_attr' => [
+                    "class" => "custom-file-label"
+                ],
+                "attr" => [
+                    "class" => "custom-file-input"
+                ]
+            ])
             ->add('living', CheckboxType::class, [
                 'label_attr' => [
                     "class" => "custom-control-label"
@@ -40,8 +68,7 @@ class CategoryType extends AbstractType
                 "attr" => [
                     "class" => "custom-control-input"
                 ]
-            ])
-        ;
+            ]);
     }
 
     /**

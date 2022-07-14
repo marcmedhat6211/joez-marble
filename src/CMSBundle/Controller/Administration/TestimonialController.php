@@ -73,6 +73,7 @@ class TestimonialController extends AbstractController
 
         return $this->render('cms/admin/testimonial/new.html.twig', [
             'form' => $form->createView(),
+            "testimonial" => $testimonial
         ]);
     }
 

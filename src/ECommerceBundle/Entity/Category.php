@@ -2,6 +2,7 @@
 
 namespace App\ECommerceBundle\Entity;
 
+use App\MediaBundle\Entity\Image;
 use App\SeoBundle\Entity\Seo;
 use App\SeoBundle\Model\SeoInterface;
 use App\ServiceBundle\Model\DateTimeInterface;
@@ -10,6 +11,7 @@ use App\ServiceBundle\Model\VirtualDeleteTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
 use JetBrains\PhpStorm\Pure;
 
 /**
@@ -41,6 +43,24 @@ class Category implements DateTimeInterface, SeoInterface
      * @ORM\OneToOne(targetEntity="App\SeoBundle\Entity\Seo", inversedBy="category", cascade={"persist", "remove" })
      */
     private ? Seo $seo;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\MediaBundle\Entity\Image", inversedBy="categoryHeaderImageOne", cascade={"persist", "remove"})
+     * @JoinColumn(name="header_image_one_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    private ?Image $headerImageOne;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\MediaBundle\Entity\Image", inversedBy="categoryHeaderImageTwo", cascade={"persist", "remove"})
+     * @JoinColumn(name="header_image_two_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    private ?Image $headerImageTwo;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\MediaBundle\Entity\Image", inversedBy="categoryCoverPhoto", cascade={"persist", "remove"})
+     * @JoinColumn(name="cover_photo_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    private ?Image $coverPhoto;
 
     /**
      * @ORM\OneToMany(targetEntity="Subcategory", mappedBy="category")
@@ -131,5 +151,41 @@ class Category implements DateTimeInterface, SeoInterface
     public function isLiving(): ?bool
     {
         return $this->living;
+    }
+
+    public function getHeaderImageOne(): ?Image
+    {
+        return $this->headerImageOne;
+    }
+
+    public function setHeaderImageOne(?Image $headerImageOne): self
+    {
+        $this->headerImageOne = $headerImageOne;
+
+        return $this;
+    }
+
+    public function getHeaderImageTwo(): ?Image
+    {
+        return $this->headerImageTwo;
+    }
+
+    public function setHeaderImageTwo(?Image $headerImageTwo): self
+    {
+        $this->headerImageTwo = $headerImageTwo;
+
+        return $this;
+    }
+
+    public function getCoverPhoto(): ?Image
+    {
+        return $this->coverPhoto;
+    }
+
+    public function setCoverPhoto(?Image $coverPhoto): self
+    {
+        $this->coverPhoto = $coverPhoto;
+
+        return $this;
     }
 }
