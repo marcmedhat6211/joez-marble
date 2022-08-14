@@ -60,8 +60,8 @@
     {% if product.mainImage %}
         {% set image = absolute_url(asset(product.mainImage.absolutePath)) %}
     {% endif %}
-    <div class="cart-item-container">
-        <button type="button" class="btn remove-item-btn">
+    <div class="cart-item-container" data-item-id="{{ entity.id }}">
+        <button type="button" class="btn remove-item-btn" data-link="{{ path('fe_remove_whole_item_from_cart_ajax', {"id": entity.id}) }}">
             <i class="convert-svg" data-src="{{ asset('images/icons/x.svg') }}"></i>
         </button>
         <div class="item-img-container">
@@ -76,11 +76,11 @@
             <a href="{{ path('fe_product_show', {"slug": product.seo.slug}) }}" class="item-description">{{ product.title }}</a>
             <div class="pricing-container">
                 <div class="input-group incrementor incrementor-style-2">
-                    <button type="button" class="btn minus">
+                    <button type="button" class="btn minus" data-link="{{ path('fe_remove_one_item_from_cart_ajax', {"id": entity.id}) }}">
                         <i class="convert-svg" data-src="{{ asset('images/icons/minus.svg') }}"></i>
                     </button>
-                    <input type="number" value="1" name="qty" />
-                    <button type="button" class="btn plus">
+                    <input type="number" value="{{ entity.quantity }}" name="qty" />
+                    <button type="button" class="btn plus" data-link="{{ path('fe_add_item_to_cart_ajax', {"slug": product.seo.slug}) }}">
                         <i class="convert-svg" data-src="{{ asset('images/icons/plus.svg') }}"></i>
                     </button>
                 </div>

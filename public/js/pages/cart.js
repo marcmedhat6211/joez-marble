@@ -1,7 +1,7 @@
 const desktopDropDownCart = $("#desktop_cart_dropdown");
 $(document).ready(function () {
     // Cart incrementor
-    const qtyInput = $("input[name=qty]");
+    const qtyInput = $(".incrementor-style-1 input[name=qty]");
     $(".incrementor-style-1 button.plus").on("click", function () {
         let newVal = increment($(this).closest(".incrementor-style-1").find(qtyInput));
         $(this).closest(".incrementor-style-1").find(qtyInput).val(newVal);
@@ -38,9 +38,24 @@ $(document).ready(function () {
                     }
                 });
                 adjustSummaryBox(json.totalCartQuantity, json.cartTotalPrice, json.cartGrandTotal);
+                // MOBILE CART
+                $("#mobile_cart .cart-item-container").each(function () {
+                    const mobileCartItem = $(this);
+                    const mobileCartItemId = mobileCartItem.data("item-id");
+                    if (mobileCartItemId == addedCartItem.itemId) {
+                        mobileCartItem.find("input[name='qty']").val(addedCartItem.itemQty);
+                    }
+                });
                 showAlert("success", json.message);
             } else {
                 incrementorInput.val(incrementorInput.val() - 1);
+                $("#mobile_cart .cart-item-container").each(function () {
+                    const mobileCartItem = $(this);
+                    const mobileCartItemId = mobileCartItem.data("item-id");
+                    if (mobileCartItemId == addedCartItem.itemId) {
+                        mobileCartItem.find("input[name='qty']").val(mobileCartItem.find("input[name='qty']").val() - 1);
+                    }
+                });
                 showAlert("error", json.message);
             }
         });
@@ -68,9 +83,23 @@ $(document).ready(function () {
                     }
                 });
                 adjustSummaryBox(json.cartTotalQty, json.cartTotalPrice, json.cartGrandTotal);
+                $("#mobile_cart .cart-item-container").each(function () {
+                    const mobileCartItem = $(this);
+                    const mobileCartItemId = mobileCartItem.data("item-id");
+                    if (mobileCartItemId == json.itemId) {
+                        mobileCartItem.find("input[name='qty']").val(json.itemQty);
+                    }
+                });
                 showAlert("success", json.message);
             } else {
                 incrementorInput.val(incrementorInput.val() + 1);
+                $("#mobile_cart .cart-item-container").each(function () {
+                    const mobileCartItem = $(this);
+                    const mobileCartItemId = mobileCartItem.data("item-id");
+                    if (mobileCartItemId == json.itemId) {
+                        mobileCartItem.find("input[name='qty']").val(mobileCartItem.find("input[name='qty']").val() + 1);
+                    }
+                });
                 showAlert("error", json.message);
             }
         });
@@ -111,6 +140,15 @@ $(document).ready(function () {
                     });
                     cartEmptyMsgInPage.appendTo("#cart_page .container");
                 }
+
+                // mobile cart
+                $("#mobile_cart .cart-item-container").each(function () {
+                    const mobileCartItem = $(this);
+                    const mobileCartItemId = mobileCartItem.data("item-id");
+                    if (mobileCartItemId == clickedItem.data("item-id")) {
+                        mobileCartItem.remove();
+                    }
+                });
                 showAlert("success", json.message);
             } else {
                 showAlert("error", json.message);
@@ -169,13 +207,6 @@ function decrement(element) {
 
     return false;
 }
-
-const adjustSummaryBox = (cartTotalQty, cartTotalPrice, CartGrandTotalPrice) => {
-    const summaryBox = $("#cart_summary");
-    summaryBox.find(".items-number").text(cartTotalQty);
-    summaryBox.find(".subtotal-amount").text(cartTotalPrice);
-    summaryBox.find(".cart-total").text(CartGrandTotalPrice);
-};
 
 const formatNumber = (number) => {
     return new Intl.NumberFormat().format(number);

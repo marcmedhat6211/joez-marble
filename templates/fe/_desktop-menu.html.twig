@@ -261,19 +261,19 @@
                         {{ macros.mobileCartItem(item) }}
                     {% endfor %}
                 {% else %}
-                    <p class="desktop-cart-empty-txt">{{ 'cart_empty_txt'|trans }}</p>
+                    <p class="mobile-cart-empty-txt">{{ 'cart_empty_txt'|trans }}</p>
                 {% endif %}
             </div>
             <!-- end cart items -->
             <button type="button" id="close_cart_btn" class="btn close-cart-btn">
                 <i class="convert-svg" data-src="{{ asset('images/icons/x.svg') }}"></i>
             </button>
-            {% if app.user and cart %}
-                <div class="cart-total-container">
-                    <p class="text mb-0">{{ 'total_caps_txt'|trans }}</p>
-                    <p class="amount mb-0">{{ getPriceWithCurrentCurrency(cart.totalPrice) }}</p>
-                </div>
-                <button type="submit" class="btn btn-style-1 w-100">{{ 'check_out_caps_txt'|trans }}</button>
+            {% if app.user %}
+{#                <div class="cart-total-container">#}
+{#                    <p class="text mb-0">{{ 'total_caps_txt'|trans }}</p>#}
+{#                    <p class="amount mb-0">{{ getPriceWithCurrentCurrency(cart.totalPrice) }}</p>#}
+{#                </div>#}
+                <a href="{{ path('fe_cart') }}" class="btn btn-style-1 w-100">{{ 'view_cart_txt'|trans }}</a>
             {% endif %}
         </form>
     </div>

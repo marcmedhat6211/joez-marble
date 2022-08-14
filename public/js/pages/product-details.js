@@ -97,6 +97,7 @@ $(document).ready(function () {
         $.post(addToCartLink, function (json) {
             addToCartBtn.attr("disabled", false).text("Add To Cart"); // @todo: translate text
             if (!json.error) {
+                // DESKTOP CART
                 const desktopCartDropdown = $("#desktop_cart_dropdown");
                 const itemsContainer = desktopCartDropdown.find(".items-container");
                 const items = itemsContainer.find(".item");
@@ -121,6 +122,29 @@ $(document).ready(function () {
                         effect: "fadeIn",
                     });
                 }
+                // END DESKTOP CART
+                // MOBILE CART
+                const mobileCart = $("#mobile_cart");
+                const mobileItemsContainer = mobileCart.find(".items-container");
+                const mobileCartItems = mobileItemsContainer.find(".cart-item-container");
+                const mobileCartItem = json.cartItem;
+                mobileItemsContainer.find("p.mobile-cart-empty-txt").remove();
+                if (mobileCartItems.length > 0) {
+                    mobileCartItems.each(function () {
+                        const existingItem = $(this);
+                        const existingItemId = existingItem.data("item-id");
+                        if (existingItemId === mobileCartItem.itemId) {
+                            existingItem.find("input[name='qty']").val(cartItem.itemQty);
+                        }
+                    })
+                }
+                if (mobileCartItems.length === 0 || !isItemExist) {
+                    drawMobileCartItem(mobileCartItem, mobileItemsContainer);
+                    $("img.lazy").lazy({
+                        effect: "fadeIn",
+                    });
+                }
+                // END MOBILE CART
                 showAlert("success", json.message);
             } else {
                 showAlert("error", json.message);
