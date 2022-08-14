@@ -158,7 +158,7 @@ class CartService
      * @param CartItem $cartItem
      * @return array
      */
-    #[ArrayShape(["itemId" => "int|null", "itemImageUrl" => "string", "itemTitle" => "null|string", "itemQty" => "int|null", "itemPrice" => "float|null", "itemLink" => "string", "removeWholeItemUrl" => "string"])] public function getCartItemInArray(CartItem $cartItem): array
+    #[ArrayShape(["itemId" => "int|null", "itemImageUrl" => "string", "itemTitle" => "null|string", "itemQty" => "int|null", "itemPrice" => "string", "itemLink" => "string", "removeWholeItemUrl" => "string", "itemSubcategory" => "null|string"])] public function getCartItemInArray(CartItem $cartItem): array
     {
         $product = $cartItem->getProduct();
         $productImageUrl = $this->request->getSchemeAndHttpHost() . "/images/placeholders/placeholder-md.jpg";
@@ -176,6 +176,7 @@ class CartService
             "itemPrice" => $this->currencyService->getPriceWithCurrentCurrency($product->getPrice()),
             "itemLink" => $productUrl,
             "removeWholeItemUrl" => $removeWholeItemUrl,
+            "itemSubcategory" => $product->getSubcategory()->getTitle(),
         ];
     }
 

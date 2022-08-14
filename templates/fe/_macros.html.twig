@@ -54,6 +54,42 @@
     </div>
 {% endmacro %}
 
+{% macro mobileCartItem(entity) %}
+    {% set image = asset('images/placeholders/placeholder-md.jpg') %}
+    {% set product = entity.product %}
+    {% if product.mainImage %}
+        {% set image = absolute_url(asset(product.mainImage.absolutePath)) %}
+    {% endif %}
+    <div class="cart-item-container">
+        <button type="button" class="btn remove-item-btn">
+            <i class="convert-svg" data-src="{{ asset('images/icons/x.svg') }}"></i>
+        </button>
+        <div class="item-img-container">
+            <img
+                    class="lazy"
+                    data-src="{{ image }}"
+                    alt="{{ product.title }}"
+            />
+        </div>
+        <div class="item-details">
+            <h2 class="item-title">{{ product.subcategory.title }}</h2>
+            <a href="{{ path('fe_product_show', {"slug": product.seo.slug}) }}" class="item-description">{{ product.title }}</a>
+            <div class="pricing-container">
+                <div class="input-group incrementor incrementor-style-2">
+                    <button type="button" class="btn minus">
+                        <i class="convert-svg" data-src="{{ asset('images/icons/minus.svg') }}"></i>
+                    </button>
+                    <input type="number" value="1" name="qty" />
+                    <button type="button" class="btn plus">
+                        <i class="convert-svg" data-src="{{ asset('images/icons/plus.svg') }}"></i>
+                    </button>
+                </div>
+                <p class="item-price">{{ getPriceWithCurrentCurrency(product.price) }}</p>
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
 {% macro cartItemInPage(entity) %}
     {% set image = asset('images/placeholders/placeholder-md.jpg') %}
     {% set product = entity.product %}

@@ -1,15 +1,15 @@
-const desktopHeader = $("header #desktop_header");
-const desktopHeaderPartOne = desktopHeader.find("#header_part_one");
-const desktopHeaderPartTwo = desktopHeader.find("#header_part_two");
-const desktopHeaderPartThree = desktopHeader.find("#header_part_three");
-const mobileHeader = $("header #mobile_header");
-const productCard = $(".card.card-style-1");
-const mobileMenuWrapper = $("#mobile_menu_wrapper");
-const mobileMenu = $("#mobile_menu");
-const searchPopup = $("#search_popup");
 const body = $("body");
-let currentSearchRequest = null;
 $(document).ready(function () {
+    const desktopHeader = $("header #desktop_header");
+    const desktopHeaderPartOne = desktopHeader.find("#header_part_one");
+    const desktopHeaderPartTwo = desktopHeader.find("#header_part_two");
+    const desktopHeaderPartThree = desktopHeader.find("#header_part_three");
+    const mobileHeader = $("header #mobile_header");
+    const productCard = $(".card.card-style-1");
+    const mobileMenuWrapper = $("#mobile_menu_wrapper");
+    const mobileMenu = $("#mobile_menu");
+    const searchPopup = $("#search_popup");
+    let currentSearchRequest = null;
     //lazy loading
     if ($("img.lazy").length > 0) {
         $("img.lazy").lazy({
@@ -77,6 +77,7 @@ $(document).ready(function () {
             "#desktop_search_form .input-container"
         );
         var searchBarInput = searchBarInputContainer.find("input");
+        var searchBarInput = searchBarInputContainer.find("input");
         if (
             searchBarInput.val() == "" &&
             !(
@@ -94,7 +95,6 @@ $(document).ready(function () {
             startPageLoading();
             const favBtn = $(this);
             const wishlistLink = favBtn.closest(".card.card-style-1").data("wishlist-link");
-            console.log(wishlistLink);
             $.post(wishlistLink, function (json) {
                 endPageLoading();
                 if (!json.error) {
@@ -141,7 +141,6 @@ $(document).ready(function () {
 
     // mobile menu
     mobileHeader.find("#mobile_menu_btn").on("click", function () {
-        console.log("heree");
         mobileMenuWrapper.addClass("show");
         mobileMenu.addClass("show");
         $("body").addClass("modal-open");
@@ -194,6 +193,7 @@ $(document).ready(function () {
                 $.post(addItemAjaxLink, function (json) {
                     cartBtn.attr("disabled", false).text("Add to cart"); //@todo: translate text
                     if (!json.error) {
+                        // DESKTOP CART
                         const desktopCartDropdown = $("#desktop_cart_dropdown");
                         const itemsContainer = desktopCartDropdown.find(".items-container");
                         const items = itemsContainer.find(".item");
@@ -218,6 +218,10 @@ $(document).ready(function () {
                                 effect: "fadeIn",
                             });
                         }
+                        // END DESKTOP CART
+                        // MOBILE CART
+
+                        // END MOBILE CART
                         showAlert("success", json.message);
                     } else {
                         showAlert("error", json.message);
@@ -444,6 +448,33 @@ const drawCartItem = (cartItem, itemsContainer) => {
     itemDetailsContainer.appendTo(item);
     item.appendTo(itemsContainer);
 }
+
+const drawMobileCartItem = (cartItem, itemsContainer) => {
+    const cartItemContainer = $("<div>", {
+        class: "cart-item-container",
+    }).attr({
+        "data-item-id": cartItem.itemId
+    });
+    const removeItemBtn = $("<button>").attr({
+        type: "button",
+        class: "btn remove-item-btn",
+        "data-link": cartItem.removeWholeItemUrl,
+    });
+    const removeBtnIcon = $("<i>", {
+        class: "convert-svg",
+    }).attr({
+        "data-src": appIconsPaths.xIcon
+    });
+    const itemImgContainer = $("<div>", {class: "item-img-container",});
+    const itemImg = $("<img />", {
+        alt: cartItem.itemTitle,
+        class: "lazy"
+    }).attr({
+        "data-src": cartItem.itemImageUrl,
+    });
+    const itemDetails = $("<div>", {class: "item-details"});
+    const itemTitle = $("<h2>", {class: "item-title", text: });
+};
 
 const updateDropDownCartQty = (totalQty) => {
     $("#desktop_cart_items_count").text(totalQty);

@@ -101,9 +101,11 @@
                                         data-toggle="modal"
                                         data-target="#editProfileModal">{{ 'edit_profile_txt'|trans }}
                                 </a>
-                                <a href="{{ path('fe_order_index') }}" class="profile-dropdown-link">{{ 'my_orders_txt'|trans }}</a>
+                                <a href="{{ path('fe_order_index') }}"
+                                   class="profile-dropdown-link">{{ 'my_orders_txt'|trans }}</a>
                                 {% if is_granted('ROLE_ADMIN') %}
-                                    <a href="{{ path('dashboard') }}" target="_blank" class="profile-dropdown-link">{{ 'manage_website_txt'|trans }}</a>
+                                    <a href="{{ path('dashboard') }}" target="_blank"
+                                       class="profile-dropdown-link">{{ 'manage_website_txt'|trans }}</a>
                                 {% endif %}
                                 <a href="{{ path('app_user_logout') }}"
                                    class="profile-dropdown-link">{{ 'sign_out_txt'|trans }}</a>
@@ -254,18 +256,25 @@
             </div>
             <!-- cart items -->
             <div class="items-container">
-                <p>{{ 'cart_empty_txt'|trans }}</p>
+                {% if app.user and cart %}
+                    {% for item in cart.cartItems %}
+                        {{ macros.mobileCartItem(item) }}
+                    {% endfor %}
+                {% else %}
+                    <p class="desktop-cart-empty-txt">{{ 'cart_empty_txt'|trans }}</p>
+                {% endif %}
             </div>
             <!-- end cart items -->
-            <div class="cart-total-container">
-                <p class="text mb-0">{{ 'total_caps_txt'|trans }}</p>
-                {# @todo: add right amount #}
-                <p class="amount mb-0">750.00 EGP</p>
-            </div>
             <button type="button" id="close_cart_btn" class="btn close-cart-btn">
                 <i class="convert-svg" data-src="{{ asset('images/icons/x.svg') }}"></i>
             </button>
-            <button type="submit" class="btn btn-style-1 w-100">{{ 'check_out_caps_txt'|trans }}</button>
+            {% if app.user and cart %}
+                <div class="cart-total-container">
+                    <p class="text mb-0">{{ 'total_caps_txt'|trans }}</p>
+                    <p class="amount mb-0">{{ getPriceWithCurrentCurrency(cart.totalPrice) }}</p>
+                </div>
+                <button type="submit" class="btn btn-style-1 w-100">{{ 'check_out_caps_txt'|trans }}</button>
+            {% endif %}
         </form>
     </div>
     <!-- end mobile header -->
