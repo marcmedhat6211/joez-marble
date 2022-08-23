@@ -9,11 +9,17 @@
         </button>
         <div class="mobile-menu-body">
             <ul class="mobile-menu-links">
-                <li class="mobile-menu-link active">
+                <li class="mobile-menu-link">
                     <a href="{{ path('fe_home') }}" class="link">{{ 'home_txt'|trans }}</a>
                 </li>
                 <li class="mobile-menu-link">
                     <a href="{{ path('fe_wishlist') }}" class="link">{{ 'wishlist_txt'|trans }}</a>
+                </li>
+                <li class="mobile-menu-link">
+                    <a href="{{ path('fe_filter_designs_product') }}" class="link">{{ 'joez_designs_txt'|trans }}</a>
+                </li>
+                <li class="mobile-menu-link">
+                    <a href="{{ path('fe_filter_living_product') }}" class="link">{{ 'joez_living_txt'|trans }}</a>
                 </li>
                 <div id="mobile_menu_accordion">
                     <div class="card">
@@ -39,8 +45,6 @@
                                 <ul class="mobile-menu-dropdown-links">
                                     <li class="mobile-menu-dropdown-group">
                                         {% if app.user %}
-                                            {# @todo: handle edit profile #}
-                                            {# @todo: add admin visit website btn #}
                                             <a
                                                     href="#"
                                                     data-toggle="modal"
@@ -48,7 +52,7 @@
                                                     class="link-text">
                                                 {{ 'edit_profile_txt'|trans }}
                                             </a>
-                                            <a href="#" class="link-text">{{ 'my_orders_txt'|trans }}</a>
+                                            <a href="{{ path('fe_order_index') }}" class="link-text">{{ 'my_orders_txt'|trans }}</a>
                                             <a href="{{ path('app_user_logout') }}"
                                                class="link-text">{{ 'logout_txt'|trans }}</a>
                                         {% else %}
@@ -81,11 +85,14 @@
                             <div class="card-body">
                                 <ul class="mobile-menu-dropdown-links">
                                     {% for category in categories %}
+                                        {% set subcategoryLink = "fe_filter_designs_subcategory" %}
+                                        {% if category.living %}
+                                            {% set subcategoryLink = "fe_filter_living_show" %}
+                                        {% endif %}
                                         <li class="mobile-menu-dropdown-group">
                                             <h6 class="main-category-title">{{ category.title }}</h6>
                                             {% for subcategory in category.subcategories %}
-                                                {# @todo: add link #}
-                                                <a href="#" class="link-text">{{ subcategory.title }}</a>
+                                                <a href="{{ path(subcategoryLink, {"slug": subcategory.seo.slug}) }}" class="link-text">{{ subcategory.title }}</a>
                                             {% endfor %}
                                         </li>
                                     {% endfor %}
@@ -95,7 +102,6 @@
                     </div>
                 </div>
                 <li class="mobile-menu-link">
-                    {# @todo: add link #}
                     <a href="{{ path('fe_faqs') }}" class="link">{{ 'faqs_txt'|trans }}</a>
                 </li>
                 <li class="mobile-menu-link">

@@ -32,7 +32,7 @@ class Category implements DateTimeInterface, SeoInterface
     /**
      * @ORM\Column(name="title", type="string", length=50)
      */
-    private ?string $title;
+    private ?string $title = '';
 
     /**
      * @ORM\Column(name="living", type="boolean")
@@ -42,25 +42,25 @@ class Category implements DateTimeInterface, SeoInterface
     /**
      * @ORM\OneToOne(targetEntity="App\SeoBundle\Entity\Seo", inversedBy="category", cascade={"persist", "remove" })
      */
-    private ? Seo $seo;
+    private ? Seo $seo = null;
 
     /**
      * @ORM\OneToOne(targetEntity="App\MediaBundle\Entity\Image", inversedBy="categoryHeaderImageOne", cascade={"persist", "remove"})
      * @JoinColumn(name="header_image_one_id", referencedColumnName="id", onDelete="SET NULL")
      */
-    private ?Image $headerImageOne;
+    private ?Image $headerImageOne = null;
 
     /**
      * @ORM\OneToOne(targetEntity="App\MediaBundle\Entity\Image", inversedBy="categoryHeaderImageTwo", cascade={"persist", "remove"})
      * @JoinColumn(name="header_image_two_id", referencedColumnName="id", onDelete="SET NULL")
      */
-    private ?Image $headerImageTwo;
+    private ?Image $headerImageTwo = null;
 
     /**
      * @ORM\OneToOne(targetEntity="App\MediaBundle\Entity\Image", inversedBy="categoryCoverPhoto", cascade={"persist", "remove"})
      * @JoinColumn(name="cover_photo_id", referencedColumnName="id", onDelete="SET NULL")
      */
-    private ?Image $coverPhoto;
+    private ?Image $coverPhoto = null;
 
     /**
      * @ORM\OneToMany(targetEntity="Subcategory", mappedBy="category")

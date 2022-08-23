@@ -1,6 +1,6 @@
 {{ form_start(form, {'attr':{"data-toggle":"validator", 'novalidate':'novalidate'}}) }}
 <div class="row">
-    <div class="col-12 col-md-6 mb-3">
+    <div class="col-12 mb-3">
         <div class="form-group">
             {{ form_label(form.title) }}
             {{ form_widget(form.title) }}
@@ -11,10 +11,10 @@
     <div class="col-12 col-md-6 mb-3">
         <div class="form-group">
             <div class="media mt-0">
-                {% if category.image %}
+                {% if category.headerImageOne %}
                     <div class="mr-3">
-                        <a href="{{ absolute_url(asset(category.image.absolutePath)) }}" data-popup="lightbox">
-                            <img src="{{ absolute_url(asset(category.image.absolutePath)) }}" width="60" height="60" class="rounded-pill" alt="{{ category.client }}">
+                        <a href="{{ absolute_url(asset(category.headerImageOne.absolutePath)) }}" data-popup="lightbox">
+                            <img src="{{ absolute_url(asset(category.headerImageOne.absolutePath)) }}" width="60" height="60" class="rounded-pill" alt="{{ category.title }}">
                         </a>
                     </div>
                 {% endif %}
@@ -25,7 +25,51 @@
                         {{ form_widget(form.headerImageOne) }}
                         {{ form_errors(form.headerImageOne) }}
                     </div>
-                    <span class="form-text text-muted">Size: 165 px x 165 px</span>
+                    <span class="form-text text-muted">Size: 335 px x 400 px</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6 mb-3">
+        <div class="form-group">
+            <div class="media mt-0">
+                {% if category.headerImageTwo %}
+                    <div class="mr-3">
+                        <a href="{{ absolute_url(asset(category.headerImageTwo.absolutePath)) }}" data-popup="lightbox">
+                            <img src="{{ absolute_url(asset(category.headerImageTwo.absolutePath)) }}" width="60" height="60" class="rounded-pill" alt="{{ category.title }}">
+                        </a>
+                    </div>
+                {% endif %}
+
+                <div class="media-body">
+                    <div class="custom-file">
+                        {{ form_label(form.headerImageTwo) }}
+                        {{ form_widget(form.headerImageTwo) }}
+                        {{ form_errors(form.headerImageTwo) }}
+                    </div>
+                    <span class="form-text text-muted">Size: 335 px x 400 px</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6 mb-3">
+        <div class="form-group">
+            <div class="media mt-0">
+                {% if category.coverPhoto %}
+                    <div class="mr-3">
+                        <a href="{{ absolute_url(asset(category.coverPhoto.absolutePath)) }}" data-popup="lightbox">
+                            <img src="{{ absolute_url(asset(category.coverPhoto.absolutePath)) }}" width="60" height="60" class="rounded-pill" alt="{{ category.title }}">
+                        </a>
+                    </div>
+                {% endif %}
+
+                <div class="media-body">
+                    <div class="custom-file">
+                        {{ form_label(form.coverPhoto) }}
+                        {{ form_widget(form.coverPhoto) }}
+                        {{ form_errors(form.coverPhoto) }}
+                    </div>
+                    <span class="form-text text-muted">Size: 1850 px x 350 px</span>
                 </div>
             </div>
         </div>

@@ -4,14 +4,9 @@
         <!-- HEADER PART ONE -->
         <div id="header_part_one">
             <div class="header-one-content">
-                {# @todo: add links #}
-                <a href="{{ path('fe_filter_designs_product_sale') }}"
-                   class="header-one-link">{{ 'designs_sales_caps_txt'|trans }}</a>
-                <a href="#" class="header-one-link">{{ 'living_sales_caps_txt'|trans }}</a>
+                <a href="{{ path('fe_filter_designs_product_sale') }}" class="header-one-link">{{ 'sales_caps_txt'|trans }}</a>
                 <a href="#" class="header-one-link">{{ 'free_services_caps_txt'|trans }}</a>
-                <a href="{{ path('fe_filter_designs_product_new_arrival') }}"
-                   class="header-one-link">{{ 'designs_new_arrivals_txt'|trans }}</a>
-                <a href="#" class="header-one-link">{{ 'living_new_arrivals_txt'|trans }}</a>
+                <a href="{{ path('fe_filter_designs_product_new_arrival') }}" class="header-one-link">{{ 'new_arrivals_txt'|trans }}</a>
             </div>
         </div>
         <!-- END HEADER PART ONE -->
@@ -20,10 +15,8 @@
             <!-- quick access links section -->
             <div class="quick-access-links-container">
                 <div class="pages-links">
-                    <a href="{{ path('fe_filter_designs_product') }}"
-                       class="quick-access-link active">{{ 'joez_designs_txt'|trans }}</a>
-                    <a href="{{ path('fe_filter_living_product') }}"
-                       class="quick-access-link">{{ 'joez_living_txt'|trans }}</a>
+                    <a href="{{ path('fe_filter_designs_product') }}" class="quick-access-link active">{{ 'joez_designs_txt'|trans }}</a>
+                    <a href="{{ path('fe_filter_living_product') }}" class="quick-access-link">{{ 'joez_living_txt'|trans }}</a>
                 </div>
                 <button
                         class="btn country-btn"
@@ -31,10 +24,13 @@
                         data-toggle="modal"
                         data-target="#shopAndShipModal"
                 >
-                    {# @todo: add right flag #}
+                    {% set flag = asset('images/placeholders/placeholder-sm.jpg') %}
+                    {% if currency.flag %}
+                        {% set flag = absolute_url(asset(currency.flag.absolutePath)) %}
+                    {% endif %}
                     <img
                             class="lazy"
-                            data-src="{{ asset('images/placeholders/flag-1.jpg') }}"
+                            data-src="{{ flag }}"
                             alt="Shop and Ship"
                     />
                 </button>
@@ -184,35 +180,27 @@
                         <div class="header-three-dropdown">
                             <div class="dropdown-links-container">
                                 {% for subcategory in category.subcategories %}
-                                    <a href="{{ path(subcategoryLink, {"slug": subcategory.seo.slug}) }}"
-                                       class="link">{{ subcategory.title }}</a>
+                                    <a href="{{ path(subcategoryLink, {"slug": subcategory.seo.slug}) }}" class="link">{{ subcategory.title }}</a>
                                 {% endfor %}
                                 {% if not category.living %}
-                                    <a href="{{ path('fe_filter_designs_category', {"slug": category.seo.slug}) }}"
-                                       class="link underlined">{{ 'see_all_category_txt'|trans({"%categoryTitle%": category.title}) }}</a>
+                                    <a href="{{ path('fe_filter_designs_category', {"slug": category.seo.slug}) }}" class="link underlined">{{ 'see_all_category_txt'|trans({"%categoryTitle%": category.title}) }}</a>
                                 {% endif %}
                             </div>
                             <div class="dropdown-imgs-links-container">
-                                <a href="{{ path('fe_filter_designs_category', {"slug": category.seo.slug}) }}"
-                                   class="img-link">
-                                    {# @todo: add image #}
-                                    {# @todo: add right link (living and designs) #}
-                                    <img
-                                            class="lazy"
-                                            data-src="{{ asset('https://via.placeholder.com/335x400') }}"
-                                            alt="{{ category.title }}"
-                                    />
-                                </a>
-                                <a href="{{ path('fe_filter_designs_category', {"slug": category.seo.slug}) }}"
-                                   class="img-link">
-                                    {# @todo: add image #}
-                                    {# @todo: add right link (living and designs) #}
-                                    <img
-                                            class="lazy"
-                                            data-src="{{ asset('https://via.placeholder.com/335x400') }}"
-                                            alt="{{ category.title }}"
-                                    />
-                                </a>
+                                {% set headerImageOne = asset('images/placeholders/placeholder-md.jpg') %}
+                                {% set headerImageTwo = asset('images/placeholders/placeholder-md.jpg') %}
+                                {% if category.headerImageOne %}
+                                    {% set headerImageOne = absolute_url(asset(category.headerImageOne.absolutePath)) %}
+                                {% endif %}
+                                {% if category.headerImageTwo %}
+                                    {% set headerImageTwo = absolute_url(asset(category.headerImageTwo.absolutePath)) %}
+                                {% endif %}
+                                <div class="img-link">
+                                    <img class="lazy" data-src="{{ headerImageOne }}" alt="{{ category.title }}"/>
+                                </div>
+                                <div class="img-link">
+                                    <img class="lazy" data-src="{{ headerImageTwo }}" alt="{{ category.title }}"/>
+                                </div>
                             </div>
                         </div>
                     </li>
@@ -269,10 +257,6 @@
                 <i class="convert-svg" data-src="{{ asset('images/icons/x.svg') }}"></i>
             </button>
             {% if app.user %}
-{#                <div class="cart-total-container">#}
-{#                    <p class="text mb-0">{{ 'total_caps_txt'|trans }}</p>#}
-{#                    <p class="amount mb-0">{{ getPriceWithCurrentCurrency(cart.totalPrice) }}</p>#}
-{#                </div>#}
                 <a href="{{ path('fe_cart') }}" class="btn btn-style-1 w-100">{{ 'view_cart_txt'|trans }}</a>
             {% endif %}
         </form>

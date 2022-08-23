@@ -186,4 +186,6 @@ return [
     "profile_data_updated_success_msg" => "Profile data updated successfully",
     "forgot_password_title_txt" => "Forgot Password",
     "will_send_you_instructions_msg" => "We'll send you instructions in email",
+    "sales_caps_txt" => "SALES",
+    "new_arrivals_txt" => "NEW ARRIVALS",
 ];

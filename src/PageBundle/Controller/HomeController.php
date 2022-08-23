@@ -64,21 +64,30 @@ class HomeController extends AbstractController
         CategoryRepository         $categoryRepository,
         CartRepository             $cartRepository,
         ProductFavouriteRepository $productFavouriteRepository,
+        CurrencyRepository $currencyRepository,
     ): Response
     {
         $user = $this->getUser();
         $categories = $this->getCategories($categoryRepository);
         $cart = $cartRepository->findOneBy(["user" => $user]);
+
         $wishlistCount = 0;
         if ($user) {
             $wishlistCount = $productFavouriteRepository->getFavouriteProductsCountByUser($user);
         }
+
+        $currencyCode = "EGP";
+        if (isset($_COOKIE["currencyCode"])) {
+            $currencyCode = $_COOKIE["currencyCode"];
+        }
+        $currency = $currencyRepository->findOneBy(["code" => $currencyCode]);
 
         return $this->render('fe/_desktop-menu.html.twig', [
             "request" => $request,
             "categories" => $categories,
             "cart" => $cart ?: null,
             "wishlistCount" => $wishlistCount,
+            "currency" => $currency,
         ]);
     }
 
