@@ -464,6 +464,7 @@ $(document).ready(function () {
         $("#website_search_dropdown").removeClass("show");
     });
 
+    // desktop search
     body.on("keyup", "#desktop_search_form .input-container input", function () {
         const input = $(this);
         const inputValue = input.val();
@@ -512,6 +513,59 @@ $(document).ready(function () {
         });
     });
 
+    // mobile search
+    body.on("keyup", "#search_popup #search_form input", function () {
+        const searchPopup = $("#search_popup");
+        const input = $(this);
+        const inputValue = input.val();
+        const form = input.closest("#search_form");
+        const listContainer = searchPopup.find(".search-results .search-result-group");
+        listContainer.empty();
+        const link = form.data("link");
+        startPageLoading(true);
+        // startLoadingComponent(searchPopup);
+        searchPopup.find("#search_keyword").text(inputValue);
+
+        if (inputValue.trim().length < 2) {
+            const atLeastTwoCharactersMessage = $("<p>", {
+                class: "text-center search-results-text py-4 mb-0",
+                text: "Please Enter at least 2 characters"  //@todo: translate text
+            });
+            atLeastTwoCharactersMessage.appendTo(listContainer);
+            endPageLoading();
+            // endLoadingComponent(searchPopup);
+            return;
+        }
+
+        currentSearchRequest = $.ajax({
+            url: link,
+            data: {searchKeyword: inputValue},
+            dataType: "json",
+            method: "post",
+            beforeSend: function () {
+                if (currentSearchRequest != null) {
+                    currentSearchRequest.abort();
+                }
+            },
+            success: function (json) {
+                endPageLoading();
+                // endLoadingComponent(searchPopup);
+                const results = json.results;
+                if (results.length === 0) {
+                    const noResultsMessage = $("<p>", {
+                        class: "text-center py-4 search-results-text mb-0",
+                        text: "No Results Found"  //@todo: translate text
+                    });
+                    noResultsMessage.appendTo(listContainer);
+                    return;
+                }
+
+                drawMobileSearchResults(results, listContainer);
+            },
+        });
+    });
+
+    // edit profile ajax request
     body.on("submit", "#edit_profile_form", function (e) {
         e.preventDefault();
         startPageLoading();
@@ -558,6 +612,30 @@ const drawDesktopSearchResults = (results, listContainer) => {
         resultTitle.appendTo(searchResultLink);
         searchResultLink.appendTo(li);
         li.appendTo(listContainer);
+    });
+};
+
+const drawMobileSearchResults = (results, listContainer) => {
+    results.forEach(function (result) {
+        const groupItem = $("<div>", {class: "group-item"});
+        const imgContainer = $("<a>", {class: "img-container"}).attr({
+            href: result.productUrl
+        });
+        const img = $("<img />").attr({
+            alt: result.title,
+            loading: "lazy",
+            src: result.imageUrl
+        });
+        const itemTextContainer = $("<div>", {class: "item-text-container"});
+        const itemTitle = $("<a>", {class: "item-title mb-0", text: result.title}).attr({
+            href: result.productUrl
+        });
+
+        img.appendTo(imgContainer);
+        imgContainer.appendTo(groupItem);
+        itemTitle.appendTo(itemTextContainer);
+        itemTextContainer.appendTo(groupItem);
+        groupItem.appendTo(listContainer);
     });
 };
 
@@ -757,12 +835,15 @@ const updateWishlistNumber = (newCount) => {
     $("#desktop_wishlist_items_count").text(newCount);
 }
 
-const startPageLoading = () => {
-    body.addClass("loading");
+const startPageLoading = (darkBg = false) => {
+    body.addClass(`loading ${darkBg ? 'dark-bg' : ''}`);
 }
 
 const endPageLoading = () => {
     body.removeClass("loading");
+    if(body.hasClass("dark-bg")) {
+        body.removeClass("dark-bg");
+    }
 }
 
 const startLoadingComponent = (component) => {

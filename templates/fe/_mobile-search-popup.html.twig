@@ -3,7 +3,7 @@
         <i class="convert-svg" data-src="{{ asset('images/icons/x.svg') }}"></i>
     </button>
 
-    <form action="#" id="search_form">
+    <form action="#" id="search_form" data-link="{{ path('fe_search_ajax') }}">
         <div class="input-container">
             <input class="form-control" type="text" placeholder="{{ 'search_txt'|trans }}" />
             <i
@@ -15,84 +15,27 @@
     {# @todo: add search logic using ajax and js #}
     <p class="search-results-text no-results-text d-none">No Resuls Found</p>
     <p class="search-results-text">
-        Results for <span id="search_keyword">“Bathroom”</span>
+        Results for "<span id="search_keyword"></span>"
     </p>
     <div class="search-results">
         <!-- group -->
         <div class="search-result-group">
-            <h6 class="group-title">Products</h6>
             <!-- item -->
-            <div class="group-item">
-                <a href="product-details.html" class="img-container">
-                    <img
-                            class="lazy"
-                            data-src="https://via.placeholder.com/97x97"
-                            alt=""
-                    />
-                </a>
-                <div class="item-text-container">
-                    <a href="filter.html" class="item-category">Soap Plates</a>
-                    <a href="product-details.html" class="item-title mb-0"
-                    >Lorem Ipsum</a
-                    >
-                </div>
-            </div>
-            <!-- end item -->
-            <!-- item -->
-            <div class="group-item">
-                <a href="product-details.html" class="img-container">
-                    <img
-                            class="lazy"
-                            data-src="https://via.placeholder.com/97x97"
-                            alt=""
-                    />
-                </a>
-                <div class="item-text-container">
-                    <a href="filter.html" class="item-category">Bathroom Sets</a>
-                    <a href="product-details.html" class="item-title mb-0"
-                    >Lorem Ipsum</a
-                    >
-                </div>
-            </div>
-            <!-- end item -->
-        </div>
-        <!-- end group -->
-        <!-- group -->
-        <div class="search-result-group">
-            <h6 class="group-title">Living</h6>
-            <!-- item -->
-            <div class="group-item">
-                <a href="product-details.html" class="img-container">
-                    <img
-                            class="lazy"
-                            data-src="https://via.placeholder.com/97x97"
-                            alt=""
-                    />
-                </a>
-                <div class="item-text-container">
-                    <a href="filter.html" class="item-category">Sinks</a>
-                    <a href="product-details.html" class="item-title mb-0"
-                    >Lorem Ipsum</a
-                    >
-                </div>
-            </div>
-            <!-- end item -->
-            <!-- item -->
-            <div class="group-item">
-                <a href="product-details.html" class="img-container">
-                    <img
-                            class="lazy"
-                            data-src="https://via.placeholder.com/97x97"
-                            alt=""
-                    />
-                </a>
-                <div class="item-text-container">
-                    <a href="filter.html" class="item-category">Engravers</a>
-                    <a href="product-details.html" class="item-title mb-0"
-                    >Lorem Ipsum</a
-                    >
-                </div>
-            </div>
+{#            <div class="group-item">#}
+{#                <a href="product-details.html" class="img-container">#}
+{#                    <img#}
+{#                            class="lazy"#}
+{#                            data-src="https://via.placeholder.com/97x97"#}
+{#                            alt=""#}
+{#                    />#}
+{#                </a>#}
+{#                <div class="item-text-container">#}
+{#                    <a href="filter.html" class="item-category">Soap Plates</a>#}
+{#                    <a href="product-details.html" class="item-title mb-0"#}
+{#                    >Lorem Ipsum</a#}
+{#                    >#}
+{#                </div>#}
+{#            </div>#}
             <!-- end item -->
         </div>
         <!-- end group -->
