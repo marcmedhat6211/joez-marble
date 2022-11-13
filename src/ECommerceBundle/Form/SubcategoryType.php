@@ -7,6 +7,7 @@ use App\ECommerceBundle\Entity\Subcategory;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -50,6 +51,15 @@ class SubcategoryType extends AbstractType
                         ->andWhere('c.deleted IS NULL')
                         ->orderBy('c.id', 'DESC');
                 },
+            ])
+            ->add('coverPhoto', FileType::class, [
+                'mapped' => false,
+                'label_attr' => [
+                    "class" => "custom-file-label"
+                ],
+                "attr" => [
+                    "class" => "custom-file-input"
+                ]
             ])
         ;
     }

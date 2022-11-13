@@ -10,6 +10,9 @@
 {% block content %}
 
     <div id="living_page" class="pb-4">
+        {% if categories|length == 0 %}
+            <p class="text-center py-5">No categories available for Joez Living</p>
+        {% endif %}
         {% for category in categories %}
             <!-- living main section -->
             <div class="living-main-section mb-4">
@@ -26,6 +29,9 @@
                 </div>
                 <div class="container">
                     {% include 'ecommerce/frontEnd/product/joez-living/_filter-slider.html.twig' %}
+                    {% if category.products|length == 0 %}
+                        <p class="text-center py-5">No Products available for {{ category.title }} in Joez Living</p>
+                    {% endif %}
                     <div class="products-list-section">
                         <div class="products-container">
                             {% for product in category.products %}

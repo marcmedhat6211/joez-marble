@@ -24,8 +24,8 @@
                         data-toggle="modal"
                         data-target="#shopAndShipModal"
                 >
-                    {% set flag = asset('images/placeholders/placeholder-sm.jpg') %}
-                    {% if currency.flag %}
+                    {% set flag = asset('admin/images/flags/eg.png') %}
+                    {% if currency.flag and currency.code != "EGP" %}
                         {% set flag = absolute_url(asset(currency.flag.absolutePath)) %}
                     {% endif %}
                     <img

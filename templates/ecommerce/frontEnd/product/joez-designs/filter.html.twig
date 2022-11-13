@@ -6,6 +6,9 @@
 
     <div id="filter_page" class="pb-5">
         <div class="container-fluid">
+            {% if products|length == 0 %}
+                <p class="text-center py-5">No Products Available in Joez Designs</p>
+            {% endif %}
             <div class="row">
                 <div class="col-12 col-xl-2 col-md-3">
                     {% include 'ecommerce/frontEnd/product/joez-designs/_filter-bar.html.twig' %}

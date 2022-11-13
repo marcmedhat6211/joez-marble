@@ -75,6 +75,7 @@ class BannerController extends AbstractController
 
         return $this->render('cms/admin/banner/new.html.twig', [
             'form' => $form->createView(),
+            'banner' => new Banner()
         ]);
     }
 

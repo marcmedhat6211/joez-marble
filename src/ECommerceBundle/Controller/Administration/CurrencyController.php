@@ -73,6 +73,7 @@ class CurrencyController extends AbstractController
 
         return $this->render('ecommerce/admin/currency/new.html.twig', [
             'form' => $form->createView(),
+            'currency' => new Currency()
         ]);
     }
 

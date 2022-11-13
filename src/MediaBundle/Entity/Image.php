@@ -9,6 +9,7 @@ use App\ECommerceBundle\Entity\Currency;
 use App\ECommerceBundle\Entity\Material;
 use App\ECommerceBundle\Entity\Product;
 use App\ECommerceBundle\Entity\ProductMaterialImage;
+use App\ECommerceBundle\Entity\Subcategory;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -65,6 +66,11 @@ class Image extends BaseImage
      * @ORM\OneToMany(targetEntity="App\ECommerceBundle\Entity\ProductMaterialImage", mappedBy="image")
      */
     private mixed $productMaterialImages;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\ECommerceBundle\Entity\Subcategory", mappedBy="coverPhoto")
+     */
+    private ?Category $subcategoryCoverPhoto;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\ECommerceBundle\Entity\Product", mappedBy="galleryImages")
@@ -306,6 +312,28 @@ class Image extends BaseImage
         }
 
         $this->categoryCoverPhoto = $categoryCoverPhoto;
+
+        return $this;
+    }
+
+    public function getSubcategoryCoverPhoto(): ?Subcategory
+    {
+        return $this->subcategoryCoverPhoto;
+    }
+
+    public function setSubcategoryCoverPhoto(?Subcategory $subcategoryCoverPhoto): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($subcategoryCoverPhoto === null && $this->subcategoryCoverPhoto !== null) {
+            $this->subcategoryCoverPhoto->setCoverPhoto(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($subcategoryCoverPhoto !== null && $subcategoryCoverPhoto->getCoverPhoto() !== $this) {
+            $subcategoryCoverPhoto->setCoverPhoto($this);
+        }
+
+        $this->subcategoryCoverPhoto = $subcategoryCoverPhoto;
 
         return $this;
     }

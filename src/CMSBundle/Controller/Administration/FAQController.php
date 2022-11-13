@@ -51,6 +51,7 @@ class FAQController extends AbstractController
 
         return $this->render('cms/admin/faq/new.html.twig', [
             'form' => $form->createView(),
+            'faq' => new FAQ()
         ]);
     }
 

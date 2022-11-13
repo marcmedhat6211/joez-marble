@@ -76,6 +76,7 @@ class MaterialController extends AbstractController
 
         return $this->render('ecommerce/admin/material/new.html.twig', [
             'form' => $form->createView(),
+            'material' => new Material()
         ]);
     }
 

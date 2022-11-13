@@ -14,6 +14,29 @@
             {{ form_errors(form.category) }}
         </div>
     </div>
+
+    <div class="col-12 col-md-6 mb-3">
+        <div class="form-group">
+            <div class="media mt-0">
+                {% if subcategory.coverPhoto %}
+                    <div class="mr-3">
+                        <a href="{{ absolute_url(asset(subcategory.coverPhoto.absolutePath)) }}" data-popup="lightbox">
+                            <img src="{{ absolute_url(asset(subcategory.coverPhoto.absolutePath)) }}" width="60" height="60" class="rounded-pill" alt="{{ subcategory.title }}">
+                        </a>
+                    </div>
+                {% endif %}
+
+                <div class="media-body">
+                    <div class="custom-file">
+                        {{ form_label(form.coverPhoto) }}
+                        {{ form_widget(form.coverPhoto) }}
+                        {{ form_errors(form.coverPhoto) }}
+                    </div>
+                    <span class="form-text text-muted">Size: 1850 px x 350 px</span>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="text-right">
     <button type="submit" class="btn btn-primary">Submit form <i class="icon-paperplane ml-2"></i></button>

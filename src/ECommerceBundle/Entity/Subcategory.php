@@ -2,6 +2,7 @@
 
 namespace App\ECommerceBundle\Entity;
 
+use App\MediaBundle\Entity\Image;
 use App\SeoBundle\Entity\Seo;
 use App\SeoBundle\Model\SeoInterface;
 use App\ServiceBundle\Model\DateTimeInterface;
@@ -46,6 +47,12 @@ class Subcategory implements DateTimeInterface, SeoInterface
      * @ORM\OneToMany(targetEntity="Product", mappedBy="subcategory")
      */
     private mixed $products;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\MediaBundle\Entity\Image", inversedBy="subcategoryCoverPhoto", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="cover_photo_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    private ?Image $coverPhoto = null;
 
     #[Pure] public function __construct()
     {
@@ -124,6 +131,18 @@ class Subcategory implements DateTimeInterface, SeoInterface
     public function setSeo($seo)
     {
         $this->seo = $seo;
+
+        return $this;
+    }
+
+    public function getCoverPhoto(): ?Image
+    {
+        return $this->coverPhoto;
+    }
+
+    public function setCoverPhoto(?Image $coverPhoto): self
+    {
+        $this->coverPhoto = $coverPhoto;
 
         return $this;
     }

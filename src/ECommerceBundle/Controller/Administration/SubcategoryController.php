@@ -2,14 +2,17 @@
 
 namespace App\ECommerceBundle\Controller\Administration;
 
+use App\ECommerceBundle\Entity\Category;
 use App\ECommerceBundle\Entity\Subcategory;
 use App\ECommerceBundle\Form\SubcategoryType;
 use App\ECommerceBundle\Repository\ProductRepository;
 use App\ECommerceBundle\Repository\SubcategoryRepository;
+use App\MediaBundle\Model\Image as BaseImage;
 use App\MediaBundle\Services\UploadFileService;
 use App\UserBundle\Model\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -35,7 +38,7 @@ class SubcategoryController extends AbstractController
     /**
      * @Route("/new", name="subcategory_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $em): Response
+    public function new(Request $request, EntityManagerInterface $em, UploadFileService $uploadFileService): Response
     {
         $this->denyAccessUnlessGranted(UserInterface::ROLE_ADMIN);
         $subcategory = new Subcategory();
@@ -45,6 +48,12 @@ class SubcategoryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($subcategory);
             $em->flush();
+
+            $coverPhoto = $this->uploadImage($form, $uploadFileService, $subcategory, UploadFileService::ACTION_ADD, 'coverPhoto', 1850, 350);
+            if (!$coverPhoto) {
+                return $this->redirectToRoute("subcategory_edit", ["id" => $subcategory->getId()]);
+            }
+
             $this->addFlash('success', 'Successfully saved');
 
             return $this->redirectToRoute("subcategory_index");
@@ -52,13 +61,14 @@ class SubcategoryController extends AbstractController
 
         return $this->render('ecommerce/admin/subcategory/new.html.twig', [
             'form' => $form->createView(),
+            'subcategory' => new Subcategory()
         ]);
     }
 
     /**
      * @Route("/{id}/edit", name="subcategory_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Subcategory $subcategory, EntityManagerInterface $em): Response
+    public function edit(Request $request, Subcategory $subcategory, EntityManagerInterface $em, UploadFileService $uploadFileService): Response
     {
         $this->denyAccessUnlessGranted(UserInterface::ROLE_ADMIN);
         $form = $this->createForm(SubcategoryType::class, $subcategory);
@@ -67,6 +77,12 @@ class SubcategoryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($subcategory);
             $em->flush();
+
+            $coverPhoto = $this->uploadImage($form, $uploadFileService, $subcategory, UploadFileService::ACTION_EDIT, 'coverPhoto', 1850, 350);
+            if (!$coverPhoto) {
+                return $this->redirectToRoute("subcategory_edit", ["id" => $subcategory->getId()]);
+            }
+
             $this->addFlash("success", "Subcategory updated successfully");
 
             return $this->redirectToRoute("subcategory_index");
@@ -116,5 +132,38 @@ class SubcategoryController extends AbstractController
         $search->subcategory = $subcategory->getId();
 
         return $productRepository->filter($search, true);
+    }
+
+    private function uploadImage(
+        FormInterface $form,
+        UploadFileService $uploadFileService,
+        Subcategory $category,
+        string $actionType,
+        string $fieldName,
+        int $maxWidth,
+        int $maxHeight
+    ): bool
+    {
+        if ($form->get($fieldName)->getData()) {
+            $isImageUploaded = $uploadFileService->uploadImage(
+                $form,
+                Category::class,
+                $category,
+                $actionType,
+                $fieldName,
+                BaseImage::IMAGE_TYPE_MAIN,
+                $maxWidth,
+                $maxHeight
+            );
+            if (!$isImageUploaded["valid"]) {
+                foreach ($isImageUploaded["errors"] as $error) {
+                    $this->addFlash("error", $error);
+                }
+
+                return false;
+            }
+        }
+
+        return true;
     }
 }
