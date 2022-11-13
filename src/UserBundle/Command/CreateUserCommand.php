@@ -44,7 +44,7 @@ class CreateUserCommand extends Command
                 new InputArgument('name', InputArgument::REQUIRED, 'The Name'),
                 new InputArgument('email', InputArgument::REQUIRED, 'The email'),
                 new InputArgument('password', InputArgument::REQUIRED, 'The password'),
-                new InputArgument('isSuperAdmin', InputArgument::REQUIRED, 'Set the user as super admin'),
+                new InputArgument('isAdmin', InputArgument::REQUIRED, 'Set the user as admin'),
                 new InputOption('inactive', null, InputOption::VALUE_NONE, 'Set the user as inactive'),
             ])
             ->setHelp(<<<'EOT'
@@ -74,11 +74,11 @@ EOT
         $name = $input->getArgument('name');
         $email = $input->getArgument('email');
         $password = $input->getArgument('password');
-        $isSuperAdmin = $input->getArgument('isSuperAdmin');
+        $isAdmin = $input->getArgument('isAdmin');
         $inactive = $input->getOption('inactive');
-        $isSuperAdmin = $isSuperAdmin == "yes";
+        $isAdmin = $isAdmin == "yes";
 
-        $this->createUser($name, $email, $password, $isSuperAdmin, $inactive);
+        $this->createUser($name, $email, $password, $isAdmin, $inactive);
 
         $output->writeln(sprintf('Created user <comment>%s</comment>', $email));
 
@@ -155,7 +155,7 @@ EOT
         string $name,
         string $email,
         string $password,
-        bool   $isSuperAdmin,
+        bool   $isAdmin,
         bool   $inactive = false
     )
     {
@@ -168,8 +168,8 @@ EOT
         $user->setFullName($name);
         $user->setEmail($email);
         $user->setEnabled(!$inactive);
-        if ($isSuperAdmin) {
-            $user->addRole(UserInterface::ROLE_SUPER_ADMIN);
+        if ($isAdmin) {
+            $user->addRole(UserInterface::ROLE_ADMIN);
         }
 
         $encodedPassword = $this->userPasswordHasher->hashPassword($user, $password);

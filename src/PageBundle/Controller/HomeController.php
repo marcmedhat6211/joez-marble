@@ -72,7 +72,8 @@ class HomeController extends AbstractController
         $cart = $cartRepository->findOneBy(["user" => $user]);
 
         $wishlistCount = 0;
-        if ($user) {
+        $productFavorites = $productFavouriteRepository->count([]);
+        if ($user && $productFavorites > 0) {
             $wishlistCount = $productFavouriteRepository->getFavouriteProductsCountByUser($user);
         }
 
