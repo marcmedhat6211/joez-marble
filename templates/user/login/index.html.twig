@@ -33,7 +33,7 @@
                 </div>
                 <a href="{{ path('app_user_forgot_password_request') }}" class="btn blue-link">{{ 'forgot_password_txt'|trans }}</a>
                 <button type="submit" class="btn btn-style-4">{{ 'sign_in_txt'|trans }}</button>
-                <a href="#" class="btn btn-style-5 w-100 facebook">
+                <a href="{{ path('hwi_oauth_service_redirect', {'service': 'facebook'}) }}" class="btn btn-style-5 w-100 facebook">
                     <i class="convert-svg" data-src="{{ asset('images/icons/facebook-logo-white.svg') }}"></i>
                     <span>{{ 'sign_in_facebook_txt'|trans }}</span>
                 </a>

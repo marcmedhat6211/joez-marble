@@ -24,20 +24,16 @@ class RegistrationType extends AbstractType
         $builder
             ->add('fullName', TextType::class, [
                 "attr" => [
-                    "class" => "form-control"
+                    "class" => "form-control",
+                    'placeholder' => 'Full Name',
                 ]
             ])
             ->add('email', EmailType::class, [
                 "attr" => [
-                    "class" => "form-control"
+                    "class" => "form-control",
+                    'placeholder' => 'Email',
                 ]
             ])
-//            ->add('gender', ChoiceType::class, [
-//                'choices' => [
-//                    'Male' => User::GENDER_MALE,
-//                    'Female' => User::GENDER_FEMALE,
-//                ],
-//            ])
             ->add('phone', TelType::class, [
                 'attr' => [
                     'placeholder' => '01xxxxxxxxx',

@@ -188,4 +188,5 @@ return [
     "will_send_you_instructions_msg" => "We'll send you instructions in email",
     "sales_caps_txt" => "SALES",
     "new_arrivals_txt" => "NEW ARRIVALS",
+    "joez_marble_txt" => "Joez Marble",
 ];

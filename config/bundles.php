@@ -22,4 +22,6 @@ return [
     App\MediaBundle\MediaBundle::class => ['all' => true],
     App\ECommerceBundle\ECommerceBundle::class => ['all' => true],
     App\SeoBundle\SeoBundle::class => ['all' => true],
+    HWI\Bundle\OAuthBundle\HWIOAuthBundle::class => ['all' => true],
+    Http\HttplugBundle\HttplugBundle::class => ['all' => true],
 ];

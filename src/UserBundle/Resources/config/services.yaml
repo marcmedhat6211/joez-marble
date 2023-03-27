@@ -30,3 +30,10 @@ services:
 
   App\UserBundle\Service\:
     resource: '../../Service/*'
+
+  my.oauth_aware.user_provider.service:
+    class: App\UserBundle\Security\MyEntityUserProvider
+    arguments:
+      - '@doctrine'
+      - 'App\UserBundle\Entity\User'
+      - {facebook: facebookId, google: googleId}

@@ -60,9 +60,19 @@ class User extends BaseUser
     private ?string $facebookId;
 
     /**
+     * @ORM\Column(name="facebook_access_token", type="string", length=255, nullable=true)
+     */
+    private ?string $facebookAccessToken;
+
+    /**
      * @ORM\Column(name="google_id", type="string", length=255, nullable=true)
      */
     private ?string $googleId;
+
+    /**
+     * @ORM\Column(name="google_access_token", type="string", length=255, nullable=true)
+     */
+    private ?string $googleAccessToken;
 
     /**
      * @ORM\OneToOne(targetEntity="App\ECommerceBundle\Entity\Cart", mappedBy="user", cascade={"persist"})
@@ -306,5 +316,21 @@ class User extends BaseUser
         }
 
         return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getFacebookAccessToken(): ?string
+    {
+        return $this->facebookAccessToken;
+    }
+
+    /**
+     * @param string|null $facebookAccessToken
+     */
+    public function setFacebookAccessToken(?string $facebookAccessToken): void
+    {
+        $this->facebookAccessToken = $facebookAccessToken;
     }
 }
