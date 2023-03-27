@@ -10,6 +10,7 @@ use App\UserBundle\Model\BaseUser;
 use App\UserBundle\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -332,5 +333,17 @@ class User extends BaseUser
     public function setFacebookAccessToken(?string $facebookAccessToken): void
     {
         $this->facebookAccessToken = $facebookAccessToken;
+    }
+
+    public function getGoogleAccessToken(): ?string
+    {
+        return $this->googleAccessToken;
+    }
+
+    public function setGoogleAccessToken(?string $googleAccessToken): self
+    {
+        $this->googleAccessToken = $googleAccessToken;
+
+        return $this;
     }
 }
