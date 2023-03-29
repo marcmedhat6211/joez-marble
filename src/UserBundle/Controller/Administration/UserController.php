@@ -95,6 +95,44 @@ class UserController extends AbstractController
         return $this->redirectToRoute("user_index");
     }
 
+    /**
+     * @Route("/{id}/block", name="user_block", methods={"GET", "POST"})
+     */
+    public function block(User $user, EntityManagerInterface $em): Response
+    {
+        $this->denyAccessUnlessGranted(UserInterface::ROLE_ADMIN);
+        $user->setEnabled(false);
+        $em->persist($user);
+        $em->flush();
+
+        $this->addFlash("success", "Blocked!");
+
+        if (in_array("ROLE_ADMIN", $this->getUser()->getRoles())) {
+            return $this->redirectToRoute("admin_index");
+        }
+
+        return $this->redirectToRoute("user_index");
+    }
+
+    /**
+     * @Route("/{id}/enable", name="user_enable", methods={"GET", "POST"})
+     */
+    public function enable(User $user, EntityManagerInterface $em): Response
+    {
+        $this->denyAccessUnlessGranted(UserInterface::ROLE_ADMIN);
+        $user->setEnabled(true);
+        $em->persist($user);
+        $em->flush();
+
+        $this->addFlash("success", "Enabled!");
+
+        if (in_array("ROLE_ADMIN", $this->getUser()->getRoles())) {
+            return $this->redirectToRoute("admin_index");
+        }
+
+        return $this->redirectToRoute("user_index");
+    }
+
     private function getUsers(Request $request, UserRepository $userRepository)
     {
         $search = new \stdClass();

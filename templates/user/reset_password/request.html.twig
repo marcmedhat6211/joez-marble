@@ -1,55 +1,15 @@
-{#{% extends 'adminTemplate/base2.html.twig' %}#}
-{#{% set page_title %}Forgot password{% endset %}#}
-
-{#{% block body %}#}
-{#    {{ form_start(form, {"attr": {"class": "form-validate"}}) }}#}
-{#    <div class="panel panel-body login-form">#}
-{#        {% include('adminTemplate/_flash_messages.html.twig') %}#}
-
-{#        <div class="text-center">#}
-{#            <div class="icon-object border-warning text-warning"><i class="icon-spinner11"></i></div>#}
-{#            <h5 class="content-group">Password recovery#}
-{#                <small class="display-block">We'll send you instructions in email</small>#}
-{#            </h5>#}
-{#        </div>#}
-{#        <div class="form-group has-feedback">#}
-{#            {{ form_label(form.email) }}#}
-{#            {{ form_widget(form.email) }}#}
-{#            {{ form_errors(form.email) }}#}
-{#            <div class="form-control-feedback">#}
-{#                <i class="icon-mail5 text-muted"></i>#}
-{#            </div>#}
-{#        </div>#}
-{#        <button type="submit" class="btn bg-blue btn-block">#}
-{#            Reset Password <i class="icon-arrow-right14 position-right"></i>#}
-{#        </button>#}
-{#    </div>#}
-{#    {{ form_end(form) }}#}
-{#{% endblock %}#}
-
-{#{% block javascripts %}#}
-{#    {{ parent() }}#}
-{#    <script type="text/javascript" src="{{ asset('admin/js/plugins/forms/styling/uniform.min.js') }}"></script>#}
-{#    <script type="text/javascript" src="{{ asset('admin/js/pages/login_validation.js') }}"></script>#}
-{#{% endblock javascripts %}#}
-
-
-
-
 {% extends 'fe/base.html.twig' %}
 {% block title %}{{ 'forgot_password_title_txt'|trans }}{% endblock %}
 
 {% block content %}
     <div id="bg_image_page">
         <div class="container d-flex justify-content-center align-items-center">
-                {{ form_start(form, {"attr": {"class": "account-form-container form-validate flex-column w-75"}}) }}
-
+            {{ form_start(form, {"attr": {"class": "account-form-container form-validate flex-column w-75"}}) }}
                 {% if error is defined and error %}
                     <div class="alert bg-danger alert-styled-left">
                         <span class="text-semibold">Oh snap!</span> {{ error.message }}.
                     </div>
                 {% endif %}
-
                 <div class="form-content w-50">
                     <h5 class="form-title">{{ 'forgot_password_title_txt'|trans }}</h5>
                     <div class="form-group input-style-1 w-100">

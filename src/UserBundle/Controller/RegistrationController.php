@@ -52,8 +52,7 @@ class RegistrationController extends AbstractController
             // persisting and adding the user to the database
             $em->persist($user);
             $em->flush();
-            //@todo: Test login after signup
-            $this->addFlash("success", "Signed up successfully");
+            $this->addFlash("success", "Welcome to Joez Marble {$user->getFullName()}!, You Signed up successfully");
 
             $event = new RegistrationEvent($user, $request);
             $eventDispatcher->dispatch($event, UserEvents::REGISTRATION_COMPLETED);

@@ -1,20 +1,21 @@
-{% extends 'adminTemplate/base2.html.twig' %}
-{% set page_title %}Password Reset Email Sent{% endset %}
+{% extends 'fe/base.html.twig' %}
+{% block title %}{{ 'check_email_txt'|trans }}{% endblock %}
 
-{% block body -%}
-    <div class="panel panel-body login-form">
-
-        <div class="text-center">
-            <div class="icon-object border-warning text-warning"><i class="icon-spinner11"></i></div>
-            <h5 class="content-group">
-                An email has been sent to you. It contains a link you must click to reset your password.
-                This link will expire in {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
-            </h5>
-            <p>
-                If you don't receive an email please check your spam folder or
-                <a href="{{ path('app_user_forgot_password_request') }}">try again</a>.
-            </p>
+{% block content %}
+    <div id="bg_image_page">
+        <div class="container d-flex justify-content-center align-items-center">
+            <div class="account-form-container form-validate flex-column w-75">
+                <div class="form-content w-50">
+                    <div class="other-option-text">
+                        <span>{{ 'email_sent_txt'|trans }}</span>
+                    </div>
+                </div>
+            </div>
         </div>
-
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/pages/account-form.js') }}"></script>
 {% endblock %}
