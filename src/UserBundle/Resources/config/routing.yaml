@@ -21,6 +21,7 @@ app_user_registration:
 app_user_forgot_password_request:
   path: /reset-password
   defaults: { _controller: App\UserBundle\Controller\ResetPasswordController::request }
+  methods: GET|POST
 
 app_user_check_email:
   path: /reset-password/check-email

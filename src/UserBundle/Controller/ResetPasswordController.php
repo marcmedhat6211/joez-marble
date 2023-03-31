@@ -42,10 +42,6 @@ class ResetPasswordController extends AbstractController
         $this->em = $em;
     }
 
-    /**
-     * Display & process form to request a password reset.
-     * @Route("", name="app_user_forgot_password_request")
-     */
     public function request(Request $request, MailerInterface $mailer, TranslatorInterface $translator): Response
     {
         $form = $this->createForm(ResetPasswordRequestFormType::class);

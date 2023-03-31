@@ -48,18 +48,6 @@ class ProductFavouriteRepository extends ServiceEntityRepository
         }
     }
 
-    public function getFavouriteProductsCountByUser(User $user): int
-    {
-        $result = $this->createQueryBuilder("pf")
-            ->addSelect("COUNT(pf.id) AS productFavouritesCount")
-            ->andWhere("pf.user = :userId")
-            ->setParameter(":userId", $user->getId())
-            ->getQuery()
-            ->getOneOrNullResult();
-
-        return $result["productFavouritesCount"];
-    }
-
     public function removeProductFavouriteByUserAndProduct(User $user, Product $product): void
     {
         $this->createQueryBuilder("pf")

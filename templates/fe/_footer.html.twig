@@ -30,7 +30,7 @@
                     <div class="col-9">
                         <div class="row mb-5">
                             <!-- footer column -->
-                            <div class="col-3">
+                            <div class="col-4">
                                 <h5 class="column-title">{{ 'contact_us_txt'|trans }}</h5>
                                 <a href="{{ path('fe_contact') }}" class="column-link">{{ 'contact_us_txt'|trans }}</a>
                                 {# @todo: add dca #}
@@ -38,18 +38,18 @@
                             </div>
                             <!-- end footer column -->
                             <!-- footer column -->
-                            <div class="col-3">
-                                <h5 class="column-title">
-                                    {{ 'order_tracking_txt'|trans }}
-                                </h5>
-                                {# @todo: add right link #}
-                                <a href="#" class="column-link">{{ 'track_order_txt'|trans }}</a>
-                                {# @todo: add dca #}
-                                <a href="tel: +20 123 456 7891" class="column-link">+20 123 456 7891</a>
-                            </div>
+{#                            <div class="col-3">#}
+{#                                <h5 class="column-title">#}
+{#                                    {{ 'order_tracking_txt'|trans }}#}
+{#                                </h5>#}
+{#                                #}{# @todo: add right link #}
+{#                                <a href="#" class="column-link">{{ 'track_order_txt'|trans }}</a>#}
+{#                                #}{# @todo: add dca #}
+{#                                <a href="tel: +20 123 456 7891" class="column-link">+20 123 456 7891</a>#}
+{#                            </div>#}
                             <!-- end footer column -->
                             <!-- footer column -->
-                            <div class="col-3">
+                            <div class="col-4">
                                 <h5 class="column-title">{{ 'resources_txt'|trans }}</h5>
                                 {# @todo: add right links #}
                                 {% if app.user %}
@@ -77,7 +77,7 @@
                             </div>
                             <!-- end footer column -->
                             <!-- footer column -->
-                            <div class="col-3">
+                            <div class="col-4">
                                 <h5 class="column-title">{{ 'our_company_txt'|trans }}</h5>
                                 <a href="{{ path('fe_about') }}" class="column-link">{{ 'about_us_txt'|trans }}</a>
                                 <a href="{{ path('fe_faqs') }}" class="column-link">{{ 'faqs_txt'|trans }}</a>

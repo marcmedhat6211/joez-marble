@@ -74,7 +74,7 @@ class Banner implements DateTimeInterface
     protected ?string $url;
 
     /**
-     * @ORM\Column(name="text", type="text", length=255, nullable=true)
+     * @ORM\Column(name="text", type="text", nullable=true)
      */
     protected ?string $text;
 

@@ -74,7 +74,7 @@ class HomeController extends AbstractController
         $wishlistCount = 0;
         $productFavorites = $productFavouriteRepository->count([]);
         if ($user && $productFavorites > 0) {
-            $wishlistCount = $productFavouriteRepository->getFavouriteProductsCountByUser($user);
+            $wishlistCount = $productFavouriteRepository->count(["user" => $user]);
         }
 
         $currencyCode = "EGP";

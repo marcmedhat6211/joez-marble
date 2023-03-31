@@ -30,18 +30,18 @@ class Material implements DateTimeInterface
     /**
      * @ORM\Column(name="title", type="string", length=50)
      */
-    private ?string $title;
+    private ?string $title = "";
 
     /**
      * @ORM\OneToOne(targetEntity="App\MediaBundle\Entity\Image", inversedBy="material", cascade={"persist", "remove" })
      * @JoinColumn(name="image_id", referencedColumnName="id", onDelete="SET NULL")
      */
-    private ?Image $mainImage;
+    private ?Image $mainImage = null;
 
     /**
      * @ORM\OneToMany(targetEntity="App\ECommerceBundle\Entity\ProductMaterialImage", mappedBy="material")
      */
-    private mixed $productMaterialImages;
+    private Collection $productMaterialImages;
 
     #[Pure] public function __construct()
     {

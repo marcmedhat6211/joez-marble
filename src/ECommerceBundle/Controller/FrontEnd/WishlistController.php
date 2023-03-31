@@ -75,7 +75,7 @@ class WishlistController extends AbstractController
         if ($existingProductFavourite) { // user has already this product in his wishlist
             $em->remove($existingProductFavourite);
             $em->flush();
-            $productFavouritesCount = $productFavouriteRepository->getFavouriteProductsCountByUser($user);
+            $productFavouritesCount = $productFavouriteRepository->count(["user" => $user]);
 
             return $this->json([
                 "error" => false,
@@ -91,7 +91,7 @@ class WishlistController extends AbstractController
         $em->persist($productFavourite);
         $em->flush();
 
-        $productFavouritesCount = $productFavouriteRepository->getFavouriteProductsCountByUser($user);
+        $productFavouritesCount = $productFavouriteRepository->count(["user" => $user]);
 
         return $this->json([
             "error" => false,

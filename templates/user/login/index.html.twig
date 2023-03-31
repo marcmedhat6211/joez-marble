@@ -7,7 +7,6 @@
         <form method="POST" class="account-form-container form-validate flex-column w-75" id="sign_in_form">
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
             <input type="hidden" name="_target_path" value="{{ targetPath }}"/>
-
             {% if error is defined and error %}
                 <div class="alert bg-danger alert-styled-left">
                     <span class="text-semibold">Oh snap!</span> {{ error.message }}.
