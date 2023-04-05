@@ -68,7 +68,7 @@
 {# END JS #}
 
 {# FIXED LAYOUTS #}
-{% if cr not in ['app_user_login', 'app_user_registration'] %}
+{% if cr not in ['app_user_login', 'app_user_registration', 'app_user_forgot_password_request', 'app_user_check_email', 'app_user_reset_password'] %}
     {% block fixedLayouts %}
         {% include 'fe/_back-to-top-btn.html.twig' %}
         {{ render(controller('App\\PageBundle\\Controller\\HomeController::editProfile', {"request": app.request})) }}
@@ -79,7 +79,7 @@
         {% include 'fe/_alert.html.twig' %}
         {% include 'fe/_flash-messages.html.twig' %}
     {% endblock %}
-    {# END FIXED LAYOUTS #}
 {% endif %}
+{# END FIXED LAYOUTS #}
 </body>
 </html>
