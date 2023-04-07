@@ -156,7 +156,6 @@ class ResetPasswordController extends AbstractController
             "enabled" => true,
             "deleted" => null,
         ]);
-
         // Do not reveal whether a user account was found or not.
         if (!$user) {
             return $this->redirectToRoute('app_user_forgot_password_request');
@@ -168,7 +167,6 @@ class ResetPasswordController extends AbstractController
             // If you want to tell the user why a reset email was not sent, uncomment
             // the lines below and change the redirect to 'app_forgot_password_request'.
             // Caution: This may reveal if a user is registered or not.
-            //
              $this->addFlash('error', sprintf(
                  '%s - %s',
                  $translator->trans(ResetPasswordExceptionInterface::MESSAGE_PROBLEM_HANDLE, [], 'ResetPasswordBundle'),

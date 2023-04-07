@@ -1,4 +1,5 @@
 {% set cr = app.request.attributes.get('_route') %}
+{% set routesNotHaveHeaderAndFooter = ['app_user_login', 'app_user_registration', 'app_user_forgot_password_request', 'app_user_check_email', 'app_user_reset_password'] %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -32,7 +33,7 @@
 </div>
 
 {# HEADER #}
-{% if cr not in ['app_user_login', 'app_user_registration'] %}
+{% if cr not in routesNotHaveHeaderAndFooter %}
     {{ render(controller('App\\PageBundle\\Controller\\HomeController::menu', {"request": app.request})) }}
 {% endif %}
 {# END HEADER #}
@@ -45,7 +46,7 @@
 </main>
 
 {# FOOTER #}
-{% if cr not in ['app_user_login', 'app_user_registration'] %}
+{% if cr not in routesNotHaveHeaderAndFooter %}
     {{ render(controller('App\\PageBundle\\Controller\\HomeController::footer', {"request": app.request})) }}
 {% endif %}
 {# END FOOTER #}
@@ -68,8 +69,9 @@
 {# END JS #}
 
 {# FIXED LAYOUTS #}
-{% if cr not in ['app_user_login', 'app_user_registration', 'app_user_forgot_password_request', 'app_user_check_email', 'app_user_reset_password'] %}
-    {% block fixedLayouts %}
+{% block fixedLayouts %}
+    {% include 'fe/_flash-messages.html.twig' %}
+    {% if cr not in routesNotHaveHeaderAndFooter %}
         {% include 'fe/_back-to-top-btn.html.twig' %}
         {{ render(controller('App\\PageBundle\\Controller\\HomeController::editProfile', {"request": app.request})) }}
         {{ render(controller('App\\PageBundle\\Controller\\HomeController::shopAndShip', {"request": app.request})) }}
@@ -77,9 +79,8 @@
         {{ render(controller('App\\PageBundle\\Controller\\HomeController::mobileMenu', {"request": app.request})) }}
         {% include 'fe/_mobile-search-popup.html.twig' %}
         {% include 'fe/_alert.html.twig' %}
-        {% include 'fe/_flash-messages.html.twig' %}
-    {% endblock %}
-{% endif %}
+    {% endif %}
+{% endblock %}
 {# END FIXED LAYOUTS #}
 </body>
 </html>

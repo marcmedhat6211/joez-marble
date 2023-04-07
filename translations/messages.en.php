@@ -191,4 +191,6 @@ return [
     "joez_marble_txt" => "Joez Marble",
     "check_email_txt" => "Check Email Page",
     "email_sent_txt" => "An email has been sent to the email you provided, please check your email to proceed and reset your password",
+    "password_recovery_txt" => "Password Recovery",
+    "change_password_txt" => "Change Password",
 ];
