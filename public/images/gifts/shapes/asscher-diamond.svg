@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="currentColor" width="300" height="300" viewBox="0 0 300 300">
+  <defs>
+    <clipPath id="clip-iPhone_14_Pro_1">
+      <rect width="300" height="300"/>
+    </clipPath>
+  </defs>
+  <g id="iPhone_14_Pro_1" data-name="iPhone 14 Pro – 1" clip-path="url(#clip-iPhone_14_Pro_1)">
+    <path id="asscher-diamond" d="M315.167,158.273,181.739,24.844a16.671,16.671,0,0,0-23.477,0L24.9,158.273a16.667,16.667,0,0,0,0,23.474l133.428,133.43a16.671,16.671,0,0,0,23.477,0l133.428-133.43a16.667,16.667,0,0,0,0-23.474ZM307.3,173.886,173.877,307.315a5.557,5.557,0,0,1-7.751,0L32.767,173.886a5.472,5.472,0,0,1,0-7.751L166.195,32.706a5.557,5.557,0,0,1,7.751,0l133.428,133.43a5.472,5.472,0,0,1,0,7.751Z" transform="translate(-20.07 -20.01)"/>
+  </g>
+</svg>

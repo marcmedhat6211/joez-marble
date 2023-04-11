@@ -1,0 +1,1005 @@
+{% extends 'fe/base.html.twig' %}
+{% block title %}{{ 'cart_txt'|trans }}{% endblock %}
+
+{% block stylesheet %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('vendors/spectrum/style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('vendors/swiper/swiper.css') }}" />
+{% endblock %}
+
+{% block content %}
+
+    <div id="cutomizable_gifts_page" class="py-5">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <!-- LEFT HAND SIDE -->
+                <div class="col-6">
+                    <!-- SHAPES -->
+                    <div class="page-block">
+                        <h6 class="block-title">Choose Shape</h6>
+                        <div class="shapes-block" id="shapes_block">
+                            <!-- shape -->
+                            <div
+                                    class="form-check shape"
+                                    data-link=""
+                                    data-width=""
+                                    data-height=""
+                                    data-svg-name="seminavette.svg"
+                            >
+                                <input
+                                        class="form-check-input d-none"
+                                        type="radio"
+                                        name="shapes"
+                                        id="shape_1"
+                                />
+                                <label class="form-check-label" for="shape_1">
+                                    Seminavette
+                                </label>
+                            </div>
+                            <!-- end shape -->
+                            <!-- shape -->
+                            <div
+                                    class="form-check shape"
+                                    data-link=""
+                                    data-width=""
+                                    data-height=""
+                                    data-svg-name="radiant-rectangle.svg"
+                            >
+                                <input
+                                        class="form-check-input d-none"
+                                        type="radio"
+                                        name="shapes"
+                                        id="shape_2"
+                                        value=""
+                                />
+                                <label class="form-check-label" for="shape_2">
+                                    Radiant
+                                </label>
+                            </div>
+                            <!-- end shape -->
+                            <!-- shape -->
+                            <div
+                                    class="form-check shape"
+                                    data-link=""
+                                    data-width=""
+                                    data-height=""
+                                    data-svg-name="asscher-diamond.svg"
+                            >
+                                <input
+                                        class="form-check-input d-none"
+                                        type="radio"
+                                        name="shapes"
+                                        id="shape_3"
+                                        value=""
+                                />
+                                <label class="form-check-label" for="shape_3">
+                                    Asscher
+                                </label>
+                            </div>
+                            <!-- end shape -->
+                            <!-- shape -->
+                            <div
+                                    class="form-check shape"
+                                    data-link=""
+                                    data-width=""
+                                    data-height=""
+                                    data-svg-name="round.svg"
+                            >
+                                <input
+                                        class="form-check-input d-none"
+                                        type="radio"
+                                        name="shapes"
+                                        id="shape_4"
+                                        value=""
+                                />
+                                <label class="form-check-label" for="shape_4">
+                                    Round
+                                </label>
+                            </div>
+                            <!-- end shape -->
+                            <!-- shape -->
+                            <div
+                                    class="form-check shape"
+                                    data-link=""
+                                    data-width=""
+                                    data-height=""
+                                    data-svg-name="octagon.svg"
+                            >
+                                <input
+                                        class="form-check-input d-none"
+                                        type="radio"
+                                        name="shapes"
+                                        id="shape_5"
+                                        value=""
+                                />
+                                <label class="form-check-label" for="shape_5">
+                                    Octagon
+                                </label>
+                            </div>
+                            <!-- end shape -->
+                            <!-- shape -->
+                            <div
+                                    class="form-check shape"
+                                    data-link=""
+                                    data-width=""
+                                    data-height=""
+                                    data-svg-name="hexagon.svg"
+                            >
+                                <input
+                                        class="form-check-input d-none"
+                                        type="radio"
+                                        name="shapes"
+                                        id="shape_6"
+                                        value=""
+                                />
+                                <label class="form-check-label" for="shape_6">
+                                    Hexagon
+                                </label>
+                            </div>
+                            <!-- end shape -->
+                            <!-- shape -->
+                            <div
+                                    class="form-check shape checked"
+                                    data-link=""
+                                    data-width=""
+                                    data-height=""
+                                    data-svg-name="heart.svg"
+                            >
+                                <input
+                                        class="form-check-input d-none"
+                                        type="radio"
+                                        name="shapes"
+                                        id="shape_7"
+                                        value=""
+                                />
+                                <label class="form-check-label" for="shape_7">
+                                    Heart
+                                </label>
+                            </div>
+                            <!-- end shape -->
+                            <!-- shape -->
+                            <div
+                                    class="form-check shape"
+                                    data-link=""
+                                    data-width=""
+                                    data-height=""
+                                    data-svg-name="star.svg"
+                            >
+                                <input
+                                        class="form-check-input d-none"
+                                        type="radio"
+                                        name="shapes"
+                                        id="shape_8"
+                                        value=""
+                                />
+                                <label class="form-check-label" for="shape_8"> Star </label>
+                            </div>
+                            <!-- end shape -->
+                        </div>
+                    </div>
+                    <!-- END SHAPES -->
+
+                    <!-- ICONS -->
+                    <div class="page-block icons-container">
+                        <div class="block-header">
+                            <h6 class="block-title">Add Icon</h6>
+                            <div class="form-check">
+                                <input
+                                        type="checkbox"
+                                        class="form-check-input"
+                                        id="fill_shape"
+                                        name="fill-shape"
+                                />
+                                <label class="form-check-label" for="fill_shape"
+                                >Fill shape</label
+                                >
+                            </div>
+                        </div>
+                        <div class="icons-block" id="icons_block">
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/anchor-simple.svg') }}"
+                                        id="{{ asset('images/gifts/icons/anchor-simple.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/android-logo.svg') }}"
+                                        id="{{ asset('images/gifts/icons/android-logo.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/aperture.svg') }}"
+                                        id="{{ asset('images/gifts/icons/aperture.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/apple-logo.svg') }}"
+                                        id="{{ asset('images/gifts/icons/apple-logo.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/arrows-out-simple.svg') }}"
+                                        id="{{ asset('images/gifts/icons/arrows-out-simple.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/bluetooth.svg') }}"
+                                        id="{{ asset('images/gifts/icons/bluetooth.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/butterfly.svg') }}"
+                                        id="{{ asset('images/gifts/icons/butterfly.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/cloud.svg') }}"
+                                        id="{{ asset('images/gifts/icons/cloud.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/club.svg') }}"
+                                        id="{{ asset('images/gifts/icons/club.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/equals.svg') }}"
+                                        id="{{ asset('images/gifts/icons/equals.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/fingerprint.svg') }}"
+                                        id="{{ asset('images/gifts/icons/fingerprint.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/flower.svg') }}"
+                                        id="{{ asset('images/gifts/icons/flower.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/flower-lotus.svg') }}"
+                                        id="{{ asset('images/gifts/icons/flower-lotus.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/gender-female.svg') }}"
+                                        id="{{ asset('images/gifts/icons/gender-female.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/gender-male.svg') }}"
+                                        id="{{ asset('images/gifts/icons/gender-male.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/globe-simple.svg') }}"
+                                        id="{{ asset('images/gifts/icons/globe-simple.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/graduation-cap.svg') }}"
+                                        id="{{ asset('images/gifts/icons/graduation-cap.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/heart.svg') }}"
+                                        id="{{ asset('images/gifts/icons/heart.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/lightbulb.svg') }}"
+                                        id="{{ asset('images/gifts/icons/lightbulb.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/magnet.svg') }}"
+                                        id="{{ asset('images/gifts/icons/magnet.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/moon.svg') }}"
+                                        id="{{ asset('images/gifts/icons/moon.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/moon-stars.svg') }}"
+                                        id="{{ asset('images/gifts/icons/moon-stars.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/music-notes.svg') }}"
+                                        id="{{ asset('images/gifts/icons/music-notes.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/music-note-simple.svg') }}"
+                                        id="{{ asset('images/gifts/icons/music-note-simple.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/path.svg') }}"
+                                        id="{{ asset('images/gifts/icons/path.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/peace.svg') }}"
+                                        id="{{ asset('images/gifts/icons/peace.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/planet.svg') }}"
+                                        id="{{ asset('images/gifts/icons/planet.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/play.svg') }}"
+                                        id="{{ asset('images/gifts/icons/play.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/recycle.svg') }}"
+                                        id="{{ asset('images/gifts/icons/recycle.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/sketch-logo.svg') }}"
+                                        id="{{ asset('images/gifts/icons/sketch-logo.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/snowflake.svg') }}"
+                                        id="{{ asset('images/gifts/icons/snowflake.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/spade.svg') }}"
+                                        id="{{ asset('images/gifts/icons/spade.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/spinner.svg') }}"
+                                        id="{{ asset('images/gifts/icons/spinner.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/spiral.svg') }}"
+                                        id="{{ asset('images/gifts/icons/spiral.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/star-four.svg') }}"
+                                        id="{{ asset('images/gifts/icons/star-four.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/student.svg') }}"
+                                        id="{{ asset('images/gifts/icons/student.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/sun.svg') }}"
+                                        id="{{ asset('images/gifts/icons/sun.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/tree.svg') }}"
+                                        id="{{ asset('images/gifts/icons/tree.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/trophy.svg') }}"
+                                        id="{{ asset('images/gifts/icons/trophy.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/twitter-logo.svg') }}"
+                                        id="{{ asset('images/gifts/icons/twitter-logo.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/umbrella.svg') }}"
+                                        id="{{ asset('images/gifts/icons/umbrella.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/umbrella-simple.svg') }}"
+                                        id="{{ asset('images/gifts/icons/umbrella-simple.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/waves.svg') }}"
+                                        id="{{ asset('images/gifts/icons/waves.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/wave-triangle.svg') }}"
+                                        id="{{ asset('images/gifts/icons/wave-triangle.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/wind.svg') }}"
+                                        id="{{ asset('images/gifts/icons/wind.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/wine.svg') }}"
+                                        id="{{ asset('images/gifts/icons/wine.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/wrench.svg') }}"
+                                        id="{{ asset('images/gifts/icons/wrench.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon icon-type"
+                                        data-src="{{ asset('images/gifts/icons/yin-yang.svg') }}"
+                                        id="{{ asset('images/gifts/icons/yin-yang.svg') }}"
+                                ></i>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END ICONS -->
+
+                    <!-- NUMBERS -->
+                    <div class="page-block icons-container">
+                        <div class="block-header">
+                            <h6 class="block-title">Add Number Icon</h6>
+                            <div class="form-check">
+                                <input
+                                        type="checkbox"
+                                        class="form-check-input"
+                                        id="fill_shape_numbers"
+                                        name="fill-shape-numbers"
+                                />
+                                <label class="form-check-label" for="fill_shape_numbers"
+                                >Fill shape</label
+                                >
+                            </div>
+                        </div>
+                        <div class="icons-block" id="numbers_block">
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon number-type"
+                                        data-src="{{ asset('images/gifts/icons/numbers/number-zero.svg') }}"
+                                        id="{{ asset('images/gifts/icons/numbers/number-zero.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon number-type"
+                                        data-src="{{ asset('images/gifts/icons/numbers/number-one.svg') }}"
+                                        id="{{ asset('images/gifts/icons/numbers/number-one.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon number-type"
+                                        data-src="{{ asset('images/gifts/icons/numbers/number-two.svg') }}"
+                                        id="{{ asset('images/gifts/icons/numbers/number-two.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon number-type"
+                                        data-src="{{ asset('images/gifts/icons/numbers/number-three.svg') }}"
+                                        id="{{ asset('images/gifts/icons/numbers/number-three.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon number-type"
+                                        data-src="{{ asset('images/gifts/icons/numbers/number-four.svg') }}"
+                                        id="{{ asset('images/gifts/icons/numbers/number-four.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon number-type"
+                                        data-src="{{ asset('images/gifts/icons/numbers/number-five.svg') }}"
+                                        id="{{ asset('images/gifts/icons/numbers/number-five.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon number-type"
+                                        data-src="{{ asset('images/gifts/icons/numbers/number-six.svg') }}"
+                                        id="{{ asset('images/gifts/icons/numbers/number-six.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon number-type"
+                                        data-src="{{ asset('images/gifts/icons/numbers/number-seven.svg') }}"
+                                        id="{{ asset('images/gifts/icons/numbers/number-seven.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon number-type"
+                                        data-src="{{ asset('images/gifts/icons/numbers/number-eight.svg') }}"
+                                        id="{{ asset('images/gifts/icons/numbers/number-eight.svg') }}"
+                                ></i>
+                            </div>
+                            <div class="icon-container">
+                                <i
+                                        class="convert-svg icon number-type"
+                                        data-src="{{ asset('images/gifts/icons/numbers/number-nine.svg') }}"
+                                        id="{{ asset('images/gifts/icons/numbers/number-nine.svg') }}"
+                                ></i>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END NUMBERS -->
+
+                    <!-- ZODIAC SIGNS -->
+                    <div class="page-block">
+                        <h6 class="block-title">Zodiac Signs</h6>
+                        <div class="zodiac-block" id="zodiac_block"></div>
+                    </div>
+                    <!-- END ZODIAC SIGNS -->
+
+                    <!-- TEXT BLOCK -->
+                    <div class="page-block">
+                        <h6 class="block-title">Text</h6>
+                        <div class="text-block" id="text_block">
+                            <div class="form-group w-100 text-block-input-container">
+                                <input
+                                        type="text"
+                                        class="form-control"
+                                        name="shape-text"
+                                        id="shape_text"
+                                        placeholder="Enter text here.."
+                                        maxlength=""
+                                />
+                                <input
+                                        type="text"
+                                        class="form-control"
+                                        id="color_picker"
+                                        value="#000000"
+                                        style="display: none"
+                                />
+                                <small id="shapeTextHelp" class="form-text text-muted"
+                                ><span id="shape_chars_limit"></span> Character
+                                    limit</small
+                                >
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END TEXT BLOCK -->
+                </div>
+                <!-- LEFT HAND SIDE -->
+
+                <!-- RIGHT HAND SIDE -->
+                <div class="col-6">
+                    <div id="shape" class="w-100 h-100" data-url="{{ path('fe_gift_create_ajax') }}">
+                        <!-- move buttons -->
+                        <button type="button" class="page-btn move-btn up">
+                            <i
+                                    class="convert-svg"
+                                    data-src="{{ asset('images/icons/caret-circle-up.svg') }}"
+                            ></i>
+                        </button>
+                        <button type="button" class="page-btn move-btn right">
+                            <i
+                                    class="convert-svg"
+                                    data-src="{{ asset('images/icons/caret-circle-right.svg') }}"
+                            ></i>
+                        </button>
+                        <button type="button" class="page-btn move-btn down">
+                            <i
+                                    class="convert-svg"
+                                    data-src="{{ asset('images/icons/caret-circle-down.svg') }}"
+                            ></i>
+                        </button>
+                        <button type="button" class="page-btn move-btn left">
+                            <i
+                                    class="convert-svg"
+                                    data-src="{{ asset('images/icons/caret-circle-left.svg') }}"
+                            ></i>
+                        </button>
+                        <!-- end move buttons -->
+
+                        <div class="shape-figure__container">
+                            <i
+                                    id="shape_figure"
+                                    class="convert-svg"
+                                    data-src="{{ asset('images/gifts/shapes/heart.svg') }}"
+                            ></i>
+                            <img
+                                    src="{{ asset('images/gifts/marbles/18-karat.png') }}"
+                                    class="shape__content shape__marble-image"
+                                    alt="18 Karat"
+                            />
+                        </div>
+
+                        <span class="shape__content shape-text"></span>
+                        <div class="shape__content shape-icon"></div>
+                    </div>
+
+                    <div id="slider_container" class="w-100">
+                        <div class="swiper-container w-75" id="marbles_slider">
+                            <div class="swiper-wrapper">
+                                <!-- slide -->
+                                <div class="swiper-slide">
+                                    <div
+                                            class="marble-container active"
+                                            data-src="{{ asset('images/gifts/marbles/18-karat.png') }}"
+                                    >
+                                        <img
+                                                class="swiper-lazy"
+                                                src="{{ asset('images/gifts/marbles/18-karat.png') }}"
+                                                alt="18 Karat"
+                                        />
+                                    </div>
+                                </div>
+                                <!-- end slide -->
+                                <!-- slide -->
+                                <div class="swiper-slide">
+                                    <div
+                                            class="marble-container"
+                                            data-src="{{ asset('images/gifts/marbles/bacote.png') }}"
+                                    >
+                                        <img
+                                                class="swiper-lazy"
+                                                src="{{ asset('images/gifts/marbles/bacote.png') }}"
+                                                alt="Bacote"
+                                        />
+                                    </div>
+                                </div>
+                                <!-- end slide -->
+                                <!-- slide -->
+                                <div class="swiper-slide">
+                                    <div
+                                            class="marble-container"
+                                            data-src="{{ asset('images/gifts/marbles/chameleon-oak-1.png') }}"
+                                    >
+                                        <img
+                                                class="swiper-lazy"
+                                                src="{{ asset('images/gifts/marbles/chameleon-oak-1.png') }}"
+                                                alt="Chameleon Oak 1"
+                                        />
+                                    </div>
+                                </div>
+                                <!-- end slide -->
+                                <!-- slide -->
+                                <div class="swiper-slide">
+                                    <div
+                                            class="marble-container"
+                                            data-src="{{ asset('images/gifts/marbles/chameleon-oak.png') }}"
+                                    >
+                                        <img
+                                                class="swiper-lazy"
+                                                src="{{ asset('images/gifts/marbles/chameleon-oak.png') }}"
+                                                alt="Chameleon Oak"
+                                        />
+                                    </div>
+                                </div>
+                                <!-- end slide -->
+                                <!-- slide -->
+                                <div class="swiper-slide">
+                                    <div
+                                            class="marble-container"
+                                            data-src="{{ asset('images/gifts/marbles/clear-oak.png') }}"
+                                    >
+                                        <img
+                                                class="swiper-lazy"
+                                                src="{{ asset('images/gifts/marbles/clear-oak.png') }}"
+                                                alt="Clear Oak"
+                                        />
+                                    </div>
+                                </div>
+                                <!-- end slide -->
+                                <!-- slide -->
+                                <div class="swiper-slide">
+                                    <div
+                                            class="marble-container"
+                                            data-src="{{ asset('images/gifts/marbles/cloud-of-cream.png') }}"
+                                    >
+                                        <img
+                                                class="swiper-lazy"
+                                                src="{{ asset('images/gifts/marbles/cloud-of-cream.png') }}"
+                                                alt="Cloud of Cream"
+                                        />
+                                    </div>
+                                </div>
+                                <!-- end slide -->
+                                <!-- slide -->
+                                <div class="swiper-slide">
+                                    <div
+                                            class="marble-container"
+                                            data-src="{{ asset('images/gifts/marbles/coffee.png') }}"
+                                    >
+                                        <img
+                                                class="swiper-lazy"
+                                                src="{{ asset('images/gifts/marbles/coffee.png') }}"
+                                                alt="Coffe"
+                                        />
+                                    </div>
+                                </div>
+                                <!-- end slide -->
+                                <!-- slide -->
+                                <div class="swiper-slide">
+                                    <div
+                                            class="marble-container"
+                                            data-src="{{ asset('images/gifts/marbles/creta-silver.png') }}"
+                                    >
+                                        <img
+                                                class="swiper-lazy"
+                                                src="{{ asset('images/gifts/marbles/creta-silver.png') }}"
+                                                alt="Creta Silver"
+                                        />
+                                    </div>
+                                </div>
+                                <!-- end slide -->
+                                <!-- slide -->
+                                <div class="swiper-slide">
+                                    <div
+                                            class="marble-container"
+                                            data-src="{{ asset('images/gifts/marbles/euphoria-grigio.png') }}"
+                                    >
+                                        <img
+                                                class="swiper-lazy"
+                                                src="{{ asset('images/gifts/marbles/euphoria-grigio.png') }}"
+                                                alt="Euphoria Grigio"
+                                        />
+                                    </div>
+                                </div>
+                                <!-- end slide -->
+                                <!-- slide -->
+                                <div class="swiper-slide">
+                                    <div
+                                            class="marble-container"
+                                            data-src="{{ asset('images/gifts/marbles/gallala.png') }}"
+                                    >
+                                        <img
+                                                class="swiper-lazy"
+                                                src="{{ asset('images/gifts/marbles/gallala.png') }}"
+                                                alt="Gallala"
+                                        />
+                                    </div>
+                                </div>
+                                <!-- end slide -->
+                                <!-- slide -->
+                                <div class="swiper-slide">
+                                    <div
+                                            class="marble-container"
+                                            data-src="{{ asset('images/gifts/marbles/gold-ghost.png') }}"
+                                    >
+                                        <img
+                                                class="swiper-lazy"
+                                                src="{{ asset('images/gifts/marbles/gold-ghost.png') }}"
+                                                alt="Gold Ghost"
+                                        />
+                                    </div>
+                                </div>
+                                <!-- end slide -->
+                                <!-- slide -->
+                                <div class="swiper-slide">
+                                    <div
+                                            class="marble-container"
+                                            data-src="{{ asset('images/gifts/marbles/nero-marquina-granite.png') }}"
+                                    >
+                                        <img
+                                                class="swiper-lazy"
+                                                src="{{ asset('images/gifts/marbles/nero-marquina-granite.png') }}"
+                                                alt="Nero Marquina Granite"
+                                        />
+                                    </div>
+                                </div>
+                                <!-- end slide -->
+                                <!-- slide -->
+                                <div class="swiper-slide">
+                                    <div
+                                            class="marble-container"
+                                            data-src="{{ asset('images/gifts/marbles/parquet.png') }}"
+                                    >
+                                        <img
+                                                class="swiper-lazy"
+                                                src="{{ asset('images/gifts/marbles/parquet.png') }}"
+                                                alt="Parquet"
+                                        />
+                                    </div>
+                                </div>
+                                <!-- end slide -->
+                                <!-- slide -->
+                                <div class="swiper-slide">
+                                    <div
+                                            class="marble-container"
+                                            data-src="{{ asset('images/gifts/marbles/red-travertine.png') }}"
+                                    >
+                                        <img
+                                                class="swiper-lazy"
+                                                src="{{ asset('images/gifts/marbles/red-travertine.png') }}"
+                                                alt="Red Travertine"
+                                        />
+                                    </div>
+                                </div>
+                                <!-- end slide -->
+                                <!-- slide -->
+                                <div class="swiper-slide">
+                                    <div
+                                            class="marble-container"
+                                            data-src="{{ asset('images/gifts/marbles/sand-storm.png') }}"
+                                    >
+                                        <img
+                                                class="swiper-lazy"
+                                                src="{{ asset('images/gifts/marbles/sand-storm.png') }}"
+                                                alt="Sand Storm"
+                                        />
+                                    </div>
+                                </div>
+                                <!-- end slide -->
+                                <!-- slide -->
+                                <div class="swiper-slide">
+                                    <div
+                                            class="marble-container"
+                                            data-src="{{ asset('images/gifts/marbles/santorini.png') }}"
+                                    >
+                                        <img
+                                                class="swiper-lazy"
+                                                src="{{ asset('images/gifts/marbles/santorini.png') }}"
+                                                alt="Santorini"
+                                        />
+                                    </div>
+                                </div>
+                                <!-- end slide -->
+                                <!-- slide -->
+                                <div class="swiper-slide">
+                                    <div
+                                            class="marble-container"
+                                            data-src="{{ asset('images/gifts/marbles/silva.png') }}"
+                                    >
+                                        <img
+                                                class="swiper-lazy"
+                                                src="{{ asset('images/gifts/marbles/silva.png') }}"
+                                                alt="Silva"
+                                        />
+                                    </div>
+                                </div>
+                                <!-- end slide -->
+                            </div>
+                        </div>
+                        <div class="swiper-btns-container">
+                            <button
+                                    type="button"
+                                    class="page-btn swiper-btn-next-marbles"
+                            >
+                                <i
+                                        class="convert-svg"
+                                        data-src="{{ asset('images/icons/caret-circle-right.svg') }}"
+                                ></i>
+                            </button>
+                            <button
+                                    type="button"
+                                    class="page-btn swiper-btn-prev-marbles"
+                            >
+                                <i
+                                        class="convert-svg"
+                                        data-src="{{ asset('images/icons/caret-circle-left.svg') }}"
+                                ></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center w-100 mt-4">
+                        <button
+                                type="submit"
+                                class="btn btn-style-1 bg-black hover-effect"
+                                id="submit_gift_btn"
+                        >
+                            Submit Order
+                        </button>
+                    </div>
+
+                    <div id="output"></div>
+                </div>
+                <!-- RIGHT HAND SIDE -->
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('vendors/spectrum/spectrum.js') }}"></script>
+    <script src="{{ asset('vendors/swiper/swiper.min.js') }}"></script>
+    <script src="{{ asset('vendors/html2canvas/html2canvas.min.js') }}"></script>
+    <script src="{{ asset('js/pages/customizable-gifts.js') }}?v=1.0.1"></script>
+{% endblock %}
