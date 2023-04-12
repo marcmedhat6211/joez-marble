@@ -159,6 +159,7 @@ $(document).ready(function () {
 
   //================================================ HANDLE THE PICTURE SCREENSHOT AND SEND IT TO BACKEND ==============================================
   $("body").on("click", "#submit_gift_btn", function () {
+    startPageLoading();
     takeShot();
   });
   //================================================ END HANDLE THE PICTURE SCREENSHOT AND SEND IT TO BACKEND ==============================================
@@ -242,6 +243,7 @@ const takeShot = () => {
     };
 
     $.ajax(settings).done(function (response) {
+      endPageLoading();
       console.log(response);
     });
   });

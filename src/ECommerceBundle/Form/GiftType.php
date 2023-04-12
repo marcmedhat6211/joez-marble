@@ -3,7 +3,9 @@
 namespace App\ECommerceBundle\Form;
 
 use App\ECommerceBundle\Entity\Gift;
+use App\ECommerceBundle\Entity\Order;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,10 +20,11 @@ class GiftType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('status', TextType::class, [
+            ->add('status', ChoiceType::class, [
+                'choices' => Order::$orderStatuses,
                 'required' => true,
                 "attr" => [
-                    "class" => "form-control"
+                    "class" => "form-control form-control-select2"
                 ],
                 "constraints" => [
                     new NotBlank(),

@@ -32,9 +32,15 @@
                             <td>{{ gift.id }}</td>
                             <td>{{ gift.user.email }}</td>
                             <td>{{ gift.user.phone }}</td>
-                            <td>Image</td> {# @TODO: add image #}
+                            <td>
+                                <div class="mr-3">
+                                    <a href="{{ absolute_url(asset(gift.image.absolutePath)) }}" data-popup="lightbox">
+                                        <img src="{{ absolute_url(asset(gift.image.absolutePath)) }}" width="60" height="60" class="rounded-pill" alt="{{ gift.user.email }}">
+                                    </a>
+                                </div>
+                            </td>
                             <td>{{ gift.created|date('d/m/Y') }}</td>
-                            <td>{{ gift.updated|date('d/m/Y') }}</td>
+                            <td>{{ gift.modified|date('d/m/Y') }}</td>
                             <td class="text-center">
                                 <div class="list-icons">
                                     <div class="dropdown">
@@ -45,6 +51,8 @@
                                         <div class="dropdown-menu dropdown-menu-right">
                                             <a href="{{ path('gift_edit', {"id": gift.id}) }}"
                                                class="dropdown-item"><i class="mi-mode-edit"></i>Edit</a>
+                                            <a href="{{ path('gift_download', {"gift": gift.id}) }}"
+                                               class="dropdown-item"><i class="icon-download"></i>Download gift image</a>
                                         </div>
                                     </div>
                                 </div>
