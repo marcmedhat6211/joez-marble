@@ -197,4 +197,5 @@ return [
     "password_recovery_txt" => "Password Recovery",
     "change_password_txt" => "Change Password",
     "services_txt" => "Services",
+    "return_to_home_txt" => "Return to home page",
 ];

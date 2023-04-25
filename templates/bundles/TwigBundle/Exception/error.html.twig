@@ -1,0 +1,10 @@
+{% extends 'fe/base.html.twig' %}
+{% block content %}
+    <div id="error_page">
+        <div class="error-code text-center pt-4 mt-4 pb-3 display-1">{{ status_code }}</div>
+        <p class="text-center display-4 pb-3 mb-3">{{ status_text }}</p>
+        <div class="d-flex justify-content-center pb-5 mb-5">
+            <a href="{{ path('fe_home') }}" class="btn btn-style-1 hover-effect">{{ 'return_to_home_txt'|trans }}</a>
+        </div>
+    </div>
+{% endblock %}

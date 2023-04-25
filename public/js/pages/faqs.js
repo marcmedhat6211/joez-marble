@@ -17,7 +17,6 @@ $(document).ready(function () {
     });
 
     body.on("click", document, function (e) {
-        console.log("document clicked");
         if (
             $(e.target).is("#faqs_search_dropdown")
             ||
@@ -32,7 +31,7 @@ $(document).ready(function () {
     body.on("input", "#faqs_search_input", function () {
         const inputVal = $(this).val();
         const questionTexts = faqCard.find(".question-text");
-        const results = [];
+        let results = [];
         questionTexts.each(function () {
             const questionText = $(this);
             const questionCard = questionText.closest(".faq-card");
@@ -53,13 +52,15 @@ $(document).ready(function () {
                     empty: false,
                     results: results
                 });
-            } else {
-                drawSingleSearchResult({
-                    hasResults: false,
-                    empty: false
-                });
             }
         });
+
+        if (results.length === 0) {
+            drawSingleSearchResult({
+                hasResults: false,
+                empty: false
+            });
+        }
     });
 });
 
