@@ -694,18 +694,13 @@
                             ></i>
                         </button>
                         <!-- end move buttons -->
-                        <div id="shape" class="w-100 h-100" data-url="{{ path('fe_gift_create_ajax') }}">
+                        <div id="shape" class="w-100 h-100" data-url="{{ path('fe_gift_create_ajax') }}" data-default-marble-bg="{{ asset('images/gifts/marbles/18-karat.png') }}">
                             <div class="shape-figure__container">
                                 <i
                                         id="shape_figure"
                                         class="convert-svg"
                                         data-src="{{ asset('images/gifts/shapes/heart.svg') }}"
                                 ></i>
-                                <img
-                                        src="{{ asset('images/gifts/marbles/18-karat.png') }}"
-                                        class="shape__content shape__marble-image"
-                                        alt="18 Karat"
-                                />
                             </div>
 
                             <span class="shape__content shape-text"></span>
@@ -1002,5 +997,5 @@
     <script src="{{ asset('vendors/spectrum/spectrum.js') }}"></script>
     <script src="{{ asset('vendors/swiper/swiper.min.js') }}"></script>
     <script src="{{ asset('vendors/html2canvas/html2canvas.min.js') }}"></script>
-    <script src="{{ asset('js/pages/customizable-gifts.js') }}?v=1.0.3"></script>
+    <script src="{{ asset('js/pages/customizable-gifts.js') }}?v=1.0.6"></script>
 {% endblock %}

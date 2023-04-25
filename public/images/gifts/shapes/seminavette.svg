@@ -1,10 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="300" height="300" viewBox="0 0 300 300" fill="currentColor">
-  <defs>
-    <clipPath id="clip-iPhone_14_Pro_1">
-      <rect width="300" height="300"/>
-    </clipPath>
-  </defs>
-  <g id="iPhone_14_Pro_1" data-name="iPhone 14 Pro – 1" clip-path="url(#clip-iPhone_14_Pro_1)">
-    <path id="seminavette" d="M316.295,281.263,194.829,43.969C189.649,34.074,180.2,28,170,28s-19.653,6.074-24.832,15.97L23.7,281.263a33.821,33.821,0,0,0,0,30.8C28.8,322.035,38.3,328.13,48.53,328H291.463c10.221.122,19.7-5.972,24.8-15.937A33.821,33.821,0,0,0,316.295,281.263Zm-9.638,24.547c-3.141,6.076-8.947,9.778-15.194,9.687H48.53c-6.247.09-12.053-3.611-15.194-9.687a19.83,19.83,0,0,1,0-18.312L154.789,50.2c3.2-6.018,8.975-9.7,15.208-9.7S182,44.186,185.2,50.2L306.656,287.5a19.83,19.83,0,0,1,0,18.312Z" transform="translate(-19.99 -27.999)"/>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256">
+    <defs>
+        <pattern id="svg_triangle" height="100%" width="100%">
+          <image
+            href=""
+            preserveAspectRatio="none"
+            width="100%"
+            height="100%"
+          ></image>
+        </pattern>
+    </defs>
+    <path d="M236.78,211.81A24.34,24.34,0,0,1,215.45,224H40.55a24.34,24.34,0,0,1-21.33-12.19,23.51,23.51,0,0,1,0-23.72L106.65,36.22a24.76,24.76,0,0,1,42.7,0L236.8,188.09A23.51,23.51,0,0,1,236.78,211.81Z" fill="url(#svg_triangle)"></path>
 </svg>

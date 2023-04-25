@@ -1,10 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="168" viewBox="0 0 200 168" fill="currentColor">
-  <defs>
-    <clipPath id="clip-iPhone_14_Pro_1">
-      <rect width="200" height="168"/>
-    </clipPath>
-  </defs>
-  <g id="iPhone_14_Pro_1" data-name="iPhone 14 Pro – 1" clip-path="url(#clip-iPhone_14_Pro_1)">
-    <path id="radiant-rectangle" d="M216,44H40A12,12,0,0,0,28,56V200a12,12,0,0,0,12,12H216a12,12,0,0,0,12-12V56a12,12,0,0,0-12-12Zm4,156a4,4,0,0,1-4,4H40a4,4,0,0,1-4-4V56a4,4,0,0,1,4-4H216a4,4,0,0,1,4,4Z" transform="translate(-28 -44)"/>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256">
+    <defs>
+        <pattern id="svg_rectangle" height="100%" width="100%">
+          <image
+            href=""
+            preserveAspectRatio="none"
+            width="100%"
+            height="100%"
+          ></image>
+        </pattern>
+    </defs>
+    <rect x="24" y="40" width="208" height="176" rx="16" fill="url(#svg_rectangle)"></rect>
 </svg>
