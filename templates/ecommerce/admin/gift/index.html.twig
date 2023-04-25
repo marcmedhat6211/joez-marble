@@ -22,6 +22,7 @@
                     <th>Gift Image</th>
                     <th>Created At</th>
                     <th>Updated Status At</th>
+                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -41,6 +42,7 @@
                             </td>
                             <td>{{ gift.created|date('d/m/Y') }}</td>
                             <td>{{ gift.modified|date('d/m/Y') }}</td>
+                            <td>{{ gift.status }}</td>
                             <td class="text-center">
                                 <div class="list-icons">
                                     <div class="dropdown">

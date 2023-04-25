@@ -3,18 +3,8 @@
 namespace App\ECommerceBundle\Controller\FrontEnd;
 
 use App\ECommerceBundle\Entity\Gift;
-use App\ECommerceBundle\Repository\CartItemRepository;
-use App\ECommerceBundle\Repository\CartRepository;
-use App\ECommerceBundle\Repository\ProductRepository;
-use App\ECommerceBundle\Services\CartService;
-use App\ECommerceBundle\Services\CurrencyService;
 use App\ECommerceBundle\Services\GiftService;
-use App\MediaBundle\Entity\Image;
-use App\MediaBundle\Services\UploadFileService;
-use App\SeoBundle\Repository\SeoRepository;
-use Doctrine\ORM\Tools\Pagination\Paginator;
-use Knp\Component\Pager\PaginatorInterface;
-use Psr\Container\ContainerInterface;
+use App\ServiceBundle\Utils\Validate;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -22,8 +12,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/gift")
@@ -42,20 +32,33 @@ class GiftController extends AbstractController
      * @Route("/create-ajax", name="fe_gift_create_ajax", methods={"GET", "POST"})
      */
     public function createAjax(
-        Request $request,
+        Request     $request,
         GiftService $giftService
     ): JsonResponse
     {
+        $user = $this->getUser();
+        if (!Validate::not_null($user->getPhone())) return $this->json([
+            "success" => false,
+            "message" => "Please provide your phone number in your profile information so that the administrator can contact you, you can do that by clicking on the user icon above > edit profile, or by clicking on 'My Account' button below in the footer"
+        ]);
+
         /** @var UploadedFile $giftImage */
         $giftImage = $request->files->get("gift");
         if (!$giftImage instanceof UploadedFile) return $this->json([
-           "success" => false,
-           "message" => "A server error occurred! Please provide an image to submit to the server"
+            "success" => false,
+            "message" => "A server error occurred! Please provide an image to submit to the server"
         ]);
 
-        $giftService->createGift($giftImage);
+        try {
+            $giftService->createGift($giftImage);
+        } catch (TransportExceptionInterface $exception) {
+            return $this->json([
+                "success" => false,
+                "message" => "A server error occurred! {$exception->getMessage()}"
+            ]);
+        }
 
-        return $this->json(["success" => true]);
+        return $this->json(["success" => true, "message" => "Your gift has been submitted successfully, Please check your email, and the administrator will contact you shortly"]);
     }
 
     /**

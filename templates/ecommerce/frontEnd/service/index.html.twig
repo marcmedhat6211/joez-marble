@@ -1,0 +1,76 @@
+{% extends 'fe/base.html.twig' %}
+{% block title %}{{ 'services_txt'|trans }}{% endblock %}
+
+{% block stylesheet %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('vendors/spectrum/style.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('vendors/swiper/swiper.css') }}"/>
+{% endblock %}
+
+{% block content %}
+
+    <div id="services_page" class="py-4 mb-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 mb-4 mb-md-5">
+                    <h1 class="page-title text-center">Our Services</h1>
+                </div>
+                <!-- service -->
+                <div
+                        class="col-12 col-md-6 d-flex justify-content-center mb-5 mb-md-0"
+                >
+                    <div class="service-container has-price-info w-75">
+                        <h5 class="service-title">Design Services</h5>
+                        <p class="service-price">Free</p>
+                        <lord-icon
+                                src="https://cdn.lordicon.com/puvaffet.json"
+                                trigger="loop"
+                                delay="1000"
+                                colors="primary:#121331,secondary:#4f1091"
+                                style="width: 100px; height: 100px"
+                        >
+                        </lord-icon>
+                        <p class="service-description">
+                            Lorem ipsum lorem lorem ipsum lorem ipsum lorem lorem ipsum
+                            lorem lorem.
+                        </p>
+{#                        <a href="#" class="btn btn-style-1 hover-effect"#}
+{#                        >Request Appointment</a#}
+{#                        >#}
+                    </div>
+                </div>
+                <!-- end service -->
+                <!-- service -->
+                <div
+                        class="col-12 col-md-6 d-flex justify-content-center mb-5 mb-md-0"
+                >
+                    <div class="service-container w-75">
+                        <h5 class="service-title">Installation Services</h5>
+                        <lord-icon
+                                src="https://cdn.lordicon.com/nlzvfogq.json"
+                                trigger="loop"
+                                delay="1000"
+                                colors="primary:#121331,secondary:#320a5c"
+                                style="width: 100px; height: 100px"
+                        >
+                        </lord-icon>
+                        <p class="service-description">
+                            Lorem ipsum lorem lorem ipsum lorem ipsum lorem lorem ipsum
+                            lorem lorem.
+                        </p>
+{#                        <a href="#" class="btn btn-style-1 hover-effect"#}
+{#                        >Request Appointment</a#}
+{#                        >#}
+                    </div>
+                </div>
+                <!-- end service -->
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('https://cdn.lordicon.com/lusqsztk.js') }}"></script>
+{% endblock %}

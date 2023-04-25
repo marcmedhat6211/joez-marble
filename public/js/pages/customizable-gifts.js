@@ -58,7 +58,7 @@ $(document).ready(function () {
   //================================================ END COLOR PICKER ==============================================
 
   //================================================ CHANGE THE POSITION OF THE SHAPE CONTENT USING ARROWS ==============================================
-  $("body").on("mousedown", "#shape .page-btn.move-btn", function () {
+  $("body").on("mousedown", ".shape__container .page-btn.move-btn", function () {
     const shapeContent = $("#shape .shape__content.shape-text");
     if ($(this).hasClass("up")) {
       shapeContent.css({
@@ -157,10 +157,18 @@ $(document).ready(function () {
   });
   //================================================ END HANDLE MARBLES CLICKS ==============================================
 
+  //================================================ HANDLE WHEN THE USER TRIES TO LEAVE THE PAGE ==============================================
+  $(window).bind("beforeunload", function () {
+    return "Are you sure you want to leave the page ?";
+  });
+  //================================================ END HANDLE WHEN THE USER TRIES TO LEAVE THE PAGE ==============================================
+
   //================================================ HANDLE THE PICTURE SCREENSHOT AND SEND IT TO BACKEND ==============================================
   $("body").on("click", "#submit_gift_btn", function () {
-    startPageLoading();
-    takeShot();
+    if (window.confirm("Are you sure this is the last gift's state that you want to submit ?")) {
+      startPageLoading();
+      takeShot();
+    }
   });
   //================================================ END HANDLE THE PICTURE SCREENSHOT AND SEND IT TO BACKEND ==============================================
 });
@@ -217,8 +225,6 @@ const getImageNameFromPath = (imagePath) => {
   return adjustedNameForPathArr.join(" ");
 };
 
-// Define the function
-// to screenshot the div
 const takeShot = () => {
   const shapeElement = $("#shape");
   let shape = shapeElement.get(0);
@@ -226,8 +232,6 @@ const takeShot = () => {
   const url = shapeElement.data("url");
   // Use the html2canvas
   // function to take a screenshot
-  // and append it
-  // to the output div
   html2canvas(shape).then((canvas) => {
     const file = dataURLtoFile(canvas.toDataURL(), fileName);
     let form = new FormData();
@@ -244,7 +248,9 @@ const takeShot = () => {
 
     $.ajax(settings).done(function (response) {
       endPageLoading();
-      console.log(response);
+      const resObject = JSON.parse(response);
+      if (resObject.success) showAlert("success", resObject.message);
+      else showAlert("error", resObject.message);
     });
   });
 };

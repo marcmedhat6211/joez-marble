@@ -12115,50 +12115,49 @@ header #mobile_header {
     position: absolute;
     top: -25px;
     right: calc(10% + 8px); }
-#cutomizable_gifts_page #shape {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  border-radius: 50%;
-  padding: 60px;
-  box-shadow: 0 4px 8px 0 black, 0 6px 20px 0 black;
-  overflow: hidden;
-  margin-bottom: 30px; }
-  #cutomizable_gifts_page #shape .shape-figure__container {
-    width: 80%;
-    height: 80%;
+#cutomizable_gifts_page .shape__container {
+  position: relative; }
+  #cutomizable_gifts_page .shape__container #shape {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    padding: 60px;
+    box-shadow: 0 4px 8px 0 black, 0 6px 20px 0 black;
     overflow: hidden;
-    position: relative; }
-    #cutomizable_gifts_page #shape .shape-figure__container #shape_figure {
-      z-index: 10;
-      width: 100%;
-      height: 100%; }
-    #cutomizable_gifts_page #shape .shape-figure__container .shape__marble-image {
-      z-index: -1;
-      width: 100%;
-      height: 100%; }
-  #cutomizable_gifts_page #shape .shape__content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); }
-    #cutomizable_gifts_page #shape .shape__content.shape-text {
-      font-size: 26px;
-      font-weight: 600;
-      z-index: 10;
-      text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.3), 0px -1px 0px rgba(0, 0, 0, 0.7); }
-    #cutomizable_gifts_page #shape .shape__content.shape-icon svg {
-      width: 80px;
-      height: 80px; }
-    #cutomizable_gifts_page #shape .shape__content.shape-icon.icon-filled svg.icon-type {
-      width: 100%;
-      height: 100%; }
-    #cutomizable_gifts_page #shape .shape__content.shape-icon.number-filled svg.number-type {
-      width: 100%;
-      height: 100%; }
+    margin-bottom: 30px; }
+    #cutomizable_gifts_page .shape__container #shape .shape-figure__container {
+      width: 80%;
+      height: 80%;
+      overflow: hidden;
+      position: relative; }
+      #cutomizable_gifts_page .shape__container #shape .shape-figure__container #shape_figure {
+        z-index: 10;
+        width: 100%;
+        height: 100%; }
+      #cutomizable_gifts_page .shape__container #shape .shape-figure__container .shape__marble-image {
+        z-index: -1;
+        width: 100%;
+        height: 100%; }
+    #cutomizable_gifts_page .shape__container #shape .shape__content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%); }
+      #cutomizable_gifts_page .shape__container #shape .shape__content.shape-text {
+        font-size: 26px;
+        font-weight: 600;
+        z-index: 10;
+        text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.3), 0px -1px 0px rgba(0, 0, 0, 0.7); }
+      #cutomizable_gifts_page .shape__container #shape .shape__content.shape-icon svg {
+        width: 80px;
+        height: 80px; }
+      #cutomizable_gifts_page .shape__container #shape .shape__content.shape-icon.icon-filled svg.icon-type {
+        width: 100%;
+        height: 100%; }
+      #cutomizable_gifts_page .shape__container #shape .shape__content.shape-icon.number-filled svg.number-type {
+        width: 100%;
+        height: 100%; }
 #cutomizable_gifts_page .page-btn {
   width: 60px;
   height: 60px;
@@ -12184,6 +12183,12 @@ header #mobile_header {
       color: #ffffff; }
   #cutomizable_gifts_page .page-btn.move-btn {
     position: absolute; }
+    #cutomizable_gifts_page .page-btn.move-btn.up, #cutomizable_gifts_page .page-btn.move-btn.down {
+      left: 50%;
+      transform: translateX(-50%); }
+    #cutomizable_gifts_page .page-btn.move-btn.right, #cutomizable_gifts_page .page-btn.move-btn.left {
+      top: 50%;
+      transform: translateY(-50%); }
     #cutomizable_gifts_page .page-btn.move-btn.up {
       top: 2px; }
     #cutomizable_gifts_page .page-btn.move-btn.right {

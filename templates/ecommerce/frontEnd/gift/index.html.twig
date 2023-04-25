@@ -3,8 +3,8 @@
 
 {% block stylesheet %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('vendors/spectrum/style.css') }}" />
-    <link rel="stylesheet" href="{{ asset('vendors/swiper/swiper.css') }}" />
+    <link rel="stylesheet" href="{{ asset('vendors/spectrum/style.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('vendors/swiper/swiper.css') }}"/>
 {% endblock %}
 
 {% block content %}
@@ -628,10 +628,10 @@
                     <!-- END NUMBERS -->
 
                     <!-- ZODIAC SIGNS -->
-                    <div class="page-block">
-                        <h6 class="block-title">Zodiac Signs</h6>
-                        <div class="zodiac-block" id="zodiac_block"></div>
-                    </div>
+{#                    <div class="page-block">#}
+{#                        <h6 class="block-title">Zodiac Signs</h6>#}
+{#                        <div class="zodiac-block" id="zodiac_block"></div>#}
+{#                    </div>#}
                     <!-- END ZODIAC SIGNS -->
 
                     <!-- TEXT BLOCK -->
@@ -667,7 +667,7 @@
 
                 <!-- RIGHT HAND SIDE -->
                 <div class="col-6">
-                    <div id="shape" class="w-100 h-100" data-url="{{ path('fe_gift_create_ajax') }}">
+                    <div class="shape__container w-100 h-100">
                         <!-- move buttons -->
                         <button type="button" class="page-btn move-btn up">
                             <i
@@ -694,22 +694,23 @@
                             ></i>
                         </button>
                         <!-- end move buttons -->
+                        <div id="shape" class="w-100 h-100" data-url="{{ path('fe_gift_create_ajax') }}">
+                            <div class="shape-figure__container">
+                                <i
+                                        id="shape_figure"
+                                        class="convert-svg"
+                                        data-src="{{ asset('images/gifts/shapes/heart.svg') }}"
+                                ></i>
+                                <img
+                                        src="{{ asset('images/gifts/marbles/18-karat.png') }}"
+                                        class="shape__content shape__marble-image"
+                                        alt="18 Karat"
+                                />
+                            </div>
 
-                        <div class="shape-figure__container">
-                            <i
-                                    id="shape_figure"
-                                    class="convert-svg"
-                                    data-src="{{ asset('images/gifts/shapes/heart.svg') }}"
-                            ></i>
-                            <img
-                                    src="{{ asset('images/gifts/marbles/18-karat.png') }}"
-                                    class="shape__content shape__marble-image"
-                                    alt="18 Karat"
-                            />
+                            <span class="shape__content shape-text"></span>
+                            <div class="shape__content shape-icon"></div>
                         </div>
-
-                        <span class="shape__content shape-text"></span>
-                        <div class="shape__content shape-icon"></div>
                     </div>
 
                     <div id="slider_container" class="w-100">
@@ -1001,5 +1002,5 @@
     <script src="{{ asset('vendors/spectrum/spectrum.js') }}"></script>
     <script src="{{ asset('vendors/swiper/swiper.min.js') }}"></script>
     <script src="{{ asset('vendors/html2canvas/html2canvas.min.js') }}"></script>
-    <script src="{{ asset('js/pages/customizable-gifts.js') }}?v=1.0.1"></script>
+    <script src="{{ asset('js/pages/customizable-gifts.js') }}?v=1.0.3"></script>
 {% endblock %}

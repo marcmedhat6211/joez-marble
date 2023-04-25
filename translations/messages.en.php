@@ -188,9 +188,13 @@ return [
     "will_send_you_instructions_msg" => "We'll send you instructions in email",
     "sales_caps_txt" => "SALES",
     "new_arrivals_txt" => "NEW ARRIVALS",
+    "sales_txt" => "Sales",
+    "new_arrivals_small_txt" => "New Arrivals",
+    "free_services_txt" => "Free Services",
     "joez_marble_txt" => "Joez Marble",
     "check_email_txt" => "Check Email Page",
     "email_sent_txt" => "An email has been sent to the email you provided, please check your email to proceed and reset your password",
     "password_recovery_txt" => "Password Recovery",
     "change_password_txt" => "Change Password",
+    "services_txt" => "Services",
 ];

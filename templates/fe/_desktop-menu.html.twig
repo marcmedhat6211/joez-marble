@@ -4,9 +4,11 @@
         <!-- HEADER PART ONE -->
         <div id="header_part_one">
             <div class="header-one-content">
-                <a href="{{ path('fe_filter_designs_product_sale') }}" class="header-one-link">{{ 'sales_caps_txt'|trans }}</a>
-                <a href="#" class="header-one-link">{{ 'free_services_caps_txt'|trans }}</a>
-                <a href="{{ path('fe_filter_designs_product_new_arrival') }}" class="header-one-link">{{ 'new_arrivals_txt'|trans }}</a>
+                <a href="{{ path('fe_filter_designs_product_sale') }}"
+                   class="header-one-link">{{ 'sales_caps_txt'|trans }}</a>
+                <a href="{{ path('fe_service_index') }}" class="header-one-link">{{ 'free_services_caps_txt'|trans }}</a>
+                <a href="{{ path('fe_filter_designs_product_new_arrival') }}"
+                   class="header-one-link">{{ 'new_arrivals_txt'|trans }}</a>
             </div>
         </div>
         <!-- END HEADER PART ONE -->
@@ -15,8 +17,10 @@
             <!-- quick access links section -->
             <div class="quick-access-links-container">
                 <div class="pages-links">
-                    <a href="{{ path('fe_filter_designs_product') }}" class="quick-access-link active">{{ 'joez_designs_txt'|trans }}</a>
-                    <a href="{{ path('fe_filter_living_product') }}" class="quick-access-link">{{ 'joez_living_txt'|trans }}</a>
+                    <a href="{{ path('fe_filter_designs_product') }}"
+                       class="quick-access-link active">{{ 'joez_designs_txt'|trans }}</a>
+                    <a href="{{ path('fe_filter_living_product') }}"
+                       class="quick-access-link">{{ 'joez_living_txt'|trans }}</a>
                 </div>
                 <button
                         class="btn country-btn"
@@ -171,6 +175,9 @@
         <!-- HEADER PART THREE -->
         <div id="header_part_three">
             <ul class="header-three-items-container">
+                <li class="header-three-item">
+                    <a href="{{ path('fe_gift_index') }}" class="item-text">Create your own gift</a>
+                </li>
                 {# @todo: make sure of the case if the category is 'living' category #}
                 {% for category in categories %}
                     {% set subcategoryLink = "fe_filter_designs_subcategory" %}
@@ -182,10 +189,12 @@
                         <div class="header-three-dropdown">
                             <div class="dropdown-links-container">
                                 {% for subcategory in category.subcategories %}
-                                    <a href="{{ path(subcategoryLink, {"slug": subcategory.seo.slug}) }}" class="link">{{ subcategory.title }}</a>
+                                    <a href="{{ path(subcategoryLink, {"slug": subcategory.seo.slug}) }}"
+                                       class="link">{{ subcategory.title }}</a>
                                 {% endfor %}
                                 {% if not category.living %}
-                                    <a href="{{ path('fe_filter_designs_category', {"slug": category.seo.slug}) }}" class="link underlined">{{ 'see_all_category_txt'|trans({"%categoryTitle%": category.title}) }}</a>
+                                    <a href="{{ path('fe_filter_designs_category', {"slug": category.seo.slug}) }}"
+                                       class="link underlined">{{ 'see_all_category_txt'|trans({"%categoryTitle%": category.title}) }}</a>
                                 {% endif %}
                             </div>
                             <div class="dropdown-imgs-links-container">
