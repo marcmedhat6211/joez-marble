@@ -8589,11 +8589,13 @@ img {
   outline: none; }
   .has-active-icon.fav-btn {
     background-image: url(../images/icons/fav-icon.svg);
-    background-size: 42px 26px;
+    background-size: 48px 48px;
     background-position: left;
     background-repeat: no-repeat; }
     .has-active-icon.fav-btn.active {
       background-position: right; }
+  .has-active-icon.product-card {
+    background-size: 42px 26px; }
 
 .pt-20 {
   padding-top: 90px; }
