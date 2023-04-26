@@ -2,6 +2,7 @@
 
 namespace App\ECommerceBundle\Controller\FrontEnd;
 
+use App\ECommerceBundle\Entity\Order;
 use App\ECommerceBundle\Repository\CartItemRepository;
 use App\ECommerceBundle\Repository\CartRepository;
 use App\ECommerceBundle\Repository\ProductRepository;
@@ -41,9 +42,8 @@ class CartController extends AbstractController
         if ($cart) {
             $cartItemsObjs = $cart->getCartItems();
             $cartTotal = $cartService->getCartTotal($cart);
-            //@todo: add right taxes and shipping fees
-            $taxes = 140;
-            $shipping = 30;
+            $taxes = Order::TAXES;
+            $shipping = Order::SHIPPING_FEE;
         }
 
         $cartItems = $paginator->paginate($cartItemsObjs, $request->query->getInt('page', 1), 5);

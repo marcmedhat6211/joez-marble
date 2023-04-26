@@ -4,6 +4,7 @@ namespace App\ECommerceBundle\Services;
 
 use App\ECommerceBundle\Entity\Cart;
 use App\ECommerceBundle\Entity\CartItem;
+use App\ECommerceBundle\Entity\Order;
 use App\ECommerceBundle\Entity\Product;
 use App\ECommerceBundle\Repository\CartItemRepository;
 use App\ECommerceBundle\Repository\CartRepository;
@@ -11,6 +12,7 @@ use App\MediaBundle\Services\FileService;
 use App\UserBundle\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use JetBrains\PhpStorm\ArrayShape;
+use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -180,6 +182,7 @@ class CartService
         ];
     }
 
+    #[Pure]
     /**
      * This method gets the cart total after adding taxes and shipping fees
      * @param Cart $cart
@@ -187,11 +190,7 @@ class CartService
      */
     public function getCartTotal(Cart $cart): float
     {
-        //@todo: add right taxes and shipping
-        $taxes = 140;
-        $shipping = 30;
-
-        return ($cart->getTotalPrice() - $cart->getCouponDiscount()) + $taxes + $shipping;
+        return ($cart->getTotalPrice() - $cart->getCouponDiscount()) + Order::TAXES + Order::SHIPPING_FEE;
     }
 
     /**

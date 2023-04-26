@@ -39,28 +39,30 @@ class CouponRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Coupon[] Returns an array of Coupon objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @throws \Exception
+     */
+    public function checkIfCouponIsStillActive(Coupon $couponObj): bool
+    {
+        return $this->createQueryBuilder("c")
+            ->select("COUNT(c.id)")
+            ->where("c.id = :couponId")
+            ->andWhere(":today <= c.expirationDate")
+            ->setParameters([
+                "couponId" => $couponObj->getId(),
+                "today" => new \DateTime()
+            ])
+            ->getQuery()
+            ->getSingleScalarResult() > 0;
+    }
 
-//    public function findOneBySomeField($value): ?Coupon
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function getExpiredCoupons()
+    {
+        return $this->createQueryBuilder("c")
+            ->where("c.expirationDate < :today")
+            ->setParameter("today", new \DateTime())
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

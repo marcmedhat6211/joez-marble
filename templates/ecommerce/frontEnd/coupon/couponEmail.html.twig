@@ -104,7 +104,7 @@
                                         <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Hi {{ user.fullName }},</p>
                                         <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Thank you for being a valuable user at
                                             <a href="#">Joez Marble Website</a>
-                                            Kindly accept the following coupon code that will give you a discount of <strong>50 EGP</strong> on any item you buy on Joez Marble website
+                                            Kindly accept the following coupon code that will give you a discount of <strong>{{ constant('App\\ECommerceBundle\\Entity\\Coupon::DISCOUNT') }} EGP</strong> on any item you buy on Joez Marble website
                                         </p>
                                         <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Coupon Code: <strong>{{ coupon.couponCode }}</strong></p>
                                         <br>

@@ -11,7 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
 class Coupon
 {
     const EXPIRATION_TIME_IN_DAYS = 3;
-    const USERS_TO_SEND_COUPON_COUNT = 10;
+    const USERS_TO_SEND_COUPON_COUNT = 20;
+    const DISCOUNT = 50;
 
     /**
      * @ORM\Column(name="id", type="integer")

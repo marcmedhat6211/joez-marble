@@ -2,6 +2,8 @@
 
 namespace App\ECommerceBundle\Controller\FrontEnd;
 
+use App\ECommerceBundle\Entity\Coupon;
+use App\ECommerceBundle\Entity\Order;
 use App\ECommerceBundle\Repository\CouponRepository;
 use App\ECommerceBundle\Repository\OrderRepository;
 use App\ECommerceBundle\Services\CurrencyService;
@@ -12,7 +14,6 @@ use App\UserBundle\Entity\User;
 use App\UserBundle\Form\ShippingInformationType;
 use App\UserBundle\Repository\ShippingInformationRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -79,8 +80,6 @@ class OrderController extends AbstractController
         $shippingInformationForm = $this->createForm(ShippingInformationType::class, $shippingInformation);
         $shippingInformationForm->handleRequest($request);
 
-        $shippingFee = 30;
-        $taxes = 140;
         $orderGrandTotal = $orderService->getOrderGrandTotal($userCart);
 
         if ($shippingInformationForm->isSubmitted() && $shippingInformationForm->isValid()) {
@@ -95,14 +94,15 @@ class OrderController extends AbstractController
         return $this->render('ecommerce/frontEnd/order/create.html.twig', [
             "cart" => $userCart,
             "form" => $shippingInformationForm->createView(),
-            "shippingFee" => $shippingFee,
-            "taxes" => $taxes,
+            "shippingFee" => Order::SHIPPING_FEE,
+            "taxes" => Order::TAXES,
             "orderGrandTotal" => $orderGrandTotal,
         ]);
     }
 
     /**
      * @Route("/add-coupon-ajax", name="fe_order_add_coupon_ajax", methods={"GET", "POST"})
+     * @throws \Exception
      */
     public function addCoupon(
         Request                $request,
@@ -137,11 +137,16 @@ class OrderController extends AbstractController
             ]);
         }
 
-        //@todo: change this value and get the right one
-        $couponDiscount = 50;
+        $isCouponStillActive = $couponRepository->checkIfCouponIsStillActive($couponObj);
+        if (!$isCouponStillActive) {
+            return $this->json([
+                "error" => true,
+                "message" => $translator->trans("coupon_expired_msg")
+            ]);
+        }
 
         $userCart = $user->getCart();
-        $userCart->setCouponDiscount($couponDiscount);
+        $userCart->setCouponDiscount(Coupon::DISCOUNT);
         $em->persist($userCart);
         $em->flush();
 
@@ -150,7 +155,7 @@ class OrderController extends AbstractController
         return $this->json([
             "error" => false,
             "message" => $translator->trans("coupon_applied_success_msg"),
-            "couponDiscount" => $currencyService->getPriceWithCurrentCurrency($couponDiscount),
+            "couponDiscount" => $currencyService->getPriceWithCurrentCurrency(Coupon::DISCOUNT),
             "newOrderTotal" => $newOrderTotal
         ]);
     }

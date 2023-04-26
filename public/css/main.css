@@ -8752,7 +8752,7 @@ header #desktop_header #header_part_two {
               font-weight: 400; }
     header #desktop_header #header_part_two .main-header .desktop-logo-container {
       width: 280px;
-      height: 100px;
+      height: 120px;
       position: relative;
       left: 4%;
       -webkit-transform: translateX(-50%);

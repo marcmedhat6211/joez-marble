@@ -71,13 +71,10 @@ class OrderService
 
     public function getOrderGrandTotal(Cart $cart): float
     {
-        //@todo: add right taxes and shipping fees
-        $shippingFee = 30;
-        $taxes = 140;
         $cartTotal = $cart->getTotalPrice();
         $couponDiscount = $cart->getCouponDiscount();
 
-        return (($shippingFee + $taxes + $cartTotal) - $couponDiscount);
+        return ((Order::SHIPPING_FEE + Order::TAXES + $cartTotal) - $couponDiscount);
     }
 
     private function sendOrderEmail(Order $order)

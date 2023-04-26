@@ -13,6 +13,7 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Mime\Address;
 
 class GenerateAndSendCouponCommand extends Command
@@ -46,6 +47,7 @@ class GenerateAndSendCouponCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $symfonyStyle = new SymfonyStyle($input, $output);
         // generate the coupon code
         $couponCode = $this->generateRandomString(5);
         while (true) {
@@ -65,6 +67,10 @@ class GenerateAndSendCouponCommand extends Command
         foreach ($users as $user) {
             $this->sendCouponCodeByEmail($user, $coupon);
         }
+
+        $this->removeExpiredCouponsFromDb();
+
+        $symfonyStyle->success("Process Completed!");
         return 0;
     }
 
@@ -111,5 +117,22 @@ class GenerateAndSendCouponCommand extends Command
                 'coupon' => $coupon,
             ]);
         $this->emailService->send($email);
+    }
+
+    private function removeExpiredCouponsFromDb()
+    {
+        $coupons = $this->couponRepository->getExpiredCoupons();
+
+        if (count($coupons) > 0) {
+            foreach ($coupons as $coupon) {
+                $couponExpirationDate = $coupon->getExpirationDate();
+                $now = new \DateTime();
+
+                if ($couponExpirationDate <= $now) {
+                    $this->em->remove($coupon);
+                    $this->em->flush();
+                }
+            }
+        }
     }
 }

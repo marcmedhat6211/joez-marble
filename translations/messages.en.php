@@ -199,4 +199,5 @@ return [
     "services_txt" => "Services",
     "return_to_home_txt" => "Return to home page",
     "customizable_gifts_txt" => "Customizable Gifts",
+    "coupon_expired_msg" => "Coupon Expired!",
 ];

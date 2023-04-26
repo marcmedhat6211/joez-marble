@@ -31,6 +31,9 @@ class Order implements DateTimeInterface
         "Cancelled" => self::STATUS_CANCELLED
     ];
 
+    const SHIPPING_FEE = 30;
+    const TAXES = 140;
+
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
