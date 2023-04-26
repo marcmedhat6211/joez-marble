@@ -198,4 +198,5 @@ return [
     "change_password_txt" => "Change Password",
     "services_txt" => "Services",
     "return_to_home_txt" => "Return to home page",
+    "customizable_gifts_txt" => "Customizable Gifts",
 ];
